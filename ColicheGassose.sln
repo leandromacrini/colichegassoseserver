@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColicheGassose", "ColicheGassose\ColicheGassose.csproj", "{B9AFAF08-57C1-49DC-8572-6BBBE99A06E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColicheGassosePushNotificationService", "ColicheGassosePushNotificationService\ColicheGassosePushNotificationService.csproj", "{91ABD365-93AB-487A-B476-105885BE71B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PushNotificationServer", "PushNotificationServer\PushNotificationServer.csproj", "{DBD4898F-8FED-440C-BF56-0984290AA4CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{B9AFAF08-57C1-49DC-8572-6BBBE99A06E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9AFAF08-57C1-49DC-8572-6BBBE99A06E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9AFAF08-57C1-49DC-8572-6BBBE99A06E9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{91ABD365-93AB-487A-B476-105885BE71B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{91ABD365-93AB-487A-B476-105885BE71B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{91ABD365-93AB-487A-B476-105885BE71B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{91ABD365-93AB-487A-B476-105885BE71B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBD4898F-8FED-440C-BF56-0984290AA4CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBD4898F-8FED-440C-BF56-0984290AA4CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBD4898F-8FED-440C-BF56-0984290AA4CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBD4898F-8FED-440C-BF56-0984290AA4CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
