@@ -11,6 +11,22 @@
     <AssemblyName>PushNotificationServer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Users\esd81leamacr.ICC\Desktop\server\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,9 +47,31 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>3709B6D3ED2FC445C302B496A45019678068855D</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>PushNotificationServer_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,6 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BObject\ConfigurationItem.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,7 +102,11 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\ConfigurationItem.datasource" />
+    <None Include="Properties\DataSources\MainForm.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -76,6 +119,403 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PushNotificationServer_TemporaryKey.pfx" />
+    <None Include="Resources\play39.png" />
+    <None Include="Resources\zoom28.png" />
+    <None Include="Resources\zoom27.png" />
+    <None Include="Resources\youtube15.png" />
+    <None Include="Resources\youtube14.png" />
+    <None Include="Resources\youtube13.png" />
+    <None Include="Resources\yen18.png" />
+    <None Include="Resources\xing5.png" />
+    <None Include="Resources\xing4.png" />
+    <None Include="Resources\x21.png" />
+    <None Include="Resources\windows20.png" />
+    <None Include="Resources\white66.png" />
+    <None Include="Resources\wheelchair2.png" />
+    <None Include="Resources\weibo.png" />
+    <None Include="Resources\warning18.png" />
+    <None Include="Resources\volume29.png" />
+    <None Include="Resources\volume28.png" />
+    <None Include="Resources\vk.png" />
+    <None Include="Resources\vintage27.png" />
+    <None Include="Resources\vimeo10.png" />
+    <None Include="Resources\video91.png" />
+    <None Include="Resources\vertical6.png" />
+    <None Include="Resources\vertical5.png" />
+    <None Include="Resources\user78.png" />
+    <None Include="Resources\user77.png" />
+    <None Include="Resources\usd.png" />
+    <None Include="Resources\upload40.png" />
+    <None Include="Resources\upload39.png" />
+    <None Include="Resources\unlock3.png" />
+    <None Include="Resources\unlink.png" />
+    <None Include="Resources\undo5.png" />
+    <None Include="Resources\underline2.png" />
+    <None Include="Resources\umbrella16.png" />
+    <None Include="Resources\u1.png" />
+    <None Include="Resources\two121.png" />
+    <None Include="Resources\twitter16.png" />
+    <None Include="Resources\twitter15.png" />
+    <None Include="Resources\turkish1.png" />
+    <None Include="Resources\tumblr11.png" />
+    <None Include="Resources\tumblr10.png" />
+    <None Include="Resources\trophy3.png" />
+    <None Include="Resources\trello.png" />
+    <None Include="Resources\trash29.png" />
+    <None Include="Resources\tint.png" />
+    <None Include="Resources\time7.png" />
+    <None Include="Resources\ticket6.png" />
+    <None Include="Resources\thumbs28.png" />
+    <None Include="Resources\thumbs27.png" />
+    <None Include="Resources\thumbs26.png" />
+    <None Include="Resources\thumbs25.png" />
+    <None Include="Resources\thin24.png" />
+    <None Include="Resources\text62.png" />
+    <None Include="Resources\text61.png" />
+    <None Include="Resources\text60.png" />
+    <None Include="Resources\text59.png" />
+    <None Include="Resources\terminal7.png" />
+    <None Include="Resources\telephone66.png" />
+    <None Include="Resources\telephone65.png" />
+    <None Include="Resources\tasks.png" />
+    <None Include="Resources\tags2.png" />
+    <None Include="Resources\tag32.png" />
+    <None Include="Resources\table21.png" />
+    <None Include="Resources\superscript.png" />
+    <None Include="Resources\sun32.png" />
+    <None Include="Resources\suitcase24.png" />
+    <None Include="Resources\strikethrough1.png" />
+    <None Include="Resources\stethoscope6.png" />
+    <None Include="Resources\step1.png" />
+    <None Include="Resources\step.png" />
+    <None Include="Resources\star62.png" />
+    <None Include="Resources\star61.png" />
+    <None Include="Resources\star60.png" />
+    <None Include="Resources\stack11.png" />
+    <None Include="Resources\stack10.png" />
+    <None Include="Resources\square62.png" />
+    <None Include="Resources\spinner8.png" />
+    <None Include="Resources\speech59.png" />
+    <None Include="Resources\sort14.png" />
+    <None Include="Resources\sort13.png" />
+    <None Include="Resources\sort12.png" />
+    <None Include="Resources\sort11.png" />
+    <None Include="Resources\sort10.png" />
+    <None Include="Resources\sort9.png" />
+    <None Include="Resources\sort8.png" />
+    <None Include="Resources\sort7.png" />
+    <None Include="Resources\sort6.png" />
+    <None Include="Resources\smile.png" />
+    <None Include="Resources\small144.png" />
+    <None Include="Resources\small143.png" />
+    <None Include="Resources\skype9.png" />
+    <None Include="Resources\sitemap1.png" />
+    <None Include="Resources\signal22.png" />
+    <None Include="Resources\sign4.png" />
+    <None Include="Resources\sign3.png" />
+    <None Include="Resources\shopping69.png" />
+    <None Include="Resources\shield36.png" />
+    <None Include="Resources\share15.png" />
+    <None Include="Resources\share14.png" />
+    <None Include="Resources\share13.png" />
+    <None Include="Resources\search19.png" />
+    <None Include="Resources\screenshot.png" />
+    <None Include="Resources\save8.png" />
+    <None Include="Resources\rupee1.png" />
+    <None Include="Resources\rss26.png" />
+    <None Include="Resources\rss25.png" />
+    <None Include="Resources\rounded30.png" />
+    <None Include="Resources\road16.png" />
+    <None Include="Resources\right29.png" />
+    <None Include="Resources\right28.png" />
+    <None Include="Resources\rewind25.png" />
+    <None Include="Resources\retweet2.png" />
+    <None Include="Resources\resize4.png" />
+    <None Include="Resources\reply9.png" />
+    <None Include="Resources\reply8.png" />
+    <None Include="Resources\reorder.png" />
+    <None Include="Resources\renren.png" />
+    <None Include="Resources\remove11.png" />
+    <None Include="Resources\remove10.png" />
+    <None Include="Resources\refresh37.png" />
+    <None Include="Resources\refresh36.png" />
+    <None Include="Resources\reduced.png" />
+    <None Include="Resources\quote2.png" />
+    <None Include="Resources\question23.png" />
+    <None Include="Resources\question22.png" />
+    <None Include="Resources\qr2.png" />
+    <None Include="Resources\puzzle12.png" />
+    <None Include="Resources\printing1.png" />
+    <None Include="Resources\power27.png" />
+    <None Include="Resources\plus27.png" />
+    <None Include="Resources\plus26.png" />
+    <None Include="Resources\plus25.png" />
+    <None Include="Resources\play42.png" />
+    <None Include="Resources\play41.png" />
+    <None Include="Resources\play40.png" />
+    <None Include="Resources\plant16.png" />
+    <None Include="Resources\plane12.png" />
+    <None Include="Resources\pinterest13.png" />
+    <None Include="Resources\pinterest12.png" />
+    <None Include="Resources\picture13.png" />
+    <None Include="Resources\photo33.png" />
+    <None Include="Resources\pencil30.png" />
+    <None Include="Resources\pause14.png" />
+    <None Include="Resources\paste2.png" />
+    <None Include="Resources\paper48.png" />
+    <None Include="Resources\paper47.png" />
+    <None Include="Resources\open97.png" />
+    <None Include="Resources\open96.png" />
+    <None Include="Resources\open95.png" />
+    <None Include="Resources\open94.png" />
+    <None Include="Resources\ok3.png" />
+    <None Include="Resources\ok2.png" />
+    <None Include="Resources\numbered4.png" />
+    <None Include="Resources\nine10.png" />
+    <None Include="Resources\musical32.png" />
+    <None Include="Resources\music67.png" />
+    <None Include="Resources\music66.png" />
+    <None Include="Resources\move14.png" />
+    <None Include="Resources\moon18.png" />
+    <None Include="Resources\money10.png" />
+    <None Include="Resources\mobile29.png" />
+    <None Include="Resources\minus22.png" />
+    <None Include="Resources\minus21.png" />
+    <None Include="Resources\minus20.png" />
+    <None Include="Resources\minus19.png" />
+    <None Include="Resources\minus18.png" />
+    <None Include="Resources\microphone28.png" />
+    <None Include="Resources\microphone27.png" />
+    <None Include="Resources\meh.png" />
+    <None Include="Resources\medkit.png" />
+    <None Include="Resources\maxcdn.png" />
+    <None Include="Resources\map25.png" />
+    <None Include="Resources\male93.png" />
+    <None Include="Resources\magic7.png" />
+    <None Include="Resources\long6.png" />
+    <None Include="Resources\long5.png" />
+    <None Include="Resources\long4.png" />
+    <None Include="Resources\long3.png" />
+    <None Include="Resources\lock24.png" />
+    <None Include="Resources\location28.png" />
+    <None Include="Resources\listing1.png" />
+    <None Include="Resources\list30.png" />
+    <None Include="Resources\list29.png" />
+    <None Include="Resources\list28.png" />
+    <None Include="Resources\linux3.png" />
+    <None Include="Resources\linkedin10.png" />
+    <None Include="Resources\linkedin9.png" />
+    <None Include="Resources\link15.png" />
+    <None Include="Resources\lightning14.png" />
+    <None Include="Resources\light45.png" />
+    <None Include="Resources\level.png" />
+    <None Include="Resources\letter15.png" />
+    <None Include="Resources\leter.png" />
+    <None Include="Resources\lemon3.png" />
+    <None Include="Resources\legal1.png" />
+    <None Include="Resources\left32.png" />
+    <None Include="Resources\keyboard13.png" />
+    <None Include="Resources\italicize.png" />
+    <None Include="Resources\instagram3.png" />
+    <None Include="Resources\information35.png" />
+    <None Include="Resources\information34.png" />
+    <None Include="Resources\indent1.png" />
+    <None Include="Resources\increase.png" />
+    <None Include="Resources\inbox12.png" />
+    <None Include="Resources\html4.png" />
+    <None Include="Resources\hotel17.png" />
+    <None Include="Resources\hostpital.png" />
+    <None Include="Resources\horizontal9.png" />
+    <None Include="Resources\heart75.png" />
+    <None Include="Resources\heart74.png" />
+    <None Include="Resources\hdd.png" />
+    <None Include="Resources\hand40.png" />
+    <None Include="Resources\hand35.png" />
+    <None Include="Resources\hand34.png" />
+    <None Include="Resources\half14.png" />
+    <None Include="Resources\group41.png" />
+    <None Include="Resources\great11.png" />
+    <None Include="Resources\google26.png" />
+    <None Include="Resources\google25.png" />
+    <None Include="Resources\glass8.png" />
+    <None Include="Resources\gittip.png" />
+    <None Include="Resources\github12.png" />
+    <None Include="Resources\github11.png" />
+    <None Include="Resources\github10.png" />
+    <None Include="Resources\gift49.png" />
+    <None Include="Resources\gamepad1.png" />
+    <None Include="Resources\fullscreen4.png" />
+    <None Include="Resources\frown.png" />
+    <None Include="Resources\foursquare5.png" />
+    <None Include="Resources\four29.png" />
+    <None Include="Resources\forward8.png" />
+    <None Include="Resources\fork9.png" />
+    <None Include="Resources\font3.png" />
+    <None Include="Resources\font2.png" />
+    <None Include="Resources\folder66.png" />
+    <None Include="Resources\folder65.png" />
+    <None Include="Resources\folder64.png" />
+    <None Include="Resources\fluffy1.png" />
+    <None Include="Resources\flickr8.png" />
+    <None Include="Resources\flag28.png" />
+    <None Include="Resources\fire17.png" />
+    <None Include="Resources\fire16.png" />
+    <None Include="Resources\finger6.png" />
+    <None Include="Resources\filter10.png" />
+    <None Include="Resources\film28.png" />
+    <None Include="Resources\file28.png" />
+    <None Include="Resources\file27.png" />
+    <None Include="Resources\fighter2.png" />
+    <None Include="Resources\female76.png" />
+    <None Include="Resources\fast13.png" />
+    <None Include="Resources\facetime.png" />
+    <None Include="Resources\facebook26.png" />
+    <None Include="Resources\facebook25.png" />
+    <None Include="Resources\eye51.png" />
+    <None Include="Resources\eye50.png" />
+    <None Include="Resources\external2.png" />
+    <None Include="Resources\external1.png" />
+    <None Include="Resources\expand16.png" />
+    <None Include="Resources\exclamation9.png" />
+    <None Include="Resources\exclamation8.png" />
+    <None Include="Resources\exchange1.png" />
+    <None Include="Resources\euro29.png" />
+    <None Include="Resources\envelope5.png" />
+    <None Include="Resources\envelope4.png" />
+    <None Include="Resources\eject14.png" />
+    <None Include="Resources\edit24.png" />
+    <None Include="Resources\earth17.png" />
+    <None Include="Resources\dropbox13.png" />
+    <None Include="Resources\dribbble4.png" />
+    <None Include="Resources\download63.png" />
+    <None Include="Resources\download62.png" />
+    <None Include="Resources\double32.png" />
+    <None Include="Resources\double31.png" />
+    <None Include="Resources\double30.png" />
+    <None Include="Resources\double29.png" />
+    <None Include="Resources\double28.png" />
+    <None Include="Resources\dot.png" />
+    <None Include="Resources\desktop14.png" />
+    <None Include="Resources\delivery7.png" />
+    <None Include="Resources\dashboard2.png" />
+    <None Include="Resources\cut18.png" />
+    <None Include="Resources\curved8.png" />
+    <None Include="Resources\css3.png" />
+    <None Include="Resources\cross41.png" />
+    <None Include="Resources\crop4.png" />
+    <None Include="Resources\credit40.png" />
+    <None Include="Resources\couple35.png" />
+    <None Include="Resources\correct8.png" />
+    <None Include="Resources\copy10.png" />
+    <None Include="Resources\computer74.png" />
+    <None Include="Resources\compass41.png" />
+    <None Include="Resources\comments16.png" />
+    <None Include="Resources\comment33.png" />
+    <None Include="Resources\comment32.png" />
+    <None Include="Resources\collapse2.png" />
+    <None Include="Resources\cogs3.png" />
+    <None Include="Resources\cog2.png" />
+    <None Include="Resources\coffee18.png" />
+    <None Include="Resources\code11.png" />
+    <None Include="Resources\code10.png" />
+    <None Include="Resources\cloud107.png" />
+    <None Include="Resources\cloud106.png" />
+    <None Include="Resources\circular56.png" />
+    <None Include="Resources\circle34.png" />
+    <None Include="Resources\circle33.png" />
+    <None Include="Resources\chevron24.png" />
+    <None Include="Resources\chevron23.png" />
+    <None Include="Resources\chevron22.png" />
+    <None Include="Resources\chevron21.png" />
+    <None Include="Resources\chevron20.png" />
+    <None Include="Resources\chevron19.png" />
+    <None Include="Resources\chevron18.png" />
+    <None Include="Resources\chevron17.png" />
+    <None Include="Resources\checkered2.png" />
+    <None Include="Resources\check31.png" />
+    <None Include="Resources\check30.png" />
+    <None Include="Resources\check29.png" />
+    <None Include="Resources\certificate6.png" />
+    <None Include="Resources\center5.png" />
+    <None Include="Resources\caret6.png" />
+    <None Include="Resources\caret5.png" />
+    <None Include="Resources\caret4.png" />
+    <None Include="Resources\camera47.png" />
+    <None Include="Resources\camera46.png" />
+    <None Include="Resources\calendar52.png" />
+    <None Include="Resources\calendar51.png" />
+    <None Include="Resources\bullseye.png" />
+    <None Include="Resources\bull1.png" />
+    <None Include="Resources\building8.png" />
+    <None Include="Resources\bug6.png" />
+    <None Include="Resources\briefcase11.png" />
+    <None Include="Resources\branch.png" />
+    <None Include="Resources\bookmark10.png" />
+    <None Include="Resources\bookmark9.png" />
+    <None Include="Resources\book95.png" />
+    <None Include="Resources\bold14.png" />
+    <None Include="Resources\bitcoin.png" />
+    <None Include="Resources\bitbucket.png" />
+    <None Include="Resources\bell13.png" />
+    <None Include="Resources\beer9.png" />
+    <None Include="Resources\beaker2.png" />
+    <None Include="Resources\barcode2.png" />
+    <None Include="Resources\bar10.png" />
+    <None Include="Resources\ban.png" />
+    <None Include="Resources\asterisk2.png" />
+    <None Include="Resources\arrowheads.png" />
+    <None Include="Resources\arrowhead6.png" />
+    <None Include="Resources\arrowhead5.png" />
+    <None Include="Resources\arrow467.png" />
+    <None Include="Resources\arrow466.png" />
+    <None Include="Resources\arrow465.png" />
+    <None Include="Resources\arrow464.png" />
+    <None Include="Resources\arrow463.png" />
+    <None Include="Resources\arrow462.png" />
+    <None Include="Resources\arrow461.png" />
+    <None Include="Resources\arrow460.png" />
+    <None Include="Resources\arrow459.png" />
+    <None Include="Resources\archive15.png" />
+    <None Include="Resources\apple22.png" />
+    <None Include="Resources\angle2.png" />
+    <None Include="Resources\angle1.png" />
+    <None Include="Resources\angle.png" />
+    <None Include="Resources\android4.png" />
+    <None Include="Resources\anchor16.png" />
+    <None Include="Resources\ambulance8.png" />
+    <None Include="Resources\align16.png" />
+    <None Include="Resources\align15.png" />
+    <None Include="Resources\align14.png" />
+    <None Include="Resources\adjust4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataLayer\DataLayer.csproj">
+      <Project>{cda332a5-589c-4b34-acd3-9db3294b1068}</Project>
+      <Name>DataLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DataModelStoreContainer">
+    <EntitySet Name="SymptomSet" EntityType="DataModel.Store.SymptomSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AppointmentSet" EntityType="DataModel.Store.AppointmentSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PillSet" EntityType="DataModel.Store.PillSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PillAlertSet" EntityType="DataModel.Store.PillAlertSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserDataSet" EntityType="DataModel.Store.UserDataSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="NotificationSet" EntityType="DataModel.Store.NotificationSet" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="SymptomSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="App_Id" Type="int" Nullable="false" />
+    <Property Name="When" Type="datetime" Nullable="false" />
+    <Property Name="Pianto" Type="bit" Nullable="false" />
+    <Property Name="Rigurgito" Type="bit" Nullable="false" />
+    <Property Name="Agitazione" Type="bit" Nullable="false" />
+    <Property Name="Duration" Type="int" Nullable="false" />
+    <Property Name="Intensity" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AppointmentSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="App_Id" Type="int" Nullable="false" />
+    <Property Name="When" Type="datetime" Nullable="false" />
+    <Property Name="Info" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="PillSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="App_Id" Type="int" Nullable="false" />
+    <Property Name="Shape" Type="int" Nullable="true" />
+    <Property Name="Color" Type="int" Nullable="true" />
+    <Property Name="Info" Type="int" Nullable="true" />
+    <Property Name="Deletable" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PillAlertSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="App_Id" Type="int" Nullable="false" />
+    <Property Name="PillId" Type="int" Nullable="false" />
+    <Property Name="When" Type="datetime" Nullable="false" />
+    <Property Name="Taken" Type="bit" Nullable="true" />
+    <Property Name="Asked" Type="bit" Nullable="true" />
+    <Property Name="ParentId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserDataSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="App_Id" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PatientPID" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DeviceToken" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="OS" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NotificationSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="When" Type="datetime" Nullable="false" />
+    <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DeviceToken" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="DataModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SymptomSet" EntityType="DataModel.Symptom" />
+          <EntitySet Name="AppointmentSet" EntityType="DataModel.Appointment" />
+          <EntitySet Name="PillSet" EntityType="DataModel.Pill" />
+          <EntitySet Name="PillAlertSet" EntityType="DataModel.PillAlert" />
+          <EntitySet Name="UserDataSet" EntityType="DataModel.UserData" />
+          <EntitySet Name="NotificationSet" EntityType="DataModel.Notification" />
+        </EntityContainer>
+        <EntityType Name="Symptom">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="App_Id" Type="Int32" Nullable="false" />
+          <Property Name="When" Type="DateTime" Nullable="false" />
+          <Property Name="Pianto" Type="Boolean" Nullable="false" />
+          <Property Name="Rigurgito" Type="Boolean" Nullable="false" />
+          <Property Name="Agitazione" Type="Boolean" Nullable="false" />
+          <Property Name="Duration" Type="Int32" Nullable="false" />
+          <Property Name="Intensity" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="App_Id" Type="Int32" Nullable="false" />
+          <Property Name="When" Type="DateTime" Nullable="false" />
+          <Property Name="Info" Type="String" Nullable="true" />
+          </EntityType>
+        <EntityType Name="Pill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="App_Id" Type="Int32" Nullable="false" />
+          <Property Name="Shape" Type="Int32" Nullable="true" />
+          <Property Name="Color" Type="Int32" Nullable="true" />
+          <Property Name="Info" Type="Int32" Nullable="true" />
+          <Property Name="Deletable" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PillAlert">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="App_Id" Type="Int32" Nullable="false" />
+          <Property Name="PillId" Type="Int32" Nullable="false" />
+          <Property Name="When" Type="DateTime" Nullable="false" />
+          <Property Name="Taken" Type="Boolean" Nullable="true" />
+          <Property Name="Asked" Type="Boolean" Nullable="true" />
+          <Property Name="ParentId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="App_Id" Nullable="false" Type="Int32" />
+          <Property Name="Name" Nullable="true" Type="String" />
+          <Property Name="PatientPID" Nullable="false" Type="String" />
+          <Property Name="DeviceToken" Type="String" Nullable="false" />
+          <Property Name="OS" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="When" Type="DateTime" Nullable="false" />
+          <Property Name="Message" Type="String" Nullable="false" />
+          <Property Name="DeviceToken" Type="String" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DataModelStoreContainer" CdmEntityContainer="DataModelContainer">
+    <EntitySetMapping Name="SymptomSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Symptom)">
+        <MappingFragment StoreEntitySet="SymptomSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="App_Id" ColumnName="App_Id" />
+          <ScalarProperty Name="When" ColumnName="When" />
+          <ScalarProperty Name="Pianto" ColumnName="Pianto" />
+          <ScalarProperty Name="Rigurgito" ColumnName="Rigurgito" />
+          <ScalarProperty Name="Agitazione" ColumnName="Agitazione" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="Intensity" ColumnName="Intensity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AppointmentSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Appointment)">
+        <MappingFragment StoreEntitySet="AppointmentSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="App_Id" ColumnName="App_Id" />
+          <ScalarProperty Name="When" ColumnName="When" />
+          <ScalarProperty Name="Info" ColumnName="Info" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PillSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Pill)">
+        <MappingFragment StoreEntitySet="PillSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="App_Id" ColumnName="App_Id" />
+          <ScalarProperty Name="Shape" ColumnName="Shape" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="Info" ColumnName="Info" />
+          <ScalarProperty Name="Deletable" ColumnName="Deletable" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PillAlertSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.PillAlert)">
+        <MappingFragment StoreEntitySet="PillAlertSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="App_Id" ColumnName="App_Id" />
+          <ScalarProperty Name="PillId" ColumnName="PillId" />
+          <ScalarProperty Name="When" ColumnName="When" />
+          <ScalarProperty Name="Taken" ColumnName="Taken" />
+          <ScalarProperty Name="Asked" ColumnName="Asked" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserDataSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.UserData)">
+        <MappingFragment StoreEntitySet="UserDataSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="App_Id" ColumnName="App_Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="PatientPID" ColumnName="PatientPID" />
+          <ScalarProperty Name="DeviceToken" ColumnName="DeviceToken" />
+          <ScalarProperty Name="OS" ColumnName="OS" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NotificationSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Notification)">
+        <MappingFragment StoreEntitySet="NotificationSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="When" ColumnName="When" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="DeviceToken" ColumnName="DeviceToken" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
