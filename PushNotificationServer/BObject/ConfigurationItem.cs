@@ -1,5 +1,4 @@
-﻿using ColicheGassose;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -47,8 +46,8 @@ namespace PushNotificationServer
                     {
                         Notification notification = new Notification();
 
-                        notification.Id = (int)oReader["Id"];
-                        notification.Status = (int)oReader["Status"];
+                        notification.ID = (int)oReader["ID"];
+                        notification.Status = (NotificationStatusEnum)oReader["Status"];
                         notification.When = DateTime.Parse(oReader["When"].ToString());
                         notification.Message = oReader["Message"].ToString();
                         notification.DeviceToken = oReader["DeviceToken"].ToString();

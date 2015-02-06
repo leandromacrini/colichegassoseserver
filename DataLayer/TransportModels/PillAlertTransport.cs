@@ -11,19 +11,29 @@ namespace ColicheGassose
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Symptom
+
+    public partial class PillAlertTransport
     {
         public int ID { get; set; }
         public int App_Id { get; set; }
+        public int PillId { get; set; }
         public System.DateTime When { get; set; }
-        public bool Pianto { get; set; }
-        public bool Rigurgito { get; set; }
-        public bool Agitazione { get; set; }
-        public int Duration { get; set; }
-        public int Intensity { get; set; }
+        public Nullable<bool> Taken { get; set; }
+        public Nullable<bool> Asked { get; set; }
+        public Nullable<int> ParentId { get; set; }
         public int UserDataID { get; set; }
-    
-        public virtual UserData UserData { get; set; }
+
+        public PillAlertTransport() { }
+
+        public PillAlertTransport(PillAlert pillAlert)
+        {
+            this.ID = pillAlert.ID;
+            this.App_Id = pillAlert.App_Id;
+            this.When = pillAlert.When;
+            this.PillId = pillAlert.PillId;
+            this.Asked = pillAlert.Asked;
+            this.ParentId = pillAlert.ParentId;
+            this.UserDataID = pillAlert.UserDataID;
+        }
     }
 }

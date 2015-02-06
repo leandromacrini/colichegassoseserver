@@ -11,8 +11,8 @@ namespace ColicheGassose
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Symptom
+
+    public partial class SymptomTransport
     {
         public int ID { get; set; }
         public int App_Id { get; set; }
@@ -23,7 +23,20 @@ namespace ColicheGassose
         public int Duration { get; set; }
         public int Intensity { get; set; }
         public int UserDataID { get; set; }
-    
-        public virtual UserData UserData { get; set; }
+
+        public SymptomTransport() { }
+
+        public SymptomTransport(Symptom symptom)
+        {
+            this.ID = symptom.ID;
+            this.App_Id = symptom.App_Id;
+            this.When = symptom.When;
+            this.Pianto = symptom.Pianto;
+            this.Rigurgito = symptom.Rigurgito;
+            this.Agitazione = symptom.Agitazione;
+            this.Duration = symptom.Duration;
+            this.Intensity = symptom.Intensity;
+            this.UserDataID = symptom.UserDataID;
+        }
     }
 }

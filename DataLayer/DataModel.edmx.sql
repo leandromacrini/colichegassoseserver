@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/19/2014 10:17:21
--- Generated from EDMX file: C:\Users\esd81leamacr.ICC\Documents\Visual Studio 2013\Projects\ColicheGassose\ColicheGassose\DataModel.edmx
+-- Date Created: 01/30/2015 14:17:11
+-- Generated from EDMX file: C:\Users\esd81leamacr.ICC\documents\visual studio 2013\Projects\ColicheGassose\DataLayer\DataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -17,11 +17,41 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_NotificationAppointment]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AppointmentSet] DROP CONSTRAINT [FK_NotificationAppointment];
+GO
+IF OBJECT_ID(N'[dbo].[FK_NotificationPillAlert]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PillAlertSet] DROP CONSTRAINT [FK_NotificationPillAlert];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserDataAppointment]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AppointmentSet] DROP CONSTRAINT [FK_UserDataAppointment];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserDataSymptom]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SymptomSet] DROP CONSTRAINT [FK_UserDataSymptom];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserDataPillAlert]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PillAlertSet] DROP CONSTRAINT [FK_UserDataPillAlert];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[SymptomSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SymptomSet];
+GO
+IF OBJECT_ID(N'[dbo].[AppointmentSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AppointmentSet];
+GO
+IF OBJECT_ID(N'[dbo].[PillAlertSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PillAlertSet];
+GO
+IF OBJECT_ID(N'[dbo].[UserDataSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[UserDataSet];
+GO
+IF OBJECT_ID(N'[dbo].[NotificationSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[NotificationSet];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -29,55 +59,60 @@ GO
 
 -- Creating table 'SymptomSet'
 CREATE TABLE [dbo].[SymptomSet] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [ID] int IDENTITY(1,1) NOT NULL,
     [App_Id] int  NOT NULL,
     [When] datetime  NOT NULL,
     [Pianto] bit  NOT NULL,
     [Rigurgito] bit  NOT NULL,
     [Agitazione] bit  NOT NULL,
     [Duration] int  NOT NULL,
-    [Intensity] int  NOT NULL
+    [Intensity] int  NOT NULL,
+    [UserDataID] int  NOT NULL
 );
 GO
 
 -- Creating table 'AppointmentSet'
 CREATE TABLE [dbo].[AppointmentSet] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [ID] int IDENTITY(1,1) NOT NULL,
     [App_Id] int  NOT NULL,
     [When] datetime  NOT NULL,
-    [Info] nvarchar(max)  NULL
-);
-GO
-
--- Creating table 'PillSet'
-CREATE TABLE [dbo].[PillSet] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [App_Id] int  NOT NULL,
-    [Shape] int  NULL,
-    [Color] int  NULL,
-    [Info] int  NULL,
-    [Deletable] bit  NOT NULL
+    [Info] nvarchar(max)  NULL,
+    [UserDataID] int  NOT NULL,
+    [Notification_ID] int  NULL
 );
 GO
 
 -- Creating table 'PillAlertSet'
 CREATE TABLE [dbo].[PillAlertSet] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [ID] int IDENTITY(1,1) NOT NULL,
     [App_Id] int  NOT NULL,
     [PillId] int  NOT NULL,
     [When] datetime  NOT NULL,
     [Taken] bit  NULL,
     [Asked] bit  NULL,
-    [Notified] int  NULL
+    [ParentId] int  NULL,
+    [UserDataID] int  NOT NULL,
+    [Notification_ID] int  NULL
 );
 GO
 
 -- Creating table 'UserDataSet'
 CREATE TABLE [dbo].[UserDataSet] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [ID] int IDENTITY(1,1) NOT NULL,
     [App_Id] int  NOT NULL,
     [Name] nvarchar(max)  NULL,
     [PatientPID] nvarchar(max)  NOT NULL,
+    [DeviceToken] nvarchar(max)  NOT NULL,
+    [OS] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'NotificationSet'
+CREATE TABLE [dbo].[NotificationSet] (
+    [ID] int IDENTITY(1,1) NOT NULL,
+    [Status] int  NOT NULL,
+    [When] datetime  NOT NULL,
+    [Message] nvarchar(max)  NOT NULL,
     [DeviceToken] nvarchar(max)  NOT NULL
 );
 GO
@@ -86,39 +121,114 @@ GO
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
 
--- Creating primary key on [Id] in table 'SymptomSet'
+-- Creating primary key on [ID] in table 'SymptomSet'
 ALTER TABLE [dbo].[SymptomSet]
 ADD CONSTRAINT [PK_SymptomSet]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
+    PRIMARY KEY CLUSTERED ([ID] ASC);
 GO
 
--- Creating primary key on [Id] in table 'AppointmentSet'
+-- Creating primary key on [ID] in table 'AppointmentSet'
 ALTER TABLE [dbo].[AppointmentSet]
 ADD CONSTRAINT [PK_AppointmentSet]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
+    PRIMARY KEY CLUSTERED ([ID] ASC);
 GO
 
--- Creating primary key on [Id] in table 'PillSet'
-ALTER TABLE [dbo].[PillSet]
-ADD CONSTRAINT [PK_PillSet]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'PillAlertSet'
+-- Creating primary key on [ID] in table 'PillAlertSet'
 ALTER TABLE [dbo].[PillAlertSet]
 ADD CONSTRAINT [PK_PillAlertSet]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
+    PRIMARY KEY CLUSTERED ([ID] ASC);
 GO
 
--- Creating primary key on [Id] in table 'UserDataSet'
+-- Creating primary key on [ID] in table 'UserDataSet'
 ALTER TABLE [dbo].[UserDataSet]
 ADD CONSTRAINT [PK_UserDataSet]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
+    PRIMARY KEY CLUSTERED ([ID] ASC);
+GO
+
+-- Creating primary key on [ID] in table 'NotificationSet'
+ALTER TABLE [dbo].[NotificationSet]
+ADD CONSTRAINT [PK_NotificationSet]
+    PRIMARY KEY CLUSTERED ([ID] ASC);
 GO
 
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
+
+-- Creating foreign key on [Notification_ID] in table 'AppointmentSet'
+ALTER TABLE [dbo].[AppointmentSet]
+ADD CONSTRAINT [FK_NotificationAppointment]
+    FOREIGN KEY ([Notification_ID])
+    REFERENCES [dbo].[NotificationSet]
+        ([ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_NotificationAppointment'
+CREATE INDEX [IX_FK_NotificationAppointment]
+ON [dbo].[AppointmentSet]
+    ([Notification_ID]);
+GO
+
+-- Creating foreign key on [Notification_ID] in table 'PillAlertSet'
+ALTER TABLE [dbo].[PillAlertSet]
+ADD CONSTRAINT [FK_NotificationPillAlert]
+    FOREIGN KEY ([Notification_ID])
+    REFERENCES [dbo].[NotificationSet]
+        ([ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_NotificationPillAlert'
+CREATE INDEX [IX_FK_NotificationPillAlert]
+ON [dbo].[PillAlertSet]
+    ([Notification_ID]);
+GO
+
+-- Creating foreign key on [UserDataID] in table 'AppointmentSet'
+ALTER TABLE [dbo].[AppointmentSet]
+ADD CONSTRAINT [FK_UserDataAppointment]
+    FOREIGN KEY ([UserDataID])
+    REFERENCES [dbo].[UserDataSet]
+        ([ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserDataAppointment'
+CREATE INDEX [IX_FK_UserDataAppointment]
+ON [dbo].[AppointmentSet]
+    ([UserDataID]);
+GO
+
+-- Creating foreign key on [UserDataID] in table 'SymptomSet'
+ALTER TABLE [dbo].[SymptomSet]
+ADD CONSTRAINT [FK_UserDataSymptom]
+    FOREIGN KEY ([UserDataID])
+    REFERENCES [dbo].[UserDataSet]
+        ([ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserDataSymptom'
+CREATE INDEX [IX_FK_UserDataSymptom]
+ON [dbo].[SymptomSet]
+    ([UserDataID]);
+GO
+
+-- Creating foreign key on [UserDataID] in table 'PillAlertSet'
+ALTER TABLE [dbo].[PillAlertSet]
+ADD CONSTRAINT [FK_UserDataPillAlert]
+    FOREIGN KEY ([UserDataID])
+    REFERENCES [dbo].[UserDataSet]
+        ([ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserDataPillAlert'
+CREATE INDEX [IX_FK_UserDataPillAlert]
+ON [dbo].[PillAlertSet]
+    ([UserDataID]);
+GO
 
 -- --------------------------------------------------
 -- Script has ended

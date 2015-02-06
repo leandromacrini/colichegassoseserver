@@ -9,27 +9,25 @@
 
 namespace ColicheGassose
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class UserData
+    public partial class UserDataTransport
     {
-        public UserData()
-        {
-            this.Appointments = new HashSet<Appointment>();
-            this.Symptoms = new HashSet<Symptom>();
-            this.PillAlerts = new HashSet<PillAlert>();
-        }
-    
         public int ID { get; set; }
         public int App_Id { get; set; }
         public string Name { get; set; }
         public string PatientPID { get; set; }
         public string DeviceToken { get; set; }
         public string OS { get; set; }
-    
-        public virtual ICollection<Appointment> Appointments { get; set; }
-        public virtual ICollection<Symptom> Symptoms { get; set; }
-        public virtual ICollection<PillAlert> PillAlerts { get; set; }
+
+        public UserDataTransport() { }
+
+        public UserDataTransport(UserData userData)
+        {
+            this.ID = userData.ID;
+            this.App_Id = userData.App_Id;
+            this.Name = userData.Name;
+            this.PatientPID = userData.PatientPID;
+            this.DeviceToken = userData.DeviceToken;
+            this.OS = userData.OS;
+        }
     }
 }

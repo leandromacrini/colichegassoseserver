@@ -52,24 +52,29 @@
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel.Context.cs">
-      <DependentUpon>DataModel.Context.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>DataModel.Context.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModel.Designer.cs">
       <DependentUpon>DataModel.edmx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Models\Appointment.cs" />
+    <Compile Include="Models\Notification.cs" />
+    <Compile Include="Models\PillAlert.cs" />
+    <Compile Include="Models\Symptom.cs" />
+    <Compile Include="Models\UserData.cs" />
     <Compile Include="Notification.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Pill.cs">
+    <Compile Include="NotificationStatusEnum.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PillAlert.cs">
@@ -79,6 +84,11 @@
     <Compile Include="Symptom.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TransportModels\AppointmentTransport.cs" />
+    <Compile Include="TransportModels\NotificationTransport.cs" />
+    <Compile Include="TransportModels\PillAlertTransport.cs" />
+    <Compile Include="TransportModels\SymptomTransport.cs" />
+    <Compile Include="TransportModels\UserDataTransport.cs" />
     <Compile Include="UserData.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
@@ -116,6 +126,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

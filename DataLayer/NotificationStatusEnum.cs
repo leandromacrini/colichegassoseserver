@@ -10,17 +10,11 @@
 namespace ColicheGassose
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Appointment
+    public enum NotificationStatusEnum : int
     {
-        public int ID { get; set; }
-        public int App_Id { get; set; }
-        public System.DateTime When { get; set; }
-        public string Info { get; set; }
-        public int UserDataID { get; set; }
-    
-        public virtual Notification Notification { get; set; }
-        public virtual UserData UserData { get; set; }
+        Error = -1,
+        ToSend = 0,
+        Sent = 1
     }
 }

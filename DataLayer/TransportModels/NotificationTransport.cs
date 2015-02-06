@@ -11,19 +11,24 @@ namespace ColicheGassose
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Symptom
+
+    public partial class NotificationTransport
     {
         public int ID { get; set; }
-        public int App_Id { get; set; }
+        public NotificationStatusEnum Status { get; set; }
         public System.DateTime When { get; set; }
-        public bool Pianto { get; set; }
-        public bool Rigurgito { get; set; }
-        public bool Agitazione { get; set; }
-        public int Duration { get; set; }
-        public int Intensity { get; set; }
-        public int UserDataID { get; set; }
-    
-        public virtual UserData UserData { get; set; }
+        public string Message { get; set; }
+        public string DeviceToken { get; set; }
+
+        public NotificationTransport() { }
+
+        public NotificationTransport(Notification notification)
+        {
+            this.ID = notification.ID;
+            this.Status = notification.Status;
+            this.When = notification.When;
+            this.Message = notification.Message;
+            this.DeviceToken = notification.DeviceToken;
+        }
     }
 }

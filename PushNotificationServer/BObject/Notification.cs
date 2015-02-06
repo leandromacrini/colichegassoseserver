@@ -7,18 +7,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ColicheGassose
+namespace PushNotificationServer
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Pill
+
+    public enum NotificationStatusEnum : int
     {
-        public int Id { get; set; }
-        public int App_Id { get; set; }
-        public Nullable<int> Shape { get; set; }
-        public Nullable<int> Color { get; set; }
-        public Nullable<int> Info { get; set; }
-        public bool Deletable { get; set; }
+        Error = -1,
+        ToSend = 0,
+        Sent = 1
+    }
+    
+    public partial class Notification
+    {
+        public int ID { get; set; }
+        public NotificationStatusEnum Status { get; set; }
+        public System.DateTime When { get; set; }
+        public string Message { get; set; }
+        public string DeviceToken { get; set; }
     }
 }

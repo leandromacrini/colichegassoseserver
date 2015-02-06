@@ -27,7 +27,6 @@ namespace ColicheGassose
     
         public DbSet<Symptom> SymptomSet { get; set; }
         public DbSet<Appointment> AppointmentSet { get; set; }
-        public DbSet<Pill> PillSet { get; set; }
         public DbSet<PillAlert> PillAlertSet { get; set; }
         public DbSet<UserData> UserDataSet { get; set; }
         public DbSet<Notification> NotificationSet { get; set; }

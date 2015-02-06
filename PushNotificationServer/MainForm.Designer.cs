@@ -328,7 +328,6 @@
         private System.Windows.Forms.DataGridView gridConfigurations;
         private System.Windows.Forms.TextBox txbLog;
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ConfigName;
         private System.Windows.Forms.BindingSource configurationItemBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.Button btnStop;

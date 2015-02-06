@@ -14,10 +14,13 @@ namespace ColicheGassose
     
     public partial class Notification
     {
-        public int Id { get; set; }
-        public int Status { get; set; }
+        public int ID { get; set; }
+        public NotificationStatusEnum Status { get; set; }
         public System.DateTime When { get; set; }
         public string Message { get; set; }
         public string DeviceToken { get; set; }
+    
+        public virtual Appointment Appointment { get; set; }
+        public virtual PillAlert PillAlert { get; set; }
     }
 }
