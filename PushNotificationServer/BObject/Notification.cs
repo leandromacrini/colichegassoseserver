@@ -26,5 +26,24 @@ namespace PushNotificationServer
         public System.DateTime When { get; set; }
         public string Message { get; set; }
         public string DeviceToken { get; set; }
+        public string DestinationOS { get; set; }
+        public ConfigurationItem Configuration { get; set; }
+
+        public Notification(System.Data.SqlClient.SqlDataReader oReader, ConfigurationItem config)
+        {
+            this.ID = (int)oReader["ID"];
+            this.Status = (NotificationStatusEnum)oReader["Status"];
+            this.When = DateTime.Parse(oReader["When"].ToString());
+            this.Message = oReader["Message"].ToString();
+            this.DeviceToken = oReader["DeviceToken"].ToString();
+            this.DestinationOS = oReader["DestinationOS"].ToString();
+
+            this.Configuration = config;
+        }
+
+        public bool isForAndroid()
+        {
+            return DestinationOS.Equals("android");
+        }
     }
 }

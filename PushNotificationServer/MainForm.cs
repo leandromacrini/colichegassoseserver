@@ -1,4 +1,9 @@
-﻿using PushNotificationServer.Properties;
+﻿using Newtonsoft.Json;
+using PushNotificationServer.Properties;
+using PushSharp;
+using PushSharp.Android;
+using PushSharp.Apple;
+using PushSharp.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -68,9 +73,55 @@ namespace PushNotificationServer
             get { return _isServerEnabled; }
         }
 
-        private void worker_DoWork(object sender, DoWorkEventArgs e)
+        private void worker_DoWork(object s, DoWorkEventArgs e)
         {
-            BackgroundWorker worker = sender as BackgroundWorker;
+            BackgroundWorker worker = s as BackgroundWorker;
+            
+            //Create our push services broker
+            var push = new PushBroker();
+
+            //Wire up the events for all the services that the broker registers
+            push.OnNotificationSent += new NotificationSentDelegate((sender, notification) =>
+            {
+                //update notication item
+                worker.ReportProgress(0, "Sent: " + sender + " -> " + notification);
+            });
+
+            push.OnChannelException += new ChannelExceptionDelegate((sender, channel, exception) =>
+            {
+                worker.ReportProgress(0, "Channel Exception: " + sender + " -> " + exception);
+            });
+
+            push.OnServiceException += new ServiceExceptionDelegate((sender, exception) =>
+            {
+                worker.ReportProgress(0, "Service Exception: " + sender + " -> " + exception);
+            });
+
+            push.OnNotificationFailed += new NotificationFailedDelegate((sender, notification, notificationFailureException) =>
+            {
+                worker.ReportProgress(0, "Failure: " + sender + " -> " + notificationFailureException.Message + " -> " + notification);
+            });
+
+            push.OnDeviceSubscriptionExpired += new DeviceSubscriptionExpiredDelegate((sender, expiredDeviceSubscriptionId, timestamp, notification) =>
+            {
+                worker.ReportProgress(0, "Device Subscription Expired: " + sender + " -> " + expiredDeviceSubscriptionId);
+            });
+
+            push.OnDeviceSubscriptionChanged += new DeviceSubscriptionChangedDelegate((sender, oldSubscriptionId, newSubscriptionId, notification) =>
+            {
+                worker.ReportProgress(0, "Device Registration Changed:  Old-> " + oldSubscriptionId + "  New-> " + newSubscriptionId + " -> " + notification);
+            });
+
+            push.OnChannelCreated += new ChannelCreatedDelegate((sender, pushChannel) =>
+            {
+                worker.ReportProgress(0, "Channel Created for: " + sender);
+            });
+
+            push.OnChannelDestroyed += new ChannelDestroyedDelegate((sender) =>
+            {
+                worker.ReportProgress(0, "Channel Destroyed for: " + sender);
+            });
+
 
             //Init
             try
@@ -93,16 +144,26 @@ namespace PushNotificationServer
                     {
                         while (oReader.Read())
                         {
-                            ConfigurationItem item = new ConfigurationItem();
+                            //read configuration
 
-                            item.Id = (int)oReader["Id"];
-                            item.ConnectionString = oReader["ConnectionString"].ToString();
-                            item.Name = oReader["Name"].ToString();
-                            item.Autostart = (bool)oReader["Autostart"];
+                            ConfigurationItem item = new ConfigurationItem(oReader);
 
                             if (item.Autostart)
                             {
                                 item.Status = ConfigurationStatus.Started;
+                            }
+
+                            //create push config Apple
+                            if( !String.IsNullOrEmpty(item.AppleCertificate) )
+                            {
+                                var appleCert = File.ReadAllBytes(Path.Combine(new[] { Directory.GetCurrentDirectory(), "Certificates", item.AppleCertificate }));
+                                push.RegisterAppleService(new ApplePushChannelSettings(item.Production, appleCert, item.ApplePassword), item.getUniqueName() + ".APNS");
+                            }
+
+                            //create push config Android
+                            if (!String.IsNullOrEmpty(item.GoogleKey))
+                            {
+                                push.RegisterGcmService(new GcmPushChannelSettings(item.GoogleKey), item.getUniqueName() + ".GCM");
                             }
 
                             configurations.Add(item);
@@ -130,6 +191,7 @@ namespace PushNotificationServer
             {
                 if ((worker.CancellationPending == true))
                 {
+                    push.StopAllServices();
                     worker.ReportProgress(0, String.Format("-- SERVER STOP AT {0:d/M/yy HH:mm} --" + Environment.NewLine, DateTime.Now));
                     e.Cancel = true;
                     break;
@@ -140,7 +202,31 @@ namespace PushNotificationServer
                     {
                         if (config.Status == ConfigurationStatus.Started)
                         {
-                            config.checkNotifications();
+                            //send notification
+                            foreach (var notification in config.getCurrentNotifications())
+                            {
+                                if (notification.isForAndroid())
+                                {
+                                    //ANDROID
+                                    push.QueueNotification(
+                                        new GcmNotification().ForDeviceRegistrationId(notification.DeviceToken)
+                                            .WithJson(JsonConvert.SerializeObject(new { alert = notification.Message, badge = 1 })),
+                                        config.getUniqueName() + ".GCM"
+                                    );
+                                }
+                                else
+                                {
+                                    //APPLE
+                                    push.QueueNotification(
+                                        new AppleNotification()
+                                            .ForDeviceToken(notification.DeviceToken)
+                                            .WithAlert(notification.Message)
+                                            .WithSound("default")
+                                            .WithBadge(1),
+                                        config.getUniqueName() + ".APNS"
+                                        );
+                                }
+                            }
                         }
                     }
 
@@ -148,7 +234,7 @@ namespace PushNotificationServer
                     this.gridConfigurations.Invoke((MethodInvoker)delegate { source.ResetBindings(false); });
 
                     // Perform a time consuming operation
-                    System.Threading.Thread.Sleep(pushInterval * 200);
+                    System.Threading.Thread.Sleep(pushInterval * 1000);
                 }
 
                 

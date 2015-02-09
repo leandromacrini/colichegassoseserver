@@ -91,6 +91,7 @@
     <Property Name="When" Type="datetime" Nullable="false" />
     <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DeviceToken" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DestinationOS" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="NotificationAppointment">
     <End Role="Notification" Type="DataModel.Store.NotificationSet" Multiplicity="0..1" />
@@ -250,6 +251,7 @@
           <Property Name="DeviceToken" Type="String" Nullable="false" />
           <NavigationProperty Name="Appointment" Relationship="DataModel.NotificationAppointment" FromRole="Notification" ToRole="Appointment" />
           <NavigationProperty Name="PillAlert" Relationship="DataModel.NotificationPillAlert" FromRole="Notification" ToRole="PillAlert" />
+          <Property Name="DestinationOS" Type="String" Nullable="false" />
         </EntityType>
         <EnumType Name="NotificationStatusEnum">
           <Member Name="Error" Value="-1" />
@@ -369,6 +371,7 @@
           <ScalarProperty Name="When" ColumnName="When" />
           <ScalarProperty Name="Message" ColumnName="Message" />
           <ScalarProperty Name="DeviceToken" ColumnName="DeviceToken" />
+          <ScalarProperty Name="DestinationOS" ColumnName="DestinationOS" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

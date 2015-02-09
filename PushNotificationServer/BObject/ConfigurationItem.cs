@@ -13,13 +13,19 @@ namespace PushNotificationServer
         None
     }
 
-    class ConfigurationItem
+    public class ConfigurationItem
     {
         // FROM DB
         public int Id { get; set; }
         public string Name { get; set; }
         public string ConnectionString { get; set; }
         public bool Autostart { get; set; }
+        public string AppleCertificate { get; set; }
+        public string ApplePassword { get; set; }
+        public string GoogleKey { get; set; }
+        public string GoogleSenderID { get; set; }
+        public string GoogleAppName { get; set; }
+        public bool Production { get; set; }
 
         //FROM APPLICATION
         public ConfigurationStatus Status { get; set; }
@@ -33,29 +39,44 @@ namespace PushNotificationServer
             Status = ConfigurationStatus.None;
         }
 
-        public void checkNotifications()
+        public ConfigurationItem(SqlDataReader oReader) : this()
         {
+            this.Id = (int)oReader["Id"];
+            this.Name = oReader["Name"].ToString();
+            this.ConnectionString = oReader["ConnectionString"].ToString();
+            this.Autostart = (bool)oReader["Autostart"];
+            this.AppleCertificate = oReader["AppleCertificate"].ToString();
+            this.ApplePassword = oReader["ApplePassword"].ToString();
+            this.GoogleKey = oReader["GoogleKey"].ToString();
+            this.GoogleSenderID = oReader["GoogleSenderID"].ToString();
+            this.GoogleAppName = oReader["GoogleAppName"].ToString();
+            this.Production = (bool)oReader["Production"];
+        }
+
+        public string getUniqueName()
+        {
+            return this.Id + "." + this.Name;
+        }
+
+        public List<Notification> getCurrentNotifications()
+        {
+            var result = new List<Notification>();
             using (SqlConnection myConnection = new SqlConnection(this.ConnectionString))
             {
-                string oString = "Select * from NotificationSet";
+                string oString = "Select * from NotificationSet"; //TODO only for correct datetime
                 SqlCommand oCmd = new SqlCommand(oString, myConnection);
                 myConnection.Open();
                 using (SqlDataReader oReader = oCmd.ExecuteReader())
                 {
                     while (oReader.Read())
                     {
-                        Notification notification = new Notification();
-
-                        notification.ID = (int)oReader["ID"];
-                        notification.Status = (NotificationStatusEnum)oReader["Status"];
-                        notification.When = DateTime.Parse(oReader["When"].ToString());
-                        notification.Message = oReader["Message"].ToString();
-                        notification.DeviceToken = oReader["DeviceToken"].ToString();
+                        result.Add(new Notification(oReader, this));
                     }
 
                     myConnection.Close();
                 }
             }
+            return result;
         }
     }
 }

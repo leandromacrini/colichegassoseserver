@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/30/2015 14:17:11
+-- Date Created: 02/09/2015 12:28:11
 -- Generated from EDMX file: C:\Users\esd81leamacr.ICC\documents\visual studio 2013\Projects\ColicheGassose\DataLayer\DataModel.edmx
 -- --------------------------------------------------
 
@@ -113,7 +113,8 @@ CREATE TABLE [dbo].[NotificationSet] (
     [Status] int  NOT NULL,
     [When] datetime  NOT NULL,
     [Message] nvarchar(max)  NOT NULL,
-    [DeviceToken] nvarchar(max)  NOT NULL
+    [DeviceToken] nvarchar(max)  NOT NULL,
+    [DestinationOS] nvarchar(max)  NOT NULL
 );
 GO
 

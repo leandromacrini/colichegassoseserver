@@ -19,6 +19,7 @@ namespace ColicheGassose
         public System.DateTime When { get; set; }
         public string Message { get; set; }
         public string DeviceToken { get; set; }
+        public string DestinationOS { get; set; }
     
         public virtual Appointment Appointment { get; set; }
         public virtual PillAlert PillAlert { get; set; }
