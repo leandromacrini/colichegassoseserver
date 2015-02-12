@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/09/2015 12:28:11
+-- Date Created: 02/11/2015 15:52:47
 -- Generated from EDMX file: C:\Users\esd81leamacr.ICC\documents\visual studio 2013\Projects\ColicheGassose\DataLayer\DataModel.edmx
 -- --------------------------------------------------
 
@@ -118,6 +118,15 @@ CREATE TABLE [dbo].[NotificationSet] (
 );
 GO
 
+-- Creating table 'WebUserSet'
+CREATE TABLE [dbo].[WebUserSet] (
+    [ID] int IDENTITY(1,1) NOT NULL,
+    [User] nvarchar(max)  NOT NULL,
+    [Password] nvarchar(max)  NOT NULL,
+    [Admin] bit  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -149,6 +158,12 @@ GO
 -- Creating primary key on [ID] in table 'NotificationSet'
 ALTER TABLE [dbo].[NotificationSet]
 ADD CONSTRAINT [PK_NotificationSet]
+    PRIMARY KEY CLUSTERED ([ID] ASC);
+GO
+
+-- Creating primary key on [ID] in table 'WebUserSet'
+ALTER TABLE [dbo].[WebUserSet]
+ADD CONSTRAINT [PK_WebUserSet]
     PRIMARY KEY CLUSTERED ([ID] ASC);
 GO
 

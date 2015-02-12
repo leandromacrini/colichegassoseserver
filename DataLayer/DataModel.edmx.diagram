@@ -15,6 +15,7 @@
         <AssociationConnector Association="DataModel.UserDataAppointment" />
         <AssociationConnector Association="DataModel.UserDataSymptom" />
         <AssociationConnector Association="DataModel.UserDataPillAlert" />
+        <EntityTypeShape EntityType="DataModel.WebUser" Width="1.875" PointX="8.75" PointY="13.375" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

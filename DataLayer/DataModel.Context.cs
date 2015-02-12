@@ -30,5 +30,6 @@ namespace ColicheGassose
         public DbSet<PillAlert> PillAlertSet { get; set; }
         public DbSet<UserData> UserDataSet { get; set; }
         public DbSet<Notification> NotificationSet { get; set; }
+        public DbSet<WebUser> WebUserSet { get; set; }
     }
 }

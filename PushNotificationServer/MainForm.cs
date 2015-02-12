@@ -234,7 +234,7 @@ namespace PushNotificationServer
                     this.gridConfigurations.Invoke((MethodInvoker)delegate { source.ResetBindings(false); });
 
                     // Perform a time consuming operation
-                    System.Threading.Thread.Sleep(pushInterval * 1000);
+                    System.Threading.Thread.Sleep(pushInterval * 2000);
                 }
 
                 

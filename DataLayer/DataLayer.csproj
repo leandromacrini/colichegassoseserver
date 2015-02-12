@@ -92,6 +92,9 @@
     <Compile Include="UserData.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="WebUser.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="DataModel.edmx">

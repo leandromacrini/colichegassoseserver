@@ -11,6 +11,7 @@
     <EntitySet Name="PillAlertSet" EntityType="DataModel.Store.PillAlertSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="UserDataSet" EntityType="DataModel.Store.UserDataSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="NotificationSet" EntityType="DataModel.Store.NotificationSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="WebUserSet" EntityType="DataModel.Store.WebUserSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="NotificationAppointment" Association="DataModel.Store.NotificationAppointment">
       <End Role="Notification" EntitySet="NotificationSet" />
       <End Role="Appointment" EntitySet="AppointmentSet" />
@@ -92,6 +93,15 @@
     <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DeviceToken" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DestinationOS" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WebUserSet">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Admin" Type="bit" Nullable="false" DefaultValue="false" />
   </EntityType>
   <Association Name="NotificationAppointment">
     <End Role="Notification" Type="DataModel.Store.NotificationSet" Multiplicity="0..1" />
@@ -183,6 +193,7 @@
             <End Role="UserData" EntitySet="UserDataSet" />
             <End Role="PillAlert" EntitySet="PillAlertSet" />
           </AssociationSet>
+          <EntitySet Name="WebUserSet" EntityType="DataModel.WebUser" />
           </EntityContainer>
         <EntityType Name="Symptom">
           <Key>
@@ -305,6 +316,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="WebUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User" Type="String" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" />
+          <Property Name="Admin" Type="Boolean" Nullable="false" DefaultValue="False" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -372,6 +392,16 @@
           <ScalarProperty Name="Message" ColumnName="Message" />
           <ScalarProperty Name="DeviceToken" ColumnName="DeviceToken" />
           <ScalarProperty Name="DestinationOS" ColumnName="DestinationOS" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WebUserSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.WebUser)">
+        <MappingFragment StoreEntitySet="WebUserSet">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="User" ColumnName="User" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Admin" ColumnName="Admin" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
