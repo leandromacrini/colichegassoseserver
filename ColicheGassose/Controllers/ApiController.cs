@@ -211,7 +211,37 @@ namespace ColicheGassose.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult echo(object data)
         {
-            return Json(new { data = data });
+            int userDatas = 0;
+            int symptoms = 0;
+            int pillAlerts = 0;
+            int appointments = 0;
+            string error = "None";
+
+            try
+            {
+                using (var context = new DataModelContainer())
+                {
+                    userDatas = context.UserDataSet.Count();
+                    symptoms = context.SymptomSet.Count();
+                    pillAlerts = context.PillAlertSet.Count();
+                    appointments = context.AppointmentSet.Count();
+                }
+
+            }
+            catch(Exception ex)
+            {
+                error = ex.Message;
+            }
+
+            return Json(
+                new {
+                    Error = error,
+                    RequestData = data,
+                    UserDatas = userDatas,
+                    Symptoms = symptoms,
+                    PillAlerts = pillAlerts,
+                    Appointments = appointments
+                });
         }
     }
 }
