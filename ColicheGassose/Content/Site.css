@@ -62,7 +62,7 @@ div#main_container {
         div#phone {
             width: 450px;
             height: 750px;
-            background-image: url('/ColicheGassose/Images/Phone.PNG');
+            background-image: url('../Images/phone.png');
             z-index: 999;
             position: absolute;
             top: 0;
