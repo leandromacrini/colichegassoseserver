@@ -22,6 +22,7 @@ namespace ColicheGassose
         public Nullable<bool> Asked { get; set; }
         public Nullable<int> ParentId { get; set; }
         public int UserDataID { get; set; }
+        public string Info { get; set; }
     
         public virtual Notification Notification { get; set; }
         public virtual UserData UserData { get; set; }

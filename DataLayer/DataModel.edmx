@@ -70,6 +70,7 @@
     <Property Name="Asked" Type="bit" Nullable="true" />
     <Property Name="ParentId" Type="int" Nullable="true" />
     <Property Name="UserDataID" Type="int" Nullable="false" />
+    <Property Name="Info" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Notification_ID" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="UserDataSet">
@@ -236,6 +237,7 @@
           <NavigationProperty Name="Notification" Relationship="DataModel.NotificationPillAlert" FromRole="PillAlert" ToRole="Notification" />
           <NavigationProperty Name="UserData" Relationship="DataModel.UserDataPillAlert" FromRole="PillAlert" ToRole="UserData" />
           <Property Name="UserDataID" Type="Int32" Nullable="false" />
+          <Property Name="Info" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="UserData">
           <Key>
@@ -368,6 +370,7 @@
           <ScalarProperty Name="Asked" ColumnName="Asked" />
           <ScalarProperty Name="ParentId" ColumnName="ParentId" />
           <ScalarProperty Name="UserDataID" ColumnName="UserDataID" />
+          <ScalarProperty Name="Info" ColumnName="Info" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

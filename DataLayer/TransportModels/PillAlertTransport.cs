@@ -22,6 +22,7 @@ namespace ColicheGassose
         public Nullable<bool> Asked { get; set; }
         public Nullable<int> ParentId { get; set; }
         public int UserDataID { get; set; }
+        public string Info { get; set; }
 
         public PillAlertTransport() { }
 
@@ -34,6 +35,7 @@ namespace ColicheGassose
             this.Asked = pillAlert.Asked;
             this.ParentId = pillAlert.ParentId;
             this.UserDataID = pillAlert.UserDataID;
+            this.Info = pillAlert.Info;
         }
     }
 }

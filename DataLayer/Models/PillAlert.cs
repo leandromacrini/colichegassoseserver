@@ -15,6 +15,7 @@ namespace ColicheGassose
             this.PillId = transport.PillId;
             this.Taken = transport.Taken;
             this.When = transport.When;
+            this.Info = transport.Info;
         }
 
         public void update(PillAlertTransport pillAlert)
@@ -25,6 +26,7 @@ namespace ColicheGassose
             this.PillId = pillAlert.PillId;
             this.Taken = pillAlert.Taken;
             this.When = pillAlert.When;
+            this.Info = pillAlert.Info;
         }
     }
 }

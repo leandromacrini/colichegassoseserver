@@ -134,6 +134,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -144,14 +145,33 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Statistics.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\app-store.png" />
+    <Content Include="Images\appicon.png" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\Phone.png" />
+    <Content Include="Images\Screenshots\screenshot1.PNG" />
+    <Content Include="Images\Screenshots\screenshot10.PNG" />
+    <Content Include="Images\Screenshots\screenshot2.PNG" />
+    <Content Include="Images\Screenshots\screenshot3.PNG" />
+    <Content Include="Images\Screenshots\screenshot4.PNG" />
+    <Content Include="Images\Screenshots\screenshot5.PNG" />
+    <Content Include="Images\Screenshots\screenshot6.PNG" />
+    <Content Include="Images\Screenshots\screenshot7.PNG" />
+    <Content Include="Images\Screenshots\screenshot8.PNG" />
+    <Content Include="Images\Screenshots\screenshot9.PNG" />
+    <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\viewmodels\login.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\LeonArts Mur.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -159,8 +179,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-2.2.1.debug.js" />
-    <Content Include="Scripts\knockout-2.2.1.js" />
+    <Content Include="Scripts\knockout-3.2.0.debug.js" />
+    <Content Include="Scripts\knockout-3.2.0.js" />
     <Content Include="Scripts\knockout.binding-conventions-1.0.61.0.js" />
     <Content Include="Scripts\knockout.binding-conventions-1.0.61.0.min.js" />
     <Content Include="Scripts\knockout.bootstrap-1.0.7.0.js" />
@@ -180,13 +200,14 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Statistics\Login.cshtml" />
+    <Content Include="Views\Statistics\ShowStatistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Scripts\app\models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -202,6 +223,10 @@
     <ProjectReference Include="..\DataLayer\DataLayer.csproj">
       <Project>{cda332a5-589c-4b34-acd3-9db3294b1068}</Project>
       <Name>DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Helpers\Helpers.csproj">
+      <Project>{8ac6ee05-7cff-49b6-87c7-37197978e117}</Project>
+      <Name>Helpers</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

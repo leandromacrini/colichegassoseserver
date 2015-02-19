@@ -1,6 +1,7 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    background-color: rgba(245, 134, 108, 0.3);
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -15,3 +16,72 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/* colors */
+.black {
+    color: #000000 !important;
+    text-shadow: 0 0 5px #FFFFFF, 0 0 5px #FFFFFF, 0 0 5px #FFFFFF;
+}
+
+div#header {
+    height: 100px;
+    background-color: #f5866c;
+    border: none;
+    box-shadow: 0px 10px 25px rgba(118, 118, 118, 0.25);
+}
+
+    div#header .container {
+        line-height: 90px;
+    }
+
+div#main_container {
+
+}
+
+    div#carousel-app-generic,
+    div#carousel-app-generic img {
+        height: 600px;
+        width: 338px;
+    }
+
+    div#phone-container {
+        width: 450px;
+        height: 750px;
+        margin: auto;
+        position: relative;
+    }
+        div#carousel-container {
+            position: absolute;
+            top: 82px;
+            left: 58px;
+        }
+            div.carousel-caption {
+                padding-bottom: 60px;
+            }
+
+        div#phone {
+            width: 450px;
+            height: 750px;
+            background-image: url('/ColicheGassose/Images/phone.PNG');
+            z-index: 999;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+div#footer {
+    height: 100px;
+    background-color: #D0D0D0;
+    border: none;
+    box-shadow: 0px -10px 25px rgba(118, 118, 118, 0.25);
+    border-top: 1px solid #bbb;
+}
+
+    div#footer .container {
+        line-height: 100px;
+        text-align: center;
+    }
+
+        div#footer p.muted.credit {
+            display: inline-block;  margin: 0 50px;
+        }

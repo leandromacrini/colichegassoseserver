@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PushNotificationServer", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{CDA332A5-589C-4B34-ACD3-9DB3294B1068}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers", "Helpers\Helpers.csproj", "{8AC6EE05-7CFF-49B6-87C7-37197978E117}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{CDA332A5-589C-4B34-ACD3-9DB3294B1068}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDA332A5-589C-4B34-ACD3-9DB3294B1068}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDA332A5-589C-4B34-ACD3-9DB3294B1068}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AC6EE05-7CFF-49B6-87C7-37197978E117}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AC6EE05-7CFF-49B6-87C7-37197978E117}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AC6EE05-7CFF-49B6-87C7-37197978E117}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AC6EE05-7CFF-49B6-87C7-37197978E117}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

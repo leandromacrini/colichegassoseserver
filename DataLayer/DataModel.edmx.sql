@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/11/2015 15:52:47
+-- Date Created: 02/17/2015 14:34:49
 -- Generated from EDMX file: C:\Users\esd81leamacr.ICC\documents\visual studio 2013\Projects\ColicheGassose\DataLayer\DataModel.edmx
 -- --------------------------------------------------
 
@@ -52,6 +52,9 @@ GO
 IF OBJECT_ID(N'[dbo].[NotificationSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[NotificationSet];
 GO
+IF OBJECT_ID(N'[dbo].[WebUserSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[WebUserSet];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -92,6 +95,7 @@ CREATE TABLE [dbo].[PillAlertSet] (
     [Asked] bit  NULL,
     [ParentId] int  NULL,
     [UserDataID] int  NOT NULL,
+    [Info] nvarchar(max)  NOT NULL,
     [Notification_ID] int  NULL
 );
 GO
