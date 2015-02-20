@@ -2,6 +2,50 @@
     ViewBag.Title = "Coliche Gassose Statistiche";
 }
 
-<div class="container">
-    STATISTICHE
+<!-- ko with: statistics -->
+
+<div id="statitistics-container" class="container">
+    <div class="page-header">
+        <h1 data-bind="html: pageTitle"></h1>
+    </div>
+    <div class="col-xs-3">
+        <div class="list-group">
+            <span class="list-group-item active">
+                STATISTICHE DISPONIBILI
+            </span>
+            <a href="#" class="list-group-item">
+                Statistiche Sintomi
+                <span class="badge">14</span>
+            </a>
+            <a href="#" class="list-group-item">
+                Statistiche Rimedi
+                <span class="badge">14</span>
+            </a>
+            <a href="#" class="list-group-item">
+                Statistiche Appuntamenti
+                <span class="badge">14</span>
+            </a>
+            <a href="#" class="list-group-item">
+                Statistiche Utenti
+                <span class="badge">14</span>
+            </a>
+            <a href="#" class="list-group-item">
+                Statistiche App
+                <span class="badge">14</span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-9">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">STATISTICHE SINTOMI</h1>
+            </div>
+            <div class="panel-body">
+                Panel content
+            </div>
+            <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
+        </div>
+    </div>
 </div>
+
+<!-- /ko -->

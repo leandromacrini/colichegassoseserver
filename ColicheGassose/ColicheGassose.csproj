@@ -165,7 +165,7 @@
     <Content Include="Images\Screenshots\screenshot8.PNG" />
     <Content Include="Images\Screenshots\screenshot9.PNG" />
     <Content Include="Scripts\app\app.js" />
-    <Content Include="Scripts\app\viewmodels\login.js" />
+    <Content Include="Scripts\app\viewmodels\statistics-viewmodel.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\LeonArts Mur.pubxml" />

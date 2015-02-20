@@ -5,6 +5,7 @@ App.viewModel = new AppViewModel();
 function AppViewModel() {
     var self = this;
 
+    self.statistics = new StatisticsViewModel();
 }
 
 /**

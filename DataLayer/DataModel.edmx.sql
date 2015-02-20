@@ -1,254 +1,210 @@
 
--- --------------------------------------------------
--- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
--- --------------------------------------------------
--- Date Created: 02/19/2015 12:14:08
+
+
+
+
+-- -----------------------------------------------------------
+-- Entity Designer DDL Script for MySQL Server 4.1 and higher
+-- -----------------------------------------------------------
+-- Date Created: 02/19/2015 18:03:48
 -- Generated from EDMX file: C:\Users\esd81leamacr.ICC\documents\visual studio 2013\Projects\ColicheGassose\DataLayer\DataModel.edmx
+-- Target version: 3.0.0.0
 -- --------------------------------------------------
 
-SET QUOTED_IDENTIFIER OFF;
-GO
-USE [colichegassose];
-GO
-IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
-GO
+DROP DATABASE IF EXISTS `colichegassose`;
+CREATE DATABASE `colichegassose`;
+USE `colichegassose`;
 
 -- --------------------------------------------------
 -- Dropping existing FOREIGN KEY constraints
+-- NOTE: if the constraint does not exist, an ignorable error will be reported.
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_NotificationAppointment]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AppointmentSet] DROP CONSTRAINT [FK_NotificationAppointment];
-GO
-IF OBJECT_ID(N'[dbo].[FK_NotificationPillAlert]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PillAlertSet] DROP CONSTRAINT [FK_NotificationPillAlert];
-GO
-IF OBJECT_ID(N'[dbo].[FK_UserDataAppointment]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AppointmentSet] DROP CONSTRAINT [FK_UserDataAppointment];
-GO
-IF OBJECT_ID(N'[dbo].[FK_UserDataSymptom]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[SymptomSet] DROP CONSTRAINT [FK_UserDataSymptom];
-GO
-IF OBJECT_ID(N'[dbo].[FK_UserDataPillAlert]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PillAlertSet] DROP CONSTRAINT [FK_UserDataPillAlert];
-GO
+--    ALTER TABLE `AppointmentSet` DROP CONSTRAINT `FK_NotificationAppointment`;
+--    ALTER TABLE `PillAlertSet` DROP CONSTRAINT `FK_NotificationPillAlert`;
+--    ALTER TABLE `AppointmentSet` DROP CONSTRAINT `FK_UserDataAppointment`;
+--    ALTER TABLE `SymptomSet` DROP CONSTRAINT `FK_UserDataSymptom`;
+--    ALTER TABLE `PillAlertSet` DROP CONSTRAINT `FK_UserDataPillAlert`;
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
-
-IF OBJECT_ID(N'[dbo].[SymptomSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[SymptomSet];
-GO
-IF OBJECT_ID(N'[dbo].[AppointmentSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[AppointmentSet];
-GO
-IF OBJECT_ID(N'[dbo].[PillAlertSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PillAlertSet];
-GO
-IF OBJECT_ID(N'[dbo].[UserDataSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[UserDataSet];
-GO
-IF OBJECT_ID(N'[dbo].[NotificationSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[NotificationSet];
-GO
-IF OBJECT_ID(N'[dbo].[WebUserSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[WebUserSet];
-GO
+SET foreign_key_checks = 0;
+    DROP TABLE IF EXISTS `SymptomSet`;
+    DROP TABLE IF EXISTS `AppointmentSet`;
+    DROP TABLE IF EXISTS `PillAlertSet`;
+    DROP TABLE IF EXISTS `UserDataSet`;
+    DROP TABLE IF EXISTS `NotificationSet`;
+    DROP TABLE IF EXISTS `WebUserSet`;
+SET foreign_key_checks = 1;
 
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
 
--- Creating table 'SymptomSet'
-CREATE TABLE [dbo].[SymptomSet] (
-    [ID] int IDENTITY(1,1) NOT NULL,
-    [App_Id] int  NOT NULL,
-    [When] datetime  NOT NULL,
-    [Pianto] bit  NOT NULL,
-    [Rigurgito] bit  NOT NULL,
-    [Agitazione] bit  NOT NULL,
-    [Duration] int  NOT NULL,
-    [Intensity] int  NOT NULL,
-    [UserDataID] int  NOT NULL
-);
-GO
+CREATE TABLE `SymptomSet`(
+	`ID` int NOT NULL AUTO_INCREMENT UNIQUE, 
+	`App_Id` int NOT NULL, 
+	`When` datetime NOT NULL, 
+	`Pianto` bool NOT NULL, 
+	`Rigurgito` bool NOT NULL, 
+	`Agitazione` bool NOT NULL, 
+	`Duration` int NOT NULL, 
+	`Intensity` int NOT NULL, 
+	`UserDataID` int NOT NULL);
 
--- Creating table 'AppointmentSet'
-CREATE TABLE [dbo].[AppointmentSet] (
-    [ID] int IDENTITY(1,1) NOT NULL,
-    [App_Id] int  NOT NULL,
-    [When] datetime  NOT NULL,
-    [Info] nvarchar(max)  NULL,
-    [UserDataID] int  NOT NULL,
-    [Notification_ID] int  NULL
-);
-GO
+ALTER TABLE `SymptomSet` ADD PRIMARY KEY (ID);
 
--- Creating table 'PillAlertSet'
-CREATE TABLE [dbo].[PillAlertSet] (
-    [ID] int IDENTITY(1,1) NOT NULL,
-    [App_Id] int  NOT NULL,
-    [PillId] int  NOT NULL,
-    [When] datetime  NOT NULL,
-    [Taken] bit  NULL,
-    [Asked] bit  NULL,
-    [ParentId] int  NULL,
-    [UserDataID] int  NOT NULL,
-    [Info] nvarchar(max)  NOT NULL,
-    [Notification_ID] int  NULL
-);
-GO
 
--- Creating table 'UserDataSet'
-CREATE TABLE [dbo].[UserDataSet] (
-    [ID] int IDENTITY(1,1) NOT NULL,
-    [App_Id] int  NOT NULL,
-    [Name] nvarchar(max)  NULL,
-    [PatientPID] nvarchar(max)  NOT NULL,
-    [DeviceToken] nvarchar(max)  NOT NULL,
-    [OS] nvarchar(max)  NOT NULL
-);
-GO
 
--- Creating table 'NotificationSet'
-CREATE TABLE [dbo].[NotificationSet] (
-    [ID] int IDENTITY(1,1) NOT NULL,
-    [Status] int  NOT NULL,
-    [When] datetime  NOT NULL,
-    [Message] nvarchar(max)  NOT NULL,
-    [DeviceToken] nvarchar(max)  NOT NULL,
-    [DestinationOS] nvarchar(max)  NOT NULL
-);
-GO
 
--- Creating table 'WebUserSet'
-CREATE TABLE [dbo].[WebUserSet] (
-    [ID] int IDENTITY(1,1) NOT NULL,
-    [User] nvarchar(max)  NOT NULL,
-    [Password] nvarchar(max)  NOT NULL,
-    [Admin] bit  NOT NULL
-);
-GO
+CREATE TABLE `AppointmentSet`(
+	`ID` int NOT NULL AUTO_INCREMENT UNIQUE, 
+	`App_Id` int NOT NULL, 
+	`When` datetime NOT NULL, 
+	`Info` longtext, 
+	`UserDataID` int NOT NULL, 
+	`Notification_ID` int);
 
--- --------------------------------------------------
--- Creating all PRIMARY KEY constraints
--- --------------------------------------------------
+ALTER TABLE `AppointmentSet` ADD PRIMARY KEY (ID);
 
--- Creating primary key on [ID] in table 'SymptomSet'
-ALTER TABLE [dbo].[SymptomSet]
-ADD CONSTRAINT [PK_SymptomSet]
-    PRIMARY KEY CLUSTERED ([ID] ASC);
-GO
 
--- Creating primary key on [ID] in table 'AppointmentSet'
-ALTER TABLE [dbo].[AppointmentSet]
-ADD CONSTRAINT [PK_AppointmentSet]
-    PRIMARY KEY CLUSTERED ([ID] ASC);
-GO
 
--- Creating primary key on [ID] in table 'PillAlertSet'
-ALTER TABLE [dbo].[PillAlertSet]
-ADD CONSTRAINT [PK_PillAlertSet]
-    PRIMARY KEY CLUSTERED ([ID] ASC);
-GO
 
--- Creating primary key on [ID] in table 'UserDataSet'
-ALTER TABLE [dbo].[UserDataSet]
-ADD CONSTRAINT [PK_UserDataSet]
-    PRIMARY KEY CLUSTERED ([ID] ASC);
-GO
+CREATE TABLE `PillAlertSet`(
+	`ID` int NOT NULL AUTO_INCREMENT UNIQUE, 
+	`App_Id` int NOT NULL, 
+	`PillId` int NOT NULL, 
+	`When` datetime NOT NULL, 
+	`Taken` bool, 
+	`Asked` bool, 
+	`ParentId` int, 
+	`UserDataID` int NOT NULL, 
+	`Info` longtext NOT NULL, 
+	`Notification_ID` int);
 
--- Creating primary key on [ID] in table 'NotificationSet'
-ALTER TABLE [dbo].[NotificationSet]
-ADD CONSTRAINT [PK_NotificationSet]
-    PRIMARY KEY CLUSTERED ([ID] ASC);
-GO
+ALTER TABLE `PillAlertSet` ADD PRIMARY KEY (ID);
 
--- Creating primary key on [ID] in table 'WebUserSet'
-ALTER TABLE [dbo].[WebUserSet]
-ADD CONSTRAINT [PK_WebUserSet]
-    PRIMARY KEY CLUSTERED ([ID] ASC);
-GO
+
+
+
+CREATE TABLE `UserDataSet`(
+	`ID` int NOT NULL AUTO_INCREMENT UNIQUE, 
+	`App_Id` int NOT NULL, 
+	`Name` longtext, 
+	`PatientPID` longtext NOT NULL, 
+	`DeviceToken` longtext NOT NULL, 
+	`OS` longtext NOT NULL);
+
+ALTER TABLE `UserDataSet` ADD PRIMARY KEY (ID);
+
+
+
+
+CREATE TABLE `NotificationSet`(
+	`ID` int NOT NULL AUTO_INCREMENT UNIQUE, 
+	`Status` int NOT NULL, 
+	`When` datetime NOT NULL, 
+	`Message` longtext NOT NULL, 
+	`DeviceToken` longtext NOT NULL, 
+	`DestinationOS` longtext NOT NULL);
+
+ALTER TABLE `NotificationSet` ADD PRIMARY KEY (ID);
+
+
+
+
+CREATE TABLE `WebUserSet`(
+	`ID` int NOT NULL AUTO_INCREMENT UNIQUE, 
+	`User` longtext NOT NULL, 
+	`Password` longtext NOT NULL, 
+	`Admin` bool NOT NULL);
+
+ALTER TABLE `WebUserSet` ADD PRIMARY KEY (ID);
+
+
+
+
+
 
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [Notification_ID] in table 'AppointmentSet'
-ALTER TABLE [dbo].[AppointmentSet]
-ADD CONSTRAINT [FK_NotificationAppointment]
-    FOREIGN KEY ([Notification_ID])
-    REFERENCES [dbo].[NotificationSet]
-        ([ID])
+-- Creating foreign key on `Notification_ID` in table 'AppointmentSet'
+
+ALTER TABLE `AppointmentSet`
+ADD CONSTRAINT `FK_NotificationAppointment`
+    FOREIGN KEY (`Notification_ID`)
+    REFERENCES `NotificationSet`
+        (`ID`)
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_NotificationAppointment'
-CREATE INDEX [IX_FK_NotificationAppointment]
-ON [dbo].[AppointmentSet]
-    ([Notification_ID]);
-GO
 
--- Creating foreign key on [Notification_ID] in table 'PillAlertSet'
-ALTER TABLE [dbo].[PillAlertSet]
-ADD CONSTRAINT [FK_NotificationPillAlert]
-    FOREIGN KEY ([Notification_ID])
-    REFERENCES [dbo].[NotificationSet]
-        ([ID])
+CREATE INDEX `IX_FK_NotificationAppointment` 
+    ON `AppointmentSet`
+    (`Notification_ID`);
+
+-- Creating foreign key on `Notification_ID` in table 'PillAlertSet'
+
+ALTER TABLE `PillAlertSet`
+ADD CONSTRAINT `FK_NotificationPillAlert`
+    FOREIGN KEY (`Notification_ID`)
+    REFERENCES `NotificationSet`
+        (`ID`)
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_NotificationPillAlert'
-CREATE INDEX [IX_FK_NotificationPillAlert]
-ON [dbo].[PillAlertSet]
-    ([Notification_ID]);
-GO
 
--- Creating foreign key on [UserDataID] in table 'AppointmentSet'
-ALTER TABLE [dbo].[AppointmentSet]
-ADD CONSTRAINT [FK_UserDataAppointment]
-    FOREIGN KEY ([UserDataID])
-    REFERENCES [dbo].[UserDataSet]
-        ([ID])
+CREATE INDEX `IX_FK_NotificationPillAlert` 
+    ON `PillAlertSet`
+    (`Notification_ID`);
+
+-- Creating foreign key on `UserDataID` in table 'AppointmentSet'
+
+ALTER TABLE `AppointmentSet`
+ADD CONSTRAINT `FK_UserDataAppointment`
+    FOREIGN KEY (`UserDataID`)
+    REFERENCES `UserDataSet`
+        (`ID`)
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_UserDataAppointment'
-CREATE INDEX [IX_FK_UserDataAppointment]
-ON [dbo].[AppointmentSet]
-    ([UserDataID]);
-GO
 
--- Creating foreign key on [UserDataID] in table 'SymptomSet'
-ALTER TABLE [dbo].[SymptomSet]
-ADD CONSTRAINT [FK_UserDataSymptom]
-    FOREIGN KEY ([UserDataID])
-    REFERENCES [dbo].[UserDataSet]
-        ([ID])
+CREATE INDEX `IX_FK_UserDataAppointment` 
+    ON `AppointmentSet`
+    (`UserDataID`);
+
+-- Creating foreign key on `UserDataID` in table 'SymptomSet'
+
+ALTER TABLE `SymptomSet`
+ADD CONSTRAINT `FK_UserDataSymptom`
+    FOREIGN KEY (`UserDataID`)
+    REFERENCES `UserDataSet`
+        (`ID`)
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_UserDataSymptom'
-CREATE INDEX [IX_FK_UserDataSymptom]
-ON [dbo].[SymptomSet]
-    ([UserDataID]);
-GO
 
--- Creating foreign key on [UserDataID] in table 'PillAlertSet'
-ALTER TABLE [dbo].[PillAlertSet]
-ADD CONSTRAINT [FK_UserDataPillAlert]
-    FOREIGN KEY ([UserDataID])
-    REFERENCES [dbo].[UserDataSet]
-        ([ID])
+CREATE INDEX `IX_FK_UserDataSymptom` 
+    ON `SymptomSet`
+    (`UserDataID`);
+
+-- Creating foreign key on `UserDataID` in table 'PillAlertSet'
+
+ALTER TABLE `PillAlertSet`
+ADD CONSTRAINT `FK_UserDataPillAlert`
+    FOREIGN KEY (`UserDataID`)
+    REFERENCES `UserDataSet`
+        (`ID`)
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_UserDataPillAlert'
-CREATE INDEX [IX_FK_UserDataPillAlert]
-ON [dbo].[PillAlertSet]
-    ([UserDataID]);
-GO
+
+CREATE INDEX `IX_FK_UserDataPillAlert` 
+    ON `PillAlertSet`
+    (`UserDataID`);
 
 -- --------------------------------------------------
 -- Script has ended

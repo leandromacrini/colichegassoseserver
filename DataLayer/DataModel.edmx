@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DataModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="DataModelStoreContainer">
     <EntitySet Name="SymptomSet" EntityType="DataModel.Store.SymptomSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AppointmentSet" EntityType="DataModel.Store.AppointmentSet" store:Type="Tables" Schema="dbo" />
@@ -40,9 +40,9 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="App_Id" Type="int" Nullable="false" />
     <Property Name="When" Type="datetime" Nullable="false" />
-    <Property Name="Pianto" Type="bit" Nullable="false" />
-    <Property Name="Rigurgito" Type="bit" Nullable="false" />
-    <Property Name="Agitazione" Type="bit" Nullable="false" />
+    <Property Name="Pianto" Type="bool" Nullable="false" />
+    <Property Name="Rigurgito" Type="bool" Nullable="false" />
+    <Property Name="Agitazione" Type="bool" Nullable="false" />
     <Property Name="Duration" Type="int" Nullable="false" />
     <Property Name="Intensity" Type="int" Nullable="false" />
     <Property Name="UserDataID" Type="int" Nullable="false" />
@@ -54,7 +54,7 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="App_Id" Type="int" Nullable="false" />
     <Property Name="When" Type="datetime" Nullable="false" />
-    <Property Name="Info" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Info" Type="longtext" Nullable="true" />
     <Property Name="UserDataID" Type="int" Nullable="false" />
     <Property Name="Notification_ID" Type="int" Nullable="true" />
   </EntityType>
@@ -66,11 +66,11 @@
     <Property Name="App_Id" Type="int" Nullable="false" />
     <Property Name="PillId" Type="int" Nullable="false" />
     <Property Name="When" Type="datetime" Nullable="false" />
-    <Property Name="Taken" Type="bit" Nullable="true" />
-    <Property Name="Asked" Type="bit" Nullable="true" />
+    <Property Name="Taken" Type="bool" Nullable="true" />
+    <Property Name="Asked" Type="bool" Nullable="true" />
     <Property Name="ParentId" Type="int" Nullable="true" />
     <Property Name="UserDataID" Type="int" Nullable="false" />
-    <Property Name="Info" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Info" Type="longtext" Nullable="false" />
     <Property Name="Notification_ID" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="UserDataSet">
@@ -79,10 +79,10 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="App_Id" Type="int" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="PatientPID" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DeviceToken" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="OS" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="longtext" Nullable="true" />
+    <Property Name="PatientPID" Type="longtext" Nullable="false" />
+    <Property Name="DeviceToken" Type="longtext" Nullable="false" />
+    <Property Name="OS" Type="longtext" Nullable="false" />
   </EntityType>
   <EntityType Name="NotificationSet">
     <Key>
@@ -91,18 +91,18 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Status" Type="int" Nullable="false" />
     <Property Name="When" Type="datetime" Nullable="false" />
-    <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DeviceToken" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DestinationOS" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Message" Type="longtext" Nullable="false" />
+    <Property Name="DeviceToken" Type="longtext" Nullable="false" />
+    <Property Name="DestinationOS" Type="longtext" Nullable="false" />
   </EntityType>
   <EntityType Name="WebUserSet">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="User" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Admin" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="User" Type="longtext" Nullable="false" />
+    <Property Name="Password" Type="longtext" Nullable="false" />
+    <Property Name="Admin" Type="bool" Nullable="false" DefaultValue="false" />
   </EntityType>
   <Association Name="NotificationAppointment">
     <End Role="Notification" Type="DataModel.Store.NotificationSet" Multiplicity="0..1" />
@@ -175,24 +175,24 @@
           <EntitySet Name="UserDataSet" EntityType="DataModel.UserData" />
           <EntitySet Name="NotificationSet" EntityType="DataModel.Notification" />
           <AssociationSet Name="NotificationAppointment" Association="DataModel.NotificationAppointment">
-            <End Role="Notification" EntitySet="NotificationSet" />
-            <End Role="Appointment" EntitySet="AppointmentSet" />
+            <End EntitySet="NotificationSet" Role="Notification" />
+            <End EntitySet="AppointmentSet" Role="Appointment" />
           </AssociationSet>
           <AssociationSet Name="NotificationPillAlert" Association="DataModel.NotificationPillAlert">
-            <End Role="Notification" EntitySet="NotificationSet" />
-            <End Role="PillAlert" EntitySet="PillAlertSet" />
+            <End EntitySet="NotificationSet" Role="Notification" />
+            <End EntitySet="PillAlertSet" Role="PillAlert" />
           </AssociationSet>
           <AssociationSet Name="UserDataAppointment" Association="DataModel.UserDataAppointment">
-            <End Role="UserData" EntitySet="UserDataSet" />
-            <End Role="Appointment" EntitySet="AppointmentSet" />
+            <End EntitySet="UserDataSet" Role="UserData" />
+            <End EntitySet="AppointmentSet" Role="Appointment" />
           </AssociationSet>
           <AssociationSet Name="UserDataSymptom" Association="DataModel.UserDataSymptom">
-            <End Role="UserData" EntitySet="UserDataSet" />
-            <End Role="Symptom" EntitySet="SymptomSet" />
+            <End EntitySet="UserDataSet" Role="UserData" />
+            <End EntitySet="SymptomSet" Role="Symptom" />
           </AssociationSet>
           <AssociationSet Name="UserDataPillAlert" Association="DataModel.UserDataPillAlert">
-            <End Role="UserData" EntitySet="UserDataSet" />
-            <End Role="PillAlert" EntitySet="PillAlertSet" />
+            <End EntitySet="UserDataSet" Role="UserData" />
+            <End EntitySet="PillAlertSet" Role="PillAlert" />
           </AssociationSet>
           <EntitySet Name="WebUserSet" EntityType="DataModel.WebUser" />
           </EntityContainer>
@@ -272,19 +272,19 @@
           <Member Name="Sent" Value="1" />
         </EnumType>
         <Association Name="NotificationAppointment">
-          <End Type="DataModel.Notification" Role="Notification" Multiplicity="0..1" >
+          <End Type="DataModel.Notification" Multiplicity="0..1" Role="Notification">
           </End>
-          <End Type="DataModel.Appointment" Role="Appointment" Multiplicity="0..1" >
+          <End Type="DataModel.Appointment" Multiplicity="0..1" Role="Appointment">
           </End>
         </Association>
         <Association Name="NotificationPillAlert">
-          <End Type="DataModel.Notification" Role="Notification" Multiplicity="0..1" >
+          <End Type="DataModel.Notification" Multiplicity="0..1" Role="Notification">
           </End>
-          <End Type="DataModel.PillAlert" Role="PillAlert" Multiplicity="0..1" ></End>
+          <End Type="DataModel.PillAlert" Multiplicity="0..1" Role="PillAlert"></End>
         </Association>
         <Association Name="UserDataAppointment">
-          <End Type="DataModel.UserData" Role="UserData" Multiplicity="1" />
-          <End Type="DataModel.Appointment" Role="Appointment" Multiplicity="*" />
+          <End Type="DataModel.UserData" Multiplicity="1" Role="UserData" />
+          <End Type="DataModel.Appointment" Multiplicity="*" Role="Appointment" />
           <ReferentialConstraint>
             <Principal Role="UserData">
               <PropertyRef Name="ID" />
@@ -295,8 +295,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="UserDataSymptom">
-          <End Type="DataModel.UserData" Role="UserData" Multiplicity="1" />
-          <End Type="DataModel.Symptom" Role="Symptom" Multiplicity="*" />
+          <End Type="DataModel.UserData" Multiplicity="1" Role="UserData" />
+          <End Type="DataModel.Symptom" Multiplicity="*" Role="Symptom" />
           <ReferentialConstraint>
             <Principal Role="UserData">
               <PropertyRef Name="ID" />
@@ -307,8 +307,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="UserDataPillAlert">
-          <End Type="DataModel.UserData" Role="UserData" Multiplicity="1" />
-          <End Type="DataModel.PillAlert" Role="PillAlert" Multiplicity="*" />
+          <End Type="DataModel.UserData" Multiplicity="1" Role="UserData" />
+          <End Type="DataModel.PillAlert" Multiplicity="*" Role="PillAlert" />
           <ReferentialConstraint>
             <Principal Role="UserData">
               <PropertyRef Name="ID" />
@@ -442,6 +442,7 @@
         <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
         <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="DDLGenerationTemplate" Value="$(VSEFTools)\DBGen\SSDLToMySQL.tt" />
       </DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->

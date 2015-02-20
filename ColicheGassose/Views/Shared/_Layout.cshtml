@@ -8,6 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+    <!-- ko with: App.viewModel -->
     <div id="header" class="navbar navbar-inverse navbar-fixed-top">
         <div class="container text-center">
             <a href="http://www.colichegassose.it"><img src="~/Images/appicon.png" alt="logo" height="80px"/></a>
@@ -33,10 +34,12 @@
             </a>
         </div>
     </div>
+    <!-- /ko -->
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/app")
     @RenderSection("scripts", required: false)
 </body>
 </html>
