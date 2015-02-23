@@ -6,14 +6,11 @@
 -- -----------------------------------------------------------
 -- Entity Designer DDL Script for MySQL Server 4.1 and higher
 -- -----------------------------------------------------------
--- Date Created: 02/19/2015 18:03:48
+-- Date Created: 02/23/2015 16:32:52
 -- Generated from EDMX file: C:\Users\esd81leamacr.ICC\documents\visual studio 2013\Projects\ColicheGassose\DataLayer\DataModel.edmx
 -- Target version: 3.0.0.0
 -- --------------------------------------------------
 
-DROP DATABASE IF EXISTS `colichegassose`;
-CREATE DATABASE `colichegassose`;
-USE `colichegassose`;
 
 -- --------------------------------------------------
 -- Dropping existing FOREIGN KEY constraints
@@ -80,7 +77,7 @@ CREATE TABLE `PillAlertSet`(
 	`Asked` bool, 
 	`ParentId` int, 
 	`UserDataID` int NOT NULL, 
-	`Info` longtext NOT NULL, 
+	`Info` longtext, 
 	`Notification_ID` int);
 
 ALTER TABLE `PillAlertSet` ADD PRIMARY KEY (ID);
