@@ -80,9 +80,10 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="App_Id" Type="int" Nullable="false" />
     <Property Name="Name" Type="longtext" Nullable="true" />
-    <Property Name="PatientPID" Type="longtext" Nullable="false" />
-    <Property Name="DeviceToken" Type="longtext" Nullable="false" />
-    <Property Name="OS" Type="longtext" Nullable="false" />
+    <Property Name="PatientPID" Type="longtext" Nullable="true" />
+    <Property Name="DeviceToken" Type="longtext" Nullable="true" />
+    <Property Name="DeviceOS" Type="longtext" Nullable="false" />
+    <Property Name="DeviceOSVersion" Type="longtext" Nullable="false" />
   </EntityType>
   <EntityType Name="NotificationSet">
     <Key>
@@ -246,12 +247,13 @@
           <Property Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
           <Property Name="App_Id" Nullable="false" Type="Int32" />
           <Property Name="Name" Nullable="true" Type="String" />
-          <Property Name="PatientPID" Nullable="false" Type="String" />
-          <Property Name="DeviceToken" Type="String" Nullable="false" />
-          <Property Name="OS" Type="String" Nullable="false" />
+          <Property Name="PatientPID" Type="String" Nullable="true" />
+          <Property Name="DeviceToken" Type="String" Nullable="true" />
+          <Property Name="DeviceOS" Type="String" Nullable="false" />
           <NavigationProperty Name="Appointments" Relationship="DataModel.UserDataAppointment" FromRole="UserData" ToRole="Appointment" />
           <NavigationProperty Name="Symptoms" Relationship="DataModel.UserDataSymptom" FromRole="UserData" ToRole="Symptom" />
           <NavigationProperty Name="PillAlerts" Relationship="DataModel.UserDataPillAlert" FromRole="UserData" ToRole="PillAlert" />
+          <Property Name="DeviceOSVersion" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -382,7 +384,8 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="PatientPID" ColumnName="PatientPID" />
           <ScalarProperty Name="DeviceToken" ColumnName="DeviceToken" />
-          <ScalarProperty Name="OS" ColumnName="OS" />
+          <ScalarProperty Name="DeviceOS" ColumnName="DeviceOS" />
+          <ScalarProperty Name="DeviceOSVersion" ColumnName="DeviceOSVersion" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -11,23 +11,25 @@ namespace ColicheGassose
 {
     public partial class UserDataTransport
     {
-        public int ID { get; set; }
-        public int App_Id { get; set; }
+        public int ID { get; set; } //the App ID
+        public int? PatientId { get; set; } //The Server ID
         public string Name { get; set; }
         public string PatientPID { get; set; }
         public string DeviceToken { get; set; }
-        public string OS { get; set; }
+        public string DeviceOS { get; set; }
+        public string DeviceOSVersion { get; set; }
 
         public UserDataTransport() { }
 
         public UserDataTransport(UserData userData)
         {
-            this.ID = userData.ID;
-            this.App_Id = userData.App_Id;
+            this.ID = userData.App_Id;
+            this.PatientId = userData.ID;
             this.Name = userData.Name;
             this.PatientPID = userData.PatientPID;
             this.DeviceToken = userData.DeviceToken;
-            this.OS = userData.OS;
+            this.DeviceOS = userData.DeviceOS;
+            this.DeviceOSVersion = userData.DeviceOSVersion;
         }
     }
 }

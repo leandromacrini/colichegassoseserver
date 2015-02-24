@@ -14,9 +14,13 @@ namespace ColicheGassose.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult syncronize(SyncronizeData data)
         {
-            var result = new SyncronizeResponse(data.UserData);
+            SyncronizeResponse result = new SyncronizeResponse();
             try
             {
+                if (data == null) throw new InvalidOperationException("Request data is not valid");
+
+                result.UserData = data.UserData;
+
                 using (var context = new DataModelContainer())
                 {
 
@@ -24,30 +28,34 @@ namespace ColicheGassose.Controllers
 
                     UserData user = null;
                     //new user?
-                    if (data.UserData.ID == 0)
+                    if (data.UserData.PatientId == null)
                     {
                         //create
                         user = context.UserDataSet.Add(new UserData(data.UserData));
                     }
                     else
                     {
-                        user = context.UserDataSet.Find(data.UserData.ID);
+                        user = context.UserDataSet.Find(data.UserData.PatientId);
                         if (user != null)
                         {
                             //update values
-                            user.App_Id = data.UserData.App_Id;
+                            user.App_Id = data.UserData.ID;
                             user.Name = data.UserData.Name;
                             user.PatientPID = data.UserData.PatientPID;
                             user.DeviceToken = data.UserData.DeviceToken;
-                            user.OS = data.UserData.OS;
+                            user.DeviceOS = data.UserData.DeviceOS;
+                            user.DeviceOSVersion = data.UserData.DeviceOSVersion;
                         }
                         else
                         {
-                            throw new InvalidOperationException(String.Format("User with ID {0} was not found", data.UserData.ID));
+                            throw new InvalidOperationException(String.Format("User with ID {0} was not found", data.UserData.PatientId));
                         }
                     }
 
                     if (context.ChangeTracker.HasChanges()) context.SaveChanges(); //becouse we need the user ID for new users
+
+                    //update response server id
+                    result.UserData.PatientId = user.ID;
 
                     #endregion
 

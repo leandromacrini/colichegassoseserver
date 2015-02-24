@@ -26,7 +26,8 @@ namespace ColicheGassose
         public string Name { get; set; }
         public string PatientPID { get; set; }
         public string DeviceToken { get; set; }
-        public string OS { get; set; }
+        public string DeviceOS { get; set; }
+        public string DeviceOSVersion { get; set; }
     
         public virtual ICollection<Appointment> Appointments { get; set; }
         public virtual ICollection<Symptom> Symptoms { get; set; }

@@ -12,7 +12,7 @@ namespace ColicheGassose.Models
         public object Data;
         public UserDataTransport UserData;
 
-        public SyncronizeResponse(UserDataTransport userData,  bool error = false, string message = "No errors", object data = null)
+        public SyncronizeResponse(UserDataTransport userData = null,  bool error = false, string message = "No errors", object data = null)
         {
             UserData = userData;
             Error = error;

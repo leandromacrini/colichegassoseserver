@@ -7,11 +7,13 @@ namespace ColicheGassose
     {
         public UserData(UserDataTransport transport)
         {
-            this.App_Id = transport.App_Id;
+            this.ID = transport.PatientId ?? 0;
+            this.App_Id = transport.ID;
             this.Name = transport.Name;
             this.PatientPID = transport.PatientPID;
             this.DeviceToken = transport.DeviceToken;
-            this.OS = transport.OS;
+            this.DeviceOSVersion = transport.DeviceOSVersion;
+            this.DeviceOS = transport.DeviceOS;
         }
     }
 }
