@@ -17,9 +17,9 @@ namespace ColicheGassose
         public int ID { get; set; }
         public int App_Id { get; set; }
         public System.DateTime When { get; set; }
-        public bool Pianto { get; set; }
-        public bool Rigurgito { get; set; }
-        public bool Agitazione { get; set; }
+        public int Pianto { get; set; }
+        public int Rigurgito { get; set; }
+        public int Agitazione { get; set; }
         public int Duration { get; set; }
         public int Intensity { get; set; }
         public int UserDataID { get; set; }
@@ -31,9 +31,9 @@ namespace ColicheGassose
             this.ID = symptom.ID;
             this.App_Id = symptom.App_Id;
             this.When = symptom.When;
-            this.Pianto = symptom.Pianto;
-            this.Rigurgito = symptom.Rigurgito;
-            this.Agitazione = symptom.Agitazione;
+            this.Pianto = symptom.Pianto ? 1 : 0;
+            this.Rigurgito = symptom.Rigurgito ? 1 : 0;
+            this.Agitazione = symptom.Agitazione ? 1 : 0;
             this.Duration = symptom.Duration;
             this.Intensity = symptom.Intensity;
             this.UserDataID = symptom.UserDataID;

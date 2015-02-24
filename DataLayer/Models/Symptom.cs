@@ -10,11 +10,11 @@ namespace ColicheGassose
         public Symptom(SymptomTransport transport)
         {
             this.App_Id = transport.App_Id;
-            this.Agitazione = transport.Agitazione;
+            this.Agitazione = transport.Agitazione == 1;
             this.Duration = transport.Duration;
             this.Intensity = transport.Intensity;
-            this.Pianto = transport.Pianto;
-            this.Rigurgito = transport.Rigurgito;
+            this.Pianto = transport.Pianto == 1;
+            this.Rigurgito = transport.Rigurgito == 1;
             this.When = transport.When;
         }
 
@@ -22,11 +22,11 @@ namespace ColicheGassose
         public void update(SymptomTransport symptom)
         {
             this.App_Id = symptom.App_Id;
-            this.Agitazione = symptom.Agitazione;
+            this.Agitazione = symptom.Agitazione == 1;
             this.Duration = symptom.Duration;
             this.Intensity = symptom.Intensity;
-            this.Pianto = symptom.Pianto;
-            this.Rigurgito = symptom.Rigurgito;
+            this.Pianto = symptom.Pianto == 1;
+            this.Rigurgito = symptom.Rigurgito == 1;
             this.When = symptom.When;
         }
     }
