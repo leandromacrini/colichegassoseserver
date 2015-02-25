@@ -15,7 +15,6 @@ namespace ColicheGassose
     public partial class PillAlertTransport
     {
         public int ID { get; set; }
-        public int App_Id { get; set; }
         public int PillId { get; set; }
         public System.DateTime When { get; set; }
         public Nullable<bool> Taken { get; set; }
@@ -28,8 +27,7 @@ namespace ColicheGassose
 
         public PillAlertTransport(PillAlert pillAlert)
         {
-            this.ID = pillAlert.ID;
-            this.App_Id = pillAlert.App_Id;
+            this.ID = pillAlert.App_Id;
             this.When = pillAlert.When;
             this.PillId = pillAlert.PillId;
             this.Asked = pillAlert.Asked;

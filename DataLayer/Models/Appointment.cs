@@ -6,14 +6,14 @@
 
         public Appointment(AppointmentTransport transport)
         {
-            this.App_Id = transport.App_Id;
+            this.App_Id = transport.ID;
             this.Info = transport.Info;
             this.When = transport.When;
         }
 
         public void update(AppointmentTransport appointment)
         {
-            this.App_Id = appointment.App_Id;
+            this.App_Id = appointment.ID;
             this.Info = appointment.Info;
             this.When = appointment.When;
         }

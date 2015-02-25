@@ -9,7 +9,7 @@ namespace ColicheGassose
 
         public PillAlert(PillAlertTransport transport)
         {
-            this.App_Id = transport.App_Id;
+            this.App_Id = transport.ID;
             this.Asked = transport.Asked;
             this.ParentId = transport.ParentId;
             this.PillId = transport.PillId;
@@ -20,7 +20,7 @@ namespace ColicheGassose
 
         public void update(PillAlertTransport pillAlert)
         {
-            this.App_Id = pillAlert.App_Id;
+            this.App_Id = pillAlert.ID;
             this.Asked = pillAlert.Asked;
             this.ParentId = pillAlert.ParentId;
             this.PillId = pillAlert.PillId;

@@ -15,7 +15,6 @@ namespace ColicheGassose
     public partial class AppointmentTransport
     {
         public int ID { get; set; }
-        public int App_Id { get; set; }
         public System.DateTime When { get; set; }
         public string Info { get; set; }
         public int UserDataID { get; set; }
@@ -24,8 +23,7 @@ namespace ColicheGassose
 
         public AppointmentTransport(Appointment appointment)
         {
-            this.ID = appointment.ID;
-            this.App_Id = appointment.App_Id;
+            this.ID = appointment.App_Id;
             this.When = appointment.When;
             this.Info = appointment.Info;
             this.UserDataID = appointment.UserDataID;

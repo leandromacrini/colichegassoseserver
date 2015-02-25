@@ -15,7 +15,6 @@ namespace ColicheGassose
     public partial class SymptomTransport
     {
         public int ID { get; set; }
-        public int App_Id { get; set; }
         public System.DateTime When { get; set; }
         public int Pianto { get; set; }
         public int Rigurgito { get; set; }
@@ -28,8 +27,7 @@ namespace ColicheGassose
 
         public SymptomTransport(Symptom symptom)
         {
-            this.ID = symptom.ID;
-            this.App_Id = symptom.App_Id;
+            this.ID = symptom.App_Id;
             this.When = symptom.When;
             this.Pianto = symptom.Pianto ? 1 : 0;
             this.Rigurgito = symptom.Rigurgito ? 1 : 0;

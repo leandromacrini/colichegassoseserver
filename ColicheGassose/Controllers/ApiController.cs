@@ -67,7 +67,7 @@ namespace ColicheGassose.Controllers
                         foreach (var appointment in data.AppointmentsEdit)
                         {
                             //search Appointment
-                            Appointment dbAppointment = context.AppointmentSet.Where(s => s.App_Id == appointment.App_Id && s.UserDataID == user.ID).FirstOrDefault();
+                            Appointment dbAppointment = context.AppointmentSet.Where(s => s.App_Id == appointment.ID && s.UserDataID == user.ID).FirstOrDefault();
                             if (dbAppointment == null)
                             {
                                 dbAppointment = new Appointment(appointment);
@@ -123,7 +123,7 @@ namespace ColicheGassose.Controllers
                         foreach (var pillAlert in data.PillAlertsEdit)
                         {
                             //search Appointment
-                            PillAlert dbPillAlert = context.PillAlertSet.Where(s => s.App_Id == pillAlert.App_Id && s.UserDataID == user.ID).FirstOrDefault();
+                            PillAlert dbPillAlert = context.PillAlertSet.Where(s => s.App_Id == pillAlert.ID && s.UserDataID == user.ID).FirstOrDefault();
                             if (dbPillAlert == null)
                             {
                                 dbPillAlert = new PillAlert(pillAlert);
@@ -179,7 +179,7 @@ namespace ColicheGassose.Controllers
                     {
                         foreach (var symptom in data.SymptomsEdit)
                         {
-                            Symptom dbSymptom = context.SymptomSet.Where(s => s.App_Id == symptom.App_Id && s.UserDataID == user.ID).FirstOrDefault();
+                            Symptom dbSymptom = context.SymptomSet.Where(s => s.App_Id == symptom.ID && s.UserDataID == user.ID).FirstOrDefault();
                             if (dbSymptom == null)
                             {
                                 dbSymptom = new Symptom(symptom);
