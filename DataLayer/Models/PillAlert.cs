@@ -10,10 +10,10 @@ namespace ColicheGassose
         public PillAlert(PillAlertTransport transport)
         {
             this.App_Id = transport.ID;
-            this.Asked = transport.Asked;
+            this.Asked = transport.Asked.HasValue? transport.Asked.Value == 1 : false;
             this.ParentId = transport.ParentId;
             this.PillId = transport.PillId;
-            this.Taken = transport.Taken;
+            this.Taken = transport.Taken.HasValue ? transport.Taken.Value == 1 : false;
             this.When = transport.When;
             this.Info = transport.Info;
         }
@@ -21,10 +21,10 @@ namespace ColicheGassose
         public void update(PillAlertTransport pillAlert)
         {
             this.App_Id = pillAlert.ID;
-            this.Asked = pillAlert.Asked;
+            this.Asked = pillAlert.Asked.HasValue ? pillAlert.Asked.Value == 1 : false;
             this.ParentId = pillAlert.ParentId;
             this.PillId = pillAlert.PillId;
-            this.Taken = pillAlert.Taken;
+            this.Taken = pillAlert.Asked.HasValue ? pillAlert.Asked.Value == 1 : false;
             this.When = pillAlert.When;
             this.Info = pillAlert.Info;
         }
