@@ -12,23 +12,23 @@
         <div class="list-group">
             <a href="#sintomi" class="list-group-item" data-bind="css:{active:currentPage() === pages.Sintomi}, click: setCurrentPage.bind($data, pages.Sintomi)">
                 Statistiche Sintomi
-                <span class="badge">14</span>
+                <img class="menu-icon" src="~/Images/icon-sintomo.png" alt="icona sintomo" />
             </a>
             <a href="#rimedi" class="list-group-item" data-bind="css:{active:currentPage() === pages.Rimedi}, click: setCurrentPage.bind($data, pages.Rimedi)">
                 Statistiche Rimedi
-                <span class="badge">14</span>
+                <img class="menu-icon" src="~/Images/icon-rimedi2.png" alt="icona rimedi" />
             </a>
             <a href="#appuntamenti" class="list-group-item" data-bind="css:{active:currentPage() === pages.Appuntamenti}, click: setCurrentPage.bind($data, pages.Appuntamenti)">
                 Statistiche Appuntamenti
-                <span class="badge">14</span>
+                <img class="menu-icon" src="~/Images/icon-visita.png" alt="icona appuntamenti" />
             </a>
             <a href="#utenti" class="list-group-item" data-bind="css:{active:currentPage() === pages.Utenti}, click: setCurrentPage.bind($data, pages.Utenti)">
                 Statistiche Utenti
-                <span class="badge">14</span>
+                <img class="menu-icon" src="~/Images/icon-utenti.png" alt="icona utenti" />
             </a>
             <a href="#app" class="list-group-item" data-bind="css:{active:currentPage() === pages.App}, click: setCurrentPage.bind($data, pages.App)">
                 Statistiche App
-                <span class="badge">14</span>
+                <img class="menu-icon" src="~/Images/icon-app.png" alt="icona app" />
             </a>
         </div>
     </div>
@@ -76,18 +76,30 @@
                     <h4>Dati generali di utilizzo</h4>
                 </div>
                 <dl class="dl-horizontal">
-                    <dt>Utenti di oggi</dt>
-                    <dd>213</dd>
-                    <dt>Utenti di questo mese</dt>
-                    <dd>11222</dd>
-                    <dt>Utenti totali</dt>
-                    <dd><b>2389</b></dd>
+                    <dt>Utenti attivi oggi</dt>
+                    <dd data-bind="text: todayAccesses"></dd>
+                    <dt>Utenti attivi mese</dt>
+                    <dd data-bind="text: monthAccesses"></dd>
+                    <dt>Utenti totali registrati</dt>
+                    <dd data-bind="text: totalUsers"></dd>
                 </dl>
                 <div class="page-header">
-                    <h4>Grafico di utilizzo</h4>
+                    <h4>Grafico degli utenti unici attivi per mese</h4>
                 </div>
                 <div class="canvas-container">
                     <canvas id="chart-utenti-utilizzo"></canvas>
+                </div>
+                <div class="page-header">
+                    <h4>Grafico delle nuove registrazione per mese</h4>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="chart-utenti-registrazioni"></canvas>
+                </div>
+                <div class="page-header">
+                    <h4>Grafico degli utenti totali</h4>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="chart-utenti-totali"></canvas>
                 </div>
             </div>
             <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>

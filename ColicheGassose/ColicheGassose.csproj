@@ -153,6 +153,11 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\app-store.png" />
     <Content Include="Images\appicon.png" />
+    <Content Include="Images\icon-app.png" />
+    <Content Include="Images\icon-rimedi2.png" />
+    <Content Include="Images\icon-sintomo.png" />
+    <Content Include="Images\icon-utenti.png" />
+    <Content Include="Images\icon-visita.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\Phone.png" />
     <Content Include="Images\Screenshots\screenshot1.PNG" />

@@ -10,27 +10,24 @@ namespace ColicheGassose.Controllers
 {
     public class ApiController : Controller
     {
-        
+
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetUtentiStatistics()
         {
             var months = new string[] { "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre" };
 
-            int usersGennaio = 0;
-            int usersFebbraio = 0;
-            int usersMarzo = 0;
-            int usersAprile = 0;
-            int usersMaggio = 0;
-            int usersGiugno = 0;
-            int usersLuglio = 0;
-            int usersAgosto = 0;
-            int usersSettembre = 0;
-            int usersOttobre = 0;
-            int usersNovembre = 0;
-            int usersDicembre = 0;
+            var labelsAccesses = new List<string>();
+            var valuesAccesses = new List<int>();
 
-            var labels = new List<string>();
-            var values = new List<int>();
+            var labelsNewUsers = new List<string>();
+            var valuesNewUsers = new List<int>();
+
+            var labelsTotals = new List<string>();
+            var valuesTotals = new List<int>();
+
+            var todayAccesses = 0;
+            var monthAccesses = 0;
+            var totalUsers = 0;
 
             string error = "None";
 
@@ -38,41 +35,273 @@ namespace ColicheGassose.Controllers
             {
                 using (var context = new DataModelContainer())
                 {
-                    var data = from user in context.UserDataSet
-                               where user.LastAccess.HasValue
-                               group user by
-                               new { month = user.LastAccess.Value.Month, year = user.LastAccess.Value.Year } into d
-                               select d;
+                    var allUsers = context.UserDataSet.AsEnumerable();
 
-                    foreach (var group in data)
+                    //Accesses of today
+                    todayAccesses = allUsers.Where(u => u.LastAccess.HasValue && u.LastAccess.Value.Date == DateTime.Now.Date).Count();
+                    monthAccesses = allUsers.Where(u => u.LastAccess.HasValue && u.LastAccess.Value.Month == DateTime.Now.Month).Count();
+                    totalUsers = allUsers.Count();
+
+                    //Accesses of this month
+
+                    //Total register users
+
+                    //Access for months in last 12 months
+                    var monthsCount = 12;
+                    var year = DateTime.Now.Year;
+                    var month = DateTime.Now.Month;
+                    for (int i = 0; i < monthsCount; i++)
                     {
-                        labels.Add(group.Key.ToString());
-                        values.Add(group.Count());
+                        var dataAccesses = allUsers
+                            .Where(p => p.LastAccess.HasValue && p.LastAccess.Value.Year == year && p.LastAccess.Value.Month == month)
+                            .AsEnumerable();
+                        
+                        labelsAccesses.Add(months[month-1] + " " + year);
+                        valuesAccesses.Add(dataAccesses.Count());
+
+                        if (month > 1)
+                        {
+                            month--;
+                        }
+                        else
+                        {
+                            month = 12;
+                            year--;
+                        }
                     }
+                    labelsAccesses.Reverse();
+                    valuesAccesses.Reverse();
+
+                    //New Users for months in last 12 months
+                    year = DateTime.Now.Year;
+                    month = DateTime.Now.Month;
+                    for (int i = 0; i < monthsCount; i++)
+                    {
+                        var dataNewUsers = allUsers
+                            .Where(p => p.RegistrationDate.HasValue && p.RegistrationDate.Value.Year == year && p.RegistrationDate.Value.Month == month)
+                            .AsEnumerable();
+
+                        labelsNewUsers.Add(months[month - 1] + " " + year);
+                        valuesNewUsers.Add(dataNewUsers.Count());
+
+                        if (month > 1)
+                        {
+                            month--;
+                        }
+                        else
+                        {
+                            month = 12;
+                            year--;
+                        }
+                    }
+                    labelsNewUsers.Reverse();
+                    valuesNewUsers.Reverse();
+
+                    //Total Users for months in last 12 months
+                    year = DateTime.Now.Year;
+                    month = DateTime.Now.Month;
+                    for (int i = 0; i < monthsCount; i++)
+                    {
+                        var dataTotalUsers = allUsers
+                            .Where(
+                                p => p.RegistrationDate.HasValue &&
+                                    ((p.RegistrationDate.Value.Year == year && p.RegistrationDate.Value.Month <= month) ||
+                                    (p.RegistrationDate.Value.Year < year)))
+                            .AsEnumerable();
+
+                        labelsTotals.Add(months[month - 1] + " " + year);
+                        valuesTotals.Add(dataTotalUsers.Count());
+
+                        if (month > 1)
+                        {
+                            month--;
+                        }
+                        else
+                        {
+                            month = 12;
+                            year--;
+                        }
+                    }
+                    labelsTotals.Reverse();
+                    valuesTotals.Reverse();
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 error = ex.Message;
             }
 
-            return Json(
-                new {
-                    Error = error,
-                    labels = labels,
-                    datasets = new dynamic[]{
-                        new {
-                            label = "Utenti totali",
-                            fillColor = "rgba(151,187,205,0.2)",
-                            strokeColor = "rgba(151,187,205,1)",
-                            pointColor = "rgba(151,187,205,1)",
-                            pointStrokeColor = "#fff",
-                            pointHighlightFill = "#fff",
-                            pointHighlightStroke = "rgba(151,187,205,1)",
-                            data = values.ToArray()
+            return Json(new
+                {
+                    todayAccesses = todayAccesses,
+                    monthAccesses = monthAccesses,
+                    totalUsers = totalUsers,
+                    accesses =
+                        new
+                        {
+                            labels = labelsAccesses,
+                            data = valuesAccesses
+                        },
+                    newusers =
+                        new
+                        {
+                            labels = labelsNewUsers,
+                            data = valuesNewUsers
+                        },
+                    totals =
+                        new
+                        {
+                            labels = labelsTotals,
+                            data = valuesTotals
                         }
+                }, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetAppStatistics()
+        {
+            var months = new string[] { "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre" };
+
+            var labelsAccesses = new List<string>();
+            var valuesAccesses = new List<int>();
+
+            var labelsNewUsers = new List<string>();
+            var valuesNewUsers = new List<int>();
+
+            var labelsTotals = new List<string>();
+            var valuesTotals = new List<int>();
+
+            var todayAccesses = 0;
+            var monthAccesses = 0;
+            var totalUsers = 0;
+
+            string error = "None";
+
+            try
+            {
+                using (var context = new DataModelContainer())
+                {
+                    var allUsers = context.UserDataSet.AsEnumerable();
+
+                    //Accesses of today
+                    todayAccesses = allUsers.Where(u => u.LastAccess.HasValue && u.LastAccess.Value.Date == DateTime.Now.Date).Count();
+                    monthAccesses = allUsers.Where(u => u.LastAccess.HasValue && u.LastAccess.Value.Month == DateTime.Now.Month).Count();
+                    totalUsers = allUsers.Count();
+
+                    //Accesses of this month
+
+                    //Total register users
+
+                    //Access for months in last 12 months
+                    var monthsCount = 12;
+                    var year = DateTime.Now.Year;
+                    var month = DateTime.Now.Month;
+                    for (int i = 0; i < monthsCount; i++)
+                    {
+                        var dataAccesses = allUsers
+                            .Where(p => p.LastAccess.HasValue && p.LastAccess.Value.Year == year && p.LastAccess.Value.Month == month)
+                            .AsEnumerable();
+
+                        labelsAccesses.Add(months[month - 1] + " " + year);
+                        valuesAccesses.Add(dataAccesses.Count());
+
+                        if (month > 1)
+                        {
+                            month--;
+                        }
+                        else
+                        {
+                            month = 12;
+                            year--;
+                        }
+                    }
+                    labelsAccesses.Reverse();
+                    valuesAccesses.Reverse();
+
+                    //New Users for months in last 12 months
+                    year = DateTime.Now.Year;
+                    month = DateTime.Now.Month;
+                    for (int i = 0; i < monthsCount; i++)
+                    {
+                        var dataNewUsers = allUsers
+                            .Where(p => p.RegistrationDate.HasValue && p.RegistrationDate.Value.Year == year && p.RegistrationDate.Value.Month == month)
+                            .AsEnumerable();
+
+                        labelsNewUsers.Add(months[month - 1] + " " + year);
+                        valuesNewUsers.Add(dataNewUsers.Count());
+
+                        if (month > 1)
+                        {
+                            month--;
+                        }
+                        else
+                        {
+                            month = 12;
+                            year--;
+                        }
+                    }
+                    labelsNewUsers.Reverse();
+                    valuesNewUsers.Reverse();
+
+                    //Total Users for months in last 12 months
+                    year = DateTime.Now.Year;
+                    month = DateTime.Now.Month;
+                    for (int i = 0; i < monthsCount; i++)
+                    {
+                        var dataTotalUsers = allUsers
+                            .Where(
+                                p => p.RegistrationDate.HasValue &&
+                                    ((p.RegistrationDate.Value.Year == year && p.RegistrationDate.Value.Month <= month) ||
+                                    (p.RegistrationDate.Value.Year < year)))
+                            .AsEnumerable();
+
+                        labelsTotals.Add(months[month - 1] + " " + year);
+                        valuesTotals.Add(dataTotalUsers.Count());
+
+                        if (month > 1)
+                        {
+                            month--;
+                        }
+                        else
+                        {
+                            month = 12;
+                            year--;
+                        }
+                    }
+                    labelsTotals.Reverse();
+                    valuesTotals.Reverse();
                 }
+
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
+
+            return Json(new
+            {
+                todayAccesses = todayAccesses,
+                monthAccesses = monthAccesses,
+                totalUsers = totalUsers,
+                accesses =
+                    new
+                    {
+                        labels = labelsAccesses,
+                        data = valuesAccesses
+                    },
+                newusers =
+                    new
+                    {
+                        labels = labelsNewUsers,
+                        data = valuesNewUsers
+                    },
+                totals =
+                    new
+                    {
+                        labels = labelsTotals,
+                        data = valuesTotals
+                    }
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -87,7 +316,7 @@ namespace ColicheGassose.Controllers
                 try
                 {
                     Random generator = new Random();
-                    DateTime eventsStartDate = new DateTime(DateTime.Now.Year - 1 , 1, 1, 0, 0, 0);
+                    DateTime eventsStartDate = new DateTime(DateTime.Now.Year - 1, 1, 1, 0, 0, 0);
                     DateTime eventsEndDate = new DateTime(DateTime.Now.Year, 12, 31, 23, 59, 59);
                     TimeSpan eventsSpan = eventsEndDate - eventsStartDate;
 
@@ -100,10 +329,11 @@ namespace ColicheGassose.Controllers
                     for (int u = 1; u <= result.FakeUsersCount; u++)
                     {
                         //create user
-                        UserData user = context.UserDataSet.Add(new UserData() {
+                        UserData user = context.UserDataSet.Add(new UserData()
+                        {
                             App_Id = 1,
-                            DeviceOS = u%2==0? "android" : "iphone",
-                            DeviceOSVersion = "8."+u,
+                            DeviceOS = u % 2 == 0 ? "android" : "iphone",
+                            DeviceOSVersion = "8." + u,
                             Name = "Fake User " + u,
                             RegistrationDate = eventsStartDate + new TimeSpan(0, generator.Next(0, (int)eventsSpan.TotalMinutes), 0),
                             LastAccess = eventsStartDate + new TimeSpan(0, generator.Next(0, (int)eventsSpan.TotalMinutes), 0)
@@ -114,13 +344,13 @@ namespace ColicheGassose.Controllers
                         //create some appointments
                         int fakeAppointmentsCount = generator.Next(1, 11);
                         result.FakeAppointmentsCount += fakeAppointmentsCount;
-                        
+
                         for (int a = 1; a <= fakeAppointmentsCount; a++)
                         {
                             context.AppointmentSet.Add(new Appointment()
                             {
                                 App_Id = a,
-                                Info = "Fake Appointment "+ a,
+                                Info = "Fake Appointment " + a,
                                 UserDataID = user.ID,
                                 When = eventsStartDate + new TimeSpan(0, generator.Next(0, (int)eventsSpan.TotalMinutes), 0)
                             });
@@ -141,7 +371,7 @@ namespace ColicheGassose.Controllers
                                 Rigurgito = generator.Next(0, 2) == 1,
                                 Duration = generator.Next(0, 6),
                                 Intensity = generator.Next(0, 6),
-                                When = eventsStartDate + new TimeSpan(0, generator.Next(0, (int)eventsSpan.TotalMinutes+1), 0)
+                                When = eventsStartDate + new TimeSpan(0, generator.Next(0, (int)eventsSpan.TotalMinutes + 1), 0)
                             });
                         }
 
@@ -158,8 +388,8 @@ namespace ColicheGassose.Controllers
                                 PillId = generator.Next(0, 6),
                                 Taken = true,
                                 Asked = true,
-                                Info = "Fake Reminder "+ r,
-                                When = eventsStartDate + new TimeSpan(0, generator.Next(0, (int)eventsSpan.TotalMinutes+1), 0)
+                                Info = "Fake Reminder " + r,
+                                When = eventsStartDate + new TimeSpan(0, generator.Next(0, (int)eventsSpan.TotalMinutes + 1), 0)
                             });
                         }
 
@@ -375,7 +605,7 @@ namespace ColicheGassose.Controllers
                     #endregion
 
                     //Save changes to DB
-                    if(context.ChangeTracker.HasChanges()) context.SaveChanges();
+                    if (context.ChangeTracker.HasChanges()) context.SaveChanges();
                 }
             }
             catch (Exception ex)
@@ -408,13 +638,14 @@ namespace ColicheGassose.Controllers
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 error = ex.Message;
             }
 
             return Json(
-                new {
+                new
+                {
                     Error = error,
                     RequestData = data,
                     UserDatas = userDatas,

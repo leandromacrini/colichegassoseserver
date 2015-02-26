@@ -5,3 +5,8 @@
 div#statitistics-container {
     
 }
+
+img.menu-icon {
+    width: 25px;
+    float: right;
+}
