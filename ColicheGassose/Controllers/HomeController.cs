@@ -10,7 +10,8 @@ namespace ColicheGassose.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Login", "Statistics");
+            //return View();
         }
     }
 }

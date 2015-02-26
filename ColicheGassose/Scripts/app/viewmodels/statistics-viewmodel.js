@@ -34,7 +34,7 @@
             case self.pages.Utenti:
                 self.updating(true);
                 $.ajax({
-                    url: "../../api/GetUtentiStatistics",
+                    url: siteRoot + '/Api/GetUtentiStatistics',
                     type: "GET",
                     success: function (response) {
                         self.updating(false);

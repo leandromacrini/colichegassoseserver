@@ -60,7 +60,7 @@ namespace ColicheGassose.Controllers
 
         private bool Validate(WebUser user)
         {
-            return true;
+            return (user.User == "colicheGassoseAdmin" && user.Password == "qpwoeiruty2015!");
         }
     }
 }
