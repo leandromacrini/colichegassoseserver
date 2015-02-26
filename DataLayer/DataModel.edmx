@@ -84,6 +84,8 @@
     <Property Name="DeviceToken" Type="longtext" Nullable="true" />
     <Property Name="DeviceOS" Type="longtext" Nullable="false" />
     <Property Name="DeviceOSVersion" Type="longtext" Nullable="false" />
+    <Property Name="RegistrationDate" Type="datetime" Nullable="true" />
+    <Property Name="LastAccess" Type="datetime" Nullable="true" />
   </EntityType>
   <EntityType Name="NotificationSet">
     <Key>
@@ -254,6 +256,8 @@
           <NavigationProperty Name="Symptoms" Relationship="DataModel.UserDataSymptom" FromRole="UserData" ToRole="Symptom" />
           <NavigationProperty Name="PillAlerts" Relationship="DataModel.UserDataPillAlert" FromRole="UserData" ToRole="PillAlert" />
           <Property Name="DeviceOSVersion" Type="String" Nullable="false" />
+          <Property Name="RegistrationDate" Type="DateTime" Nullable="true" />
+          <Property Name="LastAccess" Type="DateTime" Nullable="true" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -386,6 +390,8 @@
           <ScalarProperty Name="DeviceToken" ColumnName="DeviceToken" />
           <ScalarProperty Name="DeviceOS" ColumnName="DeviceOS" />
           <ScalarProperty Name="DeviceOSVersion" ColumnName="DeviceOSVersion" />
+          <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+          <ScalarProperty Name="LastAccess" ColumnName="LastAccess" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -10,6 +10,172 @@ namespace ColicheGassose.Controllers
 {
     public class ApiController : Controller
     {
+        
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetUtentiStatistics()
+        {
+            var months = new string[] { "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre" };
+
+            int usersGennaio = 0;
+            int usersFebbraio = 0;
+            int usersMarzo = 0;
+            int usersAprile = 0;
+            int usersMaggio = 0;
+            int usersGiugno = 0;
+            int usersLuglio = 0;
+            int usersAgosto = 0;
+            int usersSettembre = 0;
+            int usersOttobre = 0;
+            int usersNovembre = 0;
+            int usersDicembre = 0;
+
+            var labels = new List<string>();
+            var values = new List<int>();
+
+            string error = "None";
+
+            try
+            {
+                using (var context = new DataModelContainer())
+                {
+                    var data = from user in context.UserDataSet
+                               where user.LastAccess.HasValue
+                               group user by
+                               new { month = user.LastAccess.Value.Month, year = user.LastAccess.Value.Year } into d
+                               select d;
+
+                    foreach (var group in data)
+                    {
+                        labels.Add(group.Key.ToString());
+                        values.Add(group.Count());
+                    }
+                }
+
+            }
+            catch(Exception ex)
+            {
+                error = ex.Message;
+            }
+
+            return Json(
+                new {
+                    Error = error,
+                    labels = labels,
+                    datasets = new dynamic[]{
+                        new {
+                            label = "Utenti totali",
+                            fillColor = "rgba(151,187,205,0.2)",
+                            strokeColor = "rgba(151,187,205,1)",
+                            pointColor = "rgba(151,187,205,1)",
+                            pointStrokeColor = "#fff",
+                            pointHighlightFill = "#fff",
+                            pointHighlightStroke = "rgba(151,187,205,1)",
+                            data = values.ToArray()
+                        }
+                }
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult RandomizeDB()
+        {
+            dynamic result = new System.Dynamic.ExpandoObject();
+
+
+            using (var context = new DataModelContainer())
+            {
+                try
+                {
+                    Random generator = new Random();
+                    DateTime eventsStartDate = new DateTime(DateTime.Now.Year - 1 , 1, 1, 0, 0, 0);
+                    DateTime eventsEndDate = new DateTime(DateTime.Now.Year, 12, 31, 23, 59, 59);
+                    TimeSpan eventsSpan = eventsEndDate - eventsStartDate;
+
+                    //creating some fake user
+                    result.FakeUsersCount = generator.Next(50, 101);
+                    result.FakeAppointmentsCount = 0;
+                    result.FakeSymptomsCount = 0;
+                    result.FakeRemindersCount = 0;
+
+                    for (int u = 1; u <= result.FakeUsersCount; u++)
+                    {
+                        //create user
+                        UserData user = context.UserDataSet.Add(new UserData() {
+                            App_Id = 1,
+                            DeviceOS = u%2==0? "android" : "iphone",
+                            DeviceOSVersion = "8."+u,
+                            Name = "Fake User " + u,
+                            RegistrationDate = eventsStartDate + new TimeSpan(0, generator.Next(0, (int)eventsSpan.TotalMinutes), 0),
+                            LastAccess = eventsStartDate + new TimeSpan(0, generator.Next(0, (int)eventsSpan.TotalMinutes), 0)
+                        });
+
+                        context.SaveChanges(); //becouse we need the user ID for new users
+
+                        //create some appointments
+                        int fakeAppointmentsCount = generator.Next(1, 11);
+                        result.FakeAppointmentsCount += fakeAppointmentsCount;
+                        
+                        for (int a = 1; a <= fakeAppointmentsCount; a++)
+                        {
+                            context.AppointmentSet.Add(new Appointment()
+                            {
+                                App_Id = a,
+                                Info = "Fake Appointment "+ a,
+                                UserDataID = user.ID,
+                                When = eventsStartDate + new TimeSpan(0, generator.Next(0, (int)eventsSpan.TotalMinutes), 0)
+                            });
+                        }
+
+                        //create some symptoms
+                        int fakeSymptomsCount = generator.Next(50, 101);
+                        result.FakeSymptomsCount += fakeSymptomsCount;
+
+                        for (int s = 1; s <= fakeSymptomsCount; s++)
+                        {
+                            context.SymptomSet.Add(new Symptom()
+                            {
+                                App_Id = s,
+                                UserDataID = user.ID,
+                                Agitazione = generator.Next(0, 2) == 1,
+                                Pianto = generator.Next(0, 2) == 1,
+                                Rigurgito = generator.Next(0, 2) == 1,
+                                Duration = generator.Next(0, 6),
+                                Intensity = generator.Next(0, 6),
+                                When = eventsStartDate + new TimeSpan(0, generator.Next(0, (int)eventsSpan.TotalMinutes+1), 0)
+                            });
+                        }
+
+                        //create some reminder
+                        int fakeRemindersCount = generator.Next(50, 101);
+                        result.FakeRemindersCount += fakeRemindersCount;
+
+                        for (int r = 1; r <= fakeRemindersCount; r++)
+                        {
+                            context.PillAlertSet.Add(new PillAlert()
+                            {
+                                App_Id = r,
+                                UserDataID = user.ID,
+                                PillId = generator.Next(0, 6),
+                                Taken = true,
+                                Asked = true,
+                                Info = "Fake Reminder "+ r,
+                                When = eventsStartDate + new TimeSpan(0, generator.Next(0, (int)eventsSpan.TotalMinutes+1), 0)
+                            });
+                        }
+
+                    }
+                    context.SaveChanges();
+                    result.Message = "Operation complete";
+                }
+                catch (Exception ex)
+                {
+                    result.Error = true;
+                    result.Message = ex.Message;
+                    result.Data = ex.StackTrace;
+                }
+            }
+            return Json(result);
+        }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult syncronize(SyncronizeData data)
@@ -32,6 +198,7 @@ namespace ColicheGassose.Controllers
                     {
                         //create
                         user = context.UserDataSet.Add(new UserData(data.UserData));
+                        user.RegistrationDate = DateTime.Now;
                     }
                     else
                     {
@@ -45,10 +212,15 @@ namespace ColicheGassose.Controllers
                             user.DeviceToken = data.UserData.DeviceToken;
                             user.DeviceOS = data.UserData.DeviceOS;
                             user.DeviceOSVersion = data.UserData.DeviceOSVersion;
+                            user.LastAccess = DateTime.Now;
                         }
                         else
                         {
-                            throw new InvalidOperationException(String.Format("User with ID {0} was not found", data.UserData.PatientId));
+                            //throw new InvalidOperationException(String.Format("User with ID {0} was not found", data.UserData.PatientId));
+
+                            //recreate user
+                            user = context.UserDataSet.Add(new UserData(data.UserData));
+                            user.RegistrationDate = DateTime.Now;
                         }
                     }
 
@@ -86,7 +258,7 @@ namespace ColicheGassose.Controllers
                             }
 
                             //generate new Notification
-                            var notification = Notification.Generate(appointment.When, user.DeviceToken, String.Format("Appuntamento alle ore {0}", appointment.When.ToString("HH:mm")));
+                            var notification = Notification.Generate(appointment.When, user.DeviceToken, user.DeviceOS, String.Format("Appuntamento alle ore {0}", appointment.When.ToString("HH:mm")));
 
                             if (notification != null)
                             {
@@ -142,7 +314,7 @@ namespace ColicheGassose.Controllers
                             }
 
                             //generate new Notification
-                            var notification = Notification.Generate(dbPillAlert.When, user.DeviceToken, String.Format("Reminder alle ore {0}", dbPillAlert.When.ToString("HH:mm")));
+                            var notification = Notification.Generate(dbPillAlert.When, user.DeviceToken, user.DeviceOS, String.Format("Reminder alle ore {0}", dbPillAlert.When.ToString("HH:mm")));
 
                             if (notification != null)
                             {

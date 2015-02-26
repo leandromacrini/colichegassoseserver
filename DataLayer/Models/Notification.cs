@@ -13,15 +13,16 @@ namespace ColicheGassose
         /// <param name="p1"></param>
         /// <param name="p2"></param>
         /// <returns></returns>
-        public static Notification Generate(DateTime when, string token, string message)
+        public static Notification Generate(DateTime when, string token, string os, string message)
         {
-            if ((when - DateTime.Now).TotalMinutes > 5)
+            if ((when - DateTime.Now).TotalMinutes > 5 && !string.IsNullOrEmpty(token))
             {
                 var result = new Notification();
 
                 result.DeviceToken = token;
                 result.When = when;
                 result.Message = message;
+                result.DestinationOS = os;
 
                 return result;
             }

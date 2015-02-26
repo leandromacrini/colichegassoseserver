@@ -6,7 +6,7 @@
 -- -----------------------------------------------------------
 -- Entity Designer DDL Script for MySQL Server 4.1 and higher
 -- -----------------------------------------------------------
--- Date Created: 02/24/2015 11:04:42
+-- Date Created: 02/25/2015 11:14:06
 -- Generated from EDMX file: C:\Users\esd81leamacr.ICC\documents\visual studio 2013\Projects\ColicheGassose\DataLayer\DataModel.edmx
 -- Target version: 3.0.0.0
 -- --------------------------------------------------
@@ -92,7 +92,9 @@ CREATE TABLE `UserDataSet`(
 	`PatientPID` longtext, 
 	`DeviceToken` longtext, 
 	`DeviceOS` longtext NOT NULL, 
-	`DeviceOSVersion` longtext NOT NULL);
+	`DeviceOSVersion` longtext NOT NULL, 
+	`RegistrationDate` datetime, 
+	`LastAccess` datetime);
 
 ALTER TABLE `UserDataSet` ADD PRIMARY KEY (ID);
 

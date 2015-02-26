@@ -10,32 +10,30 @@
     </div>
     <div class="col-xs-3">
         <div class="list-group">
-            <span class="list-group-item active">
-                STATISTICHE DISPONIBILI
-            </span>
-            <a href="#" class="list-group-item">
+            <a href="#sintomi" class="list-group-item" data-bind="css:{active:currentPage() === pages.Sintomi}, click: setCurrentPage.bind($data, pages.Sintomi)">
                 Statistiche Sintomi
                 <span class="badge">14</span>
             </a>
-            <a href="#" class="list-group-item">
+            <a href="#rimedi" class="list-group-item" data-bind="css:{active:currentPage() === pages.Rimedi}, click: setCurrentPage.bind($data, pages.Rimedi)">
                 Statistiche Rimedi
                 <span class="badge">14</span>
             </a>
-            <a href="#" class="list-group-item">
+            <a href="#appuntamenti" class="list-group-item" data-bind="css:{active:currentPage() === pages.Appuntamenti}, click: setCurrentPage.bind($data, pages.Appuntamenti)">
                 Statistiche Appuntamenti
                 <span class="badge">14</span>
             </a>
-            <a href="#" class="list-group-item">
+            <a href="#utenti" class="list-group-item" data-bind="css:{active:currentPage() === pages.Utenti}, click: setCurrentPage.bind($data, pages.Utenti)">
                 Statistiche Utenti
                 <span class="badge">14</span>
             </a>
-            <a href="#" class="list-group-item">
+            <a href="#app" class="list-group-item" data-bind="css:{active:currentPage() === pages.App}, click: setCurrentPage.bind($data, pages.App)">
                 Statistiche App
                 <span class="badge">14</span>
             </a>
         </div>
     </div>
     <div class="col-xs-9">
+        <!-- ko if: currentPage() === pages.Sintomi -->
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h1 class="panel-title">STATISTICHE SINTOMI</h1>
@@ -45,6 +43,67 @@
             </div>
             <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
         </div>
+        <!-- /ko -->
+        <!-- ko if: currentPage() === pages.Rimedi -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">STATISTICHE RIMEDI</h1>
+            </div>
+            <div class="panel-body">
+                Panel content
+            </div>
+            <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: currentPage() === pages.Appuntamenti -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">STATISTICHE APPUNTAMENTI</h1>
+            </div>
+            <div class="panel-body">
+                Panel content
+            </div>
+            <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: currentPage() === pages.Utenti -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">STATISTICHE UTENTI</h1>
+            </div>
+            <div class="panel-body">
+                <div class="page-header">
+                    <h4>Dati generali di utilizzo</h4>
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>Utenti di oggi</dt>
+                    <dd>213</dd>
+                    <dt>Utenti di questo mese</dt>
+                    <dd>11222</dd>
+                    <dt>Utenti totali</dt>
+                    <dd><b>2389</b></dd>
+                </dl>
+                <div class="page-header">
+                    <h4>Grafico di utilizzo</h4>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="chart-utenti-utilizzo"></canvas>
+                </div>
+            </div>
+            <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: currentPage() === pages.App -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">STATISTICHE APP</h1>
+            </div>
+            <div class="panel-body">
+                Panel content
+            </div>
+            <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
+        </div>
+        <!-- /ko -->
     </div>
 </div>
 

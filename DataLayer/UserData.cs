@@ -28,6 +28,8 @@ namespace ColicheGassose
         public string DeviceToken { get; set; }
         public string DeviceOS { get; set; }
         public string DeviceOSVersion { get; set; }
+        public Nullable<System.DateTime> RegistrationDate { get; set; }
+        public Nullable<System.DateTime> LastAccess { get; set; }
     
         public virtual ICollection<Appointment> Appointments { get; set; }
         public virtual ICollection<Symptom> Symptoms { get; set; }
