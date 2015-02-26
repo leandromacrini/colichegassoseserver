@@ -30,6 +30,10 @@
                 Statistiche App
                 <img class="menu-icon" src="~/Images/icon-app.png" alt="icona app" />
             </a>
+            <a href="@Url.Action("Logout")" class="list-group-item">
+                Logout
+                <span id="logout-icon" class="glyphicon glyphicon-log-out pull-right"></span>
+            </a>
         </div>
     </div>
     <div class="col-xs-9">
@@ -111,7 +115,12 @@
                 <h1 class="panel-title">STATISTICHE APP</h1>
             </div>
             <div class="panel-body">
-                Panel content
+                <div class="page-header">
+                    <h4>Grafico degli tipi di dispositivi</h4>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="chart-app-version"></canvas>
+                </div>
             </div>
             <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
         </div>

@@ -50,13 +50,13 @@
                         self.chartUtentiUtilizzo = new Chart(ctx).Line({
                             labels : response.accesses.labels,
                             datasets : [{
-                                label : "Utenti totali",
-                                fillColor : "rgba(151,187,205,0.2)",
-                                strokeColor : "rgba(151,187,205,1)",
-                                pointColor : "rgba(151,187,205,1)",
+                                label : "Accessi unici",
+                                fillColor: "rgba(245, 134, 108, 0.5)",
+                                strokeColor: "rgba(245, 134, 108, 1)",
+                                pointColor: "rgba(245, 134, 108, 1)",
                                 pointStrokeColor : "#fff",
                                 pointHighlightFill : "#fff",
-                                pointHighlightStroke : "rgba(151,187,205,1)",
+                                pointHighlightStroke: "rgba(245, 134, 108, 1)",
                                 data : response.accesses.data
                             }]
                         });
@@ -67,11 +67,11 @@
                             labels: response.newusers.labels,
                             datasets: [
                                 {
-                                    label: "My First dataset",
-                                    fillColor: "rgba(220,220,220,0.5)",
-                                    strokeColor: "rgba(220,220,220,0.8)",
-                                    highlightFill: "rgba(220,220,220,0.75)",
-                                    highlightStroke: "rgba(220,220,220,1)",
+                                    label: "Utenti registrati",
+                                    fillColor: "rgba(245, 134, 108, 0.5)",
+                                    strokeColor: "rgba(245, 134, 108, 1)",
+                                    highlightFill: "rgba(245, 134, 108, 0.75)",
+                                    highlightStroke: "rgba(245, 134, 108, 1)",
                                     data: response.newusers.data
                                 }
                             ]
@@ -83,12 +83,12 @@
                             labels: response.totals.labels,
                             datasets: [{
                                 label: "Utenti totali",
-                                fillColor: "rgba(151,187,205,0.2)",
-                                strokeColor: "rgba(151,187,205,1)",
-                                pointColor: "rgba(151,187,205,1)",
+                                fillColor: "rgba(245, 134, 108, 0.5)",
+                                strokeColor: "rgba(245, 134, 108, 1)",
+                                pointColor: "rgba(245, 134, 108, 1)",
                                 pointStrokeColor: "#fff",
                                 pointHighlightFill: "#fff",
-                                pointHighlightStroke: "rgba(151,187,205,1)",
+                                pointHighlightStroke: "rgba(245, 134, 108, 1)",
                                 data: response.totals.data
                             }]
                         });
@@ -96,6 +96,24 @@
                 });
                 break;
             case self.pages.App:
+                self.updating(true);
+                $.ajax({
+                    url: siteRoot + 'Api/GetAppStatistics',
+                    type: "GET",
+                    success: function (response) {
+                        self.updating(false);
+
+                        self.todayAccesses(response.todayAccesses);
+                        self.monthAccesses(response.monthAccesses);
+                        self.totalUsers(response.totalUsers);
+
+                        var ctx;
+
+                        if (self.chartAppVersion) self.chartAppVersion.destroy();
+                        ctx = $("#chart-app-version").get(0).getContext("2d");
+                        self.chartAppVersion = new Chart(ctx).Doughnut(response.deviceTypes);
+                    }
+                });
                 break;
         }
     };

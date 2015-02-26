@@ -1,6 +1,6 @@
 ﻿body {
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding-top: 50px;
+    padding-bottom: 50px;
     background-color: rgba(245, 134, 108, 0.05);
 }
 
@@ -24,14 +24,14 @@ textarea {
 }
 
 div#header {
-    height: 100px;
+    height: 50px;
     background-color: #f5866c;
     border: none;
     box-shadow: 0px 10px 25px rgba(118, 118, 118, 0.25);
 }
 
     div#header .container {
-        line-height: 90px;
+        line-height: 50px;
     }
 
 div#main_container {
@@ -70,7 +70,7 @@ div#main_container {
         }
 
 div#footer {
-    height: 100px;
+    height: 50px;
     background-color: #D0D0D0;
     border: none;
     box-shadow: 0px -10px 25px rgba(118, 118, 118, 0.25);
@@ -78,7 +78,7 @@ div#footer {
 }
 
     div#footer .container {
-        line-height: 100px;
+        line-height: 50px;
         text-align: center;
     }
 

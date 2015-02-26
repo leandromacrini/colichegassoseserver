@@ -7,6 +7,7 @@
     <script type="text/javascript">
         //set global site location
         siteRoot = '@Url.Content("~/")';
+        user = '@Html.Encode(User.Identity.Name)';
     </script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -16,12 +17,12 @@
     <!-- ko with: App.viewModel -->
     <div id="header" class="navbar navbar-inverse navbar-fixed-top">
         <div class="container text-center">
-            <a href="http://www.colichegassose.it"><img src="~/Images/appicon.png" alt="logo" height="80"/></a>
+            <a href="http://www.colichegassose.it"><img src="~/Images/appicon.png" alt="logo" height="40"/></a>
             <a href="http://www.colichegassose.it"><img src="~/Images/logo.png" alt="logo" /></a>
             @if (Request.IsAuthenticated)
             {
-                <strong>@Html.Encode(User.Identity.Name)</strong>
-                @Html.ActionLink("Sign Out", "Logout", "Statistics")
+                @*<strong>@Html.Encode(User.Identity.Name)</strong>*@
+                @*@Html.ActionLink("Logout", "Logout", "Statistics")*@
             }
         </div>
     </div>
