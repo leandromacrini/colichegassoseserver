@@ -2,6 +2,12 @@
     ViewBag.Title = "Coliche Gassose Statistiche";
 }
 
+@section initPageViewModel {
+    <script type="text/javascript">
+        App.viewModel.statistics.setCurrentPage(StatisticsViewModelPages.Utenti);
+    </script>
+}
+
 <!-- ko with: statistics -->
 
 <div id="statitistics-container" class="container">
@@ -10,67 +16,82 @@
     </div>
     <div class="col-xs-3">
         <div class="list-group">
-            <a href="#sintomi" class="list-group-item" data-bind="css:{active:currentPage() === pages.Sintomi}, click: setCurrentPage.bind($data, pages.Sintomi)">
+            <a href="#sintomi" class="list-group-item" data-bind="css:{active:currentPage() === StatisticsViewModelPages.Sintomi}, click: setCurrentPage.bind($data, StatisticsViewModelPages.Sintomi)">
                 Statistiche Sintomi
                 <img class="menu-icon" src="~/Images/icon-sintomo.png" alt="icona sintomo" />
             </a>
-            <a href="#rimedi" class="list-group-item" data-bind="css:{active:currentPage() === pages.Rimedi}, click: setCurrentPage.bind($data, pages.Rimedi)">
+            <a href="#rimedi" class="list-group-item" data-bind="css:{active:currentPage() === StatisticsViewModelPages.Rimedi}, click: setCurrentPage.bind($data, StatisticsViewModelPages.Rimedi)">
                 Statistiche Rimedi
                 <img class="menu-icon" src="~/Images/icon-rimedi2.png" alt="icona rimedi" />
             </a>
-            <a href="#appuntamenti" class="list-group-item" data-bind="css:{active:currentPage() === pages.Appuntamenti}, click: setCurrentPage.bind($data, pages.Appuntamenti)">
+            <a href="#appuntamenti" class="list-group-item" data-bind="css:{active:currentPage() === StatisticsViewModelPages.Appuntamenti}, click: setCurrentPage.bind($data, StatisticsViewModelPages.Appuntamenti)">
                 Statistiche Appuntamenti
                 <img class="menu-icon" src="~/Images/icon-visita.png" alt="icona appuntamenti" />
             </a>
-            <a href="#utenti" class="list-group-item" data-bind="css:{active:currentPage() === pages.Utenti}, click: setCurrentPage.bind($data, pages.Utenti)">
+            <a href="#utenti" class="list-group-item" data-bind="css:{active:currentPage() === StatisticsViewModelPages.Utenti}, click: setCurrentPage.bind($data, StatisticsViewModelPages.Utenti)">
                 Statistiche Utenti
                 <img class="menu-icon" src="~/Images/icon-utenti.png" alt="icona utenti" />
             </a>
-            <a href="#app" class="list-group-item" data-bind="css:{active:currentPage() === pages.App}, click: setCurrentPage.bind($data, pages.App)">
+            <a href="#app" class="list-group-item" data-bind="css:{active:currentPage() === StatisticsViewModelPages.App}, click: setCurrentPage.bind($data, StatisticsViewModelPages.App)">
                 Statistiche App
                 <img class="menu-icon" src="~/Images/icon-app.png" alt="icona app" />
             </a>
-            <a href="@Url.Action("Logout")" class="list-group-item">
+            <a href="@Url.Action("Logout", "Home")" class="list-group-item">
                 Logout
                 <span id="logout-icon" class="glyphicon glyphicon-log-out pull-right"></span>
             </a>
         </div>
     </div>
     <div class="col-xs-9">
-        <!-- ko if: currentPage() === pages.Sintomi -->
+        <!-- ko if: currentPage() === StatisticsViewModelPages.Sintomi -->
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h1 class="panel-title">STATISTICHE SINTOMI</h1>
             </div>
             <div class="panel-body">
-                Panel content
+                <div class="page-header">
+                    <h4>Grafico sintomi</h4>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="chart-sintomi"></canvas>
+                </div>
             </div>
             <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
         </div>
         <!-- /ko -->
-        <!-- ko if: currentPage() === pages.Rimedi -->
+        <!-- ko if: currentPage() === StatisticsViewModelPages.Rimedi -->
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h1 class="panel-title">STATISTICHE RIMEDI</h1>
             </div>
             <div class="panel-body">
-                Panel content
+                <div class="page-header">
+                    <h4>Grafico rimedi</h4>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="chart-rimedi"></canvas>
+                </div>
             </div>
             <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
         </div>
         <!-- /ko -->
-        <!-- ko if: currentPage() === pages.Appuntamenti -->
+        <!-- ko if: currentPage() === StatisticsViewModelPages.Appuntamenti -->
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h1 class="panel-title">STATISTICHE APPUNTAMENTI</h1>
             </div>
             <div class="panel-body">
-                Panel content
+                <div class="page-header">
+                    <h4>Grafico appuntamenti</h4>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="chart-appuntamenti"></canvas>
+                </div>
             </div>
             <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
         </div>
         <!-- /ko -->
-        <!-- ko if: currentPage() === pages.Utenti -->
+        <!-- ko if: currentPage() === StatisticsViewModelPages.Utenti -->
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h1 class="panel-title">STATISTICHE UTENTI</h1>
@@ -109,7 +130,7 @@
             <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
         </div>
         <!-- /ko -->
-        <!-- ko if: currentPage() === pages.App -->
+        <!-- ko if: currentPage() === StatisticsViewModelPages.App -->
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h1 class="panel-title">STATISTICHE APP</h1>

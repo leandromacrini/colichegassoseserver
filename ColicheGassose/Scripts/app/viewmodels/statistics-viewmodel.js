@@ -3,14 +3,6 @@
 
     self.pageTitle = "Pagina di visualizzazione statistiche <small>Coliche Gassose Server</small>";
 
-    self.pages = {
-        Sintomi: 0,
-        Rimedi: 1,
-        Appuntamenti: 2,
-        Utenti: 3,
-        App: 4
-    };
-
     self.updating = ko.observable(false);
 
     self.todayAccesses = ko.observable(0);
@@ -24,18 +16,18 @@
 
         //call backend and update statistics
         switch (page) {
-            case self.pages.Sintomi:
+            case StatisticsViewModelPages.Sintomi:
 
                 break;
-            case self.pages.Rimedi:
+            case StatisticsViewModelPages.Rimedi:
                 break;
-            case self.pages.Appuntamenti:
+            case StatisticsViewModelPages.Appuntamenti:
                 break;
-            case self.pages.Utenti:
+            case StatisticsViewModelPages.Utenti:
                 self.updating(true);
                 $.ajax({
-                    url: siteRoot + 'Api/GetUtentiStatistics',
-                    type: "GET",
+                    url: siteRoot + 'Statistics/GetUtentiStatistics',
+                    type: "POST",
                     success: function (response) {
                         self.updating(false);
 
@@ -95,11 +87,11 @@
                     }
                 });
                 break;
-            case self.pages.App:
+            case StatisticsViewModelPages.App:
                 self.updating(true);
                 $.ajax({
-                    url: siteRoot + 'Api/GetAppStatistics',
-                    type: "GET",
+                    url: siteRoot + 'Statistics/GetAppStatistics',
+                    type: "POST",
                     success: function (response) {
                         self.updating(false);
 
@@ -121,6 +113,12 @@
     //init charts
     Chart.defaults.global.responsive = true;
     Chart.defaults.global.scaleBeginAtZero = true;
-
-    self.setCurrentPage(self.pages.Utenti);
 }
+
+var StatisticsViewModelPages = {
+    Sintomi: 0,
+    Rimedi: 1,
+    Appuntamenti: 2,
+    Utenti: 3,
+    App: 4
+};
