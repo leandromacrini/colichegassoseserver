@@ -50,11 +50,83 @@
             </div>
             <div class="panel-body">
                 <div class="page-header">
-                    <h4>Grafico sintomi</h4>
+                    <h4>Grafico sintomi degli ultimi 7 giorni</h4>
                 </div>
                 <div class="canvas-container">
                     <canvas id="chart-sintomi"></canvas>
                 </div>
+                <div class="page-header">
+                    <h4>Dati medi dei sintomi con pianto degli ultimi 7 giorni</h4>
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>Sintomi con pianto</dt>
+                    <dd data-bind="text: weeklyPianti"></dd>
+                    <dt>Intensit&agrave; media</dt>
+                    <dd data-bind="text: SymptomIntensity[weeklyPiantiIntensitaMedia()]"></dd>
+                    <dt>Durata Media</dt>
+                    <dd data-bind="text: SymptomDurations[weeklyPiantiDurataMedia()]"></dd>
+                </dl>
+                <div class="page-header">
+                    <h4>Dati Medi dei sintomi con rigurgito degli ultimi 7 giorni</h4>
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>Sintomi con rigurgito</dt>
+                    <dd data-bind="text: weeklyRigurgiti"></dd>
+                    <dt>Intensit&agrave; media</dt>
+                    <dd data-bind="text: SymptomIntensity[weeklyRigurgitiIntensitaMedia()]"></dd>
+                    <dt>Durata Media</dt>
+                    <dd data-bind="text: SymptomDurations[weeklyRigurgitiDurataMedia()]"></dd>
+                </dl>
+                <div class="page-header">
+                    <h4>Dati Medi dei sintomi con agitazione degli ultimi 7 giorni</h4>
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>Sintomi con agitazione</dt>
+                    <dd data-bind="text: weeklyAgitazioni"></dd>
+                    <dt>Intensit&agrave; media</dt>
+                    <dd data-bind="text: SymptomIntensity[weeklyAgitazioniIntensitaMedia()]"></dd>
+                    <dt>Durata Media</dt>
+                    <dd data-bind="text: SymptomDurations[weeklyAgitazioniDurataMedia()]"></dd>
+                </dl>
+                <div class="page-header">
+                    <h4>Grafico dei sintomi degli ultimi 7 giorni dopo l'utilizzo di VLS (sintomi registrati a partire dalla prima volta che un utente ha creato un rimedio contenente "VLS")</h4>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="chart-sintomi-vls"></canvas>
+                </div>
+                <div class="page-header">
+                    <h4>Dati medi dei sintomi con pianto degli ultimi 7 giorni</h4>
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>Sintomi con pianto</dt>
+                    <dd data-bind="text: weeklyPiantiVLS"></dd>
+                    <dt>Intensit&agrave; media</dt>
+                    <dd data-bind="text: SymptomIntensity[weeklyPiantiIntensitaMediaVLS()]"></dd>
+                    <dt>Durata Media</dt>
+                    <dd data-bind="text: SymptomDurations[weeklyPiantiDurataMediaVLS()]"></dd>
+                </dl>
+                <div class="page-header">
+                    <h4>Dati Medi dei sintomi con rigurgito degli ultimi 7 giorni</h4>
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>Sintomi con rigurgito</dt>
+                    <dd data-bind="text: weeklyRigurgitiVLS"></dd>
+                    <dt>Intensit&agrave; media</dt>
+                    <dd data-bind="text: SymptomIntensity[weeklyRigurgitiIntensitaMediaVLS()]"></dd>
+                    <dt>Durata Media</dt>
+                    <dd data-bind="text: SymptomDurations[weeklyRigurgitiDurataMediaVLS()]"></dd>
+                </dl>
+                <div class="page-header">
+                    <h4>Dati Medi dei sintomi con agitazione degli ultimi 7 giorni</h4>
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>Sintomi con agitazione</dt>
+                    <dd data-bind="text: weeklyAgitazioniVLS"></dd>
+                    <dt>Intensit&agrave; media</dt>
+                    <dd data-bind="text: SymptomIntensity[weeklyAgitazioniIntensitaMediaVLS()]"></dd>
+                    <dt>Durata Media</dt>
+                    <dd data-bind="text: SymptomDurations[weeklyAgitazioniDurataMediaVLS()]"></dd>
+                </dl>
             </div>
             <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
         </div>
@@ -70,6 +142,12 @@
                 </div>
                 <div class="canvas-container">
                     <canvas id="chart-rimedi"></canvas>
+                </div>
+                <div class="page-header">
+                    <h4>Grafico rimedi VLS</h4>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="chart-rimedi-vls"></canvas>
                 </div>
             </div>
             <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
@@ -137,11 +215,20 @@
             </div>
             <div class="panel-body">
                 <div class="page-header">
-                    <h4>Grafico degli tipi di dispositivi</h4>
+                    <h4>Grafico dei tipi di dispositivo</h4>
                 </div>
                 <div class="canvas-container">
                     <canvas id="chart-app-version"></canvas>
                 </div>
+                <!-- ko foreach: deviceTypes-->
+                <div class="page-header">
+                    <h4>Statistiche <span data-bind="text: label"></span></h4>
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>Utenti <span data-bind="text: label"></span></dt>
+                    <dd data-bind="text: value"></dd>
+                </dl>
+                <!-- /ko-->
             </div>
             <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
         </div>

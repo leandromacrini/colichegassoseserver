@@ -12,15 +12,7 @@ namespace ColicheGassose
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            /*
-            // Statistics
-            routes.MapRoute(
-                name: "Statistics",
-                url: "Statistics",
-                defaults: new { controller = "Statistics", action = "Login"}
-            );
-            */
-            // Index
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
