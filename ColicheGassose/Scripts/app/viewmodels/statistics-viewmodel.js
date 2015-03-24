@@ -65,6 +65,9 @@
     self.totalRimedi = ko.observable(0);
     self.totalRimediVLS = ko.observable(0);
 
+    // APPUNTAMENTI
+    self.totalAppointments = ko.observable(0);
+
     //APP
     self.deviceTypes = ko.observable(0);
 
@@ -130,23 +133,80 @@
                         self.totalRimedi(response.totalRimedi);
                         self.totalRimediVLS(response.totalRimediVLS);
 
+                        //split Rimedi by type
+
                         var ctx;
+                        /*[
+	                        "Terapia posizionale",
+	                        "Massaggio",
+	                        "Musica dolce",
+	                        "Movimento",
+	                        "Probiotici",
+	                        "Avviso personale"
+                        ]*/
 
                         if (self.chartRimedi) self.chartRimedi.destroy();
                         ctx = $("#chart-rimedi").get(0).getContext("2d");
                         self.chartRimedi = new Chart(ctx).Line({
                             labels: response.rimedi.labels,
                             datasets: [{
-                                label: "Accessi unici",
-                                fillColor: "rgba(108, 134, 245, 0.5)",
+                                label: "Terapia posizionale",
+                                fillColor: "rgba(132, 245, 108, 0)",
+                                strokeColor: "rgba(132, 245, 108, 1)",
+                                pointColor: "rgba(132, 245, 108, 1)",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(132, 245, 108, 1)",
+                                data: response.rimedi.data[0]
+                            },{
+                                label: "Massaggio",
                                 strokeColor: "rgba(108, 134, 245, 1)",
+                                fillColor: "rgba(108, 134, 245, 0)",
                                 pointColor: "rgba(108, 134, 245, 1)",
                                 pointStrokeColor: "#fff",
                                 pointHighlightFill: "#fff",
                                 pointHighlightStroke: "rgba(108, 134, 245, 1)",
-                                data: response.rimedi.data
+                                data: response.rimedi.data[1]
+                            },{
+                                label: "Musica dolce",
+                                strokeColor: "rgba(245, 108, 217, 1)",
+                                fillColor: "rgba(245, 108, 217, 0)",
+                                pointColor: "rgba(245, 108, 217, 1)",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(245, 108, 217, 1)",
+                                data: response.rimedi.data[2]
+                            }, {
+                                label: "Movimento",
+                                fillColor: "rgba(108, 245, 245, 0)",
+                                strokeColor: "rgba(108, 245, 245, 1)",
+                                pointColor: "rgba(108, 245, 245, 1)",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(108, 245, 245, 1)",
+                                data: response.rimedi.data[3]
+                            }, {
+                                label: "Probiotici",
+                                strokeColor: "rgba(255, 0, 0, 1)",
+                                fillColor: "rgba(255, 0, 0, 0)",
+                                pointColor: "rgba(255, 0, 0, 1)",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(255, 0, 0, 1)",
+                                data: response.rimedi.data[4]
+                            },{
+                                label: "Rimedio personale",
+                                strokeColor: "rgba(245, 134, 108, 1)",
+                                fillColor: "rgba(245, 134, 108, 0)",
+                                pointColor: "rgba(245, 134, 108, 1)",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(245, 134, 108, 1)",
+                                data: response.rimedi.data[5]
                             }]
                         });
+
+                        $("#rimedi-legend").html(self.chartRimedi.generateLegend());
 
                         if (self.chartRimediVLS) self.chartRimediVLS.destroy();
                         ctx = $("#chart-rimedi-vls").get(0).getContext("2d");
@@ -154,7 +214,7 @@
                             labels: response.rimediVLS.labels,
                             datasets: [
                                 {
-                                    label: "Utenti registrati",
+                                    label: "Rimedi VLS",
                                     fillColor: "rgba(245, 134, 108, 0.5)",
                                     strokeColor: "rgba(245, 134, 108, 1)",
                                     pointColor: "rgba(245, 134, 108, 1)",
@@ -169,6 +229,34 @@
                 });
                 break;
             case StatisticsViewModelPages.Appuntamenti:
+                self.updating(false);
+                $.ajax({
+                    url: siteRoot + 'Statistics/GetAppuntamentiStatistics',
+                    type: "POST",
+                    success: function (response) {
+                        self.updating(false);
+
+                        self.totalAppointments(response.totalAppointments);
+
+                        if (self.chartAppuntamenti) self.chartAppuntamenti.destroy();
+                        var ctx = $("#chart-appuntamenti").get(0).getContext("2d");
+                        self.chartAppuntamenti = new Chart(ctx).Line({
+                            labels: response.appointments.labels,
+                            datasets: [
+                                {
+                                    label: "Rimedi VLS",
+                                    fillColor: "rgba(245, 134, 108, 0.5)",
+                                    strokeColor: "rgba(245, 134, 108, 1)",
+                                    pointColor: "rgba(245, 134, 108, 1)",
+                                    pointStrokeColor: "#fff",
+                                    pointHighlightFill: "rgba(245, 134, 108, 0.75)",
+                                    pointHighlightStroke: "rgba(245, 134, 108, 1)",
+                                    data: response.appointments.data
+                                }
+                            ]
+                        });
+                    }
+                });
                 break;
             case StatisticsViewModelPages.Utenti:
                 self.updating(true);

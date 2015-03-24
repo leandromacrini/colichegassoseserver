@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Ionic.Zip;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -229,7 +232,7 @@ namespace ColicheGassose.Controllers
             var months = new string[] { "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre" };
 
             var labelsRimedi = new List<string>();
-            var valuesRimedi = new List<int>();
+            var valuesRimedi = new List<int>[] { new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>() };
 
             var labelsRimediVLS = new List<string>();
             var valuesRimediVLS = new List<int>();
@@ -246,31 +249,41 @@ namespace ColicheGassose.Controllers
                     totalRimedi = context.PillAlertSet.Count();
                     totalRimediVLS = context.PillAlertSet.Where(p => p.Info.ToLower().Contains("vls")).Count();
 
-                    //Rimedi for months in last 12 months
-                    var monthsCount = 12;
                     var year = DateTime.Now.Year;
                     var month = DateTime.Now.Month;
-                    for (int i = 0; i < monthsCount; i++)
+
+                    //Rimedi for months in last 12 months
+                    var monthsCount = 12;
+                    for (int pillID = 0; pillID < 6; pillID++)
                     {
-                        var dataRimedi = context.PillAlertSet
-                            .Where(p => p.When.Year == year && p.When.Month == month)
-                            .AsEnumerable();
-
-                        labelsRimedi.Add(months[month - 1] + " " + year);
-                        valuesRimedi.Add(dataRimedi.Count());
-
-                        if (month > 1)
+                        year = DateTime.Now.Year;
+                        month = DateTime.Now.Month;
+                        for (int i = 0; i < monthsCount; i++)
                         {
-                            month--;
+                            var dataRimedi = context.PillAlertSet
+                                .Where(p => p.When.Year == year && p.When.Month == month && p.PillId == pillID)
+                                .AsEnumerable();
+
+                            if (pillID == 0)
+                            {
+                                labelsRimedi.Add(months[month - 1] + " " + year);
+                            }
+                            valuesRimedi[pillID].Add(dataRimedi.Count());
+
+                            if (month > 1)
+                            {
+                                month--;
+                            }
+                            else
+                            {
+                                month = 12;
+                                year--;
+                            }
                         }
-                        else
-                        {
-                            month = 12;
-                            year--;
-                        }
+                        valuesRimedi[pillID].Reverse();
                     }
+                   
                     labelsRimedi.Reverse();
-                    valuesRimedi.Reverse();
 
                     //VLS Rimedi for months in last 12 months
                     year = DateTime.Now.Year;
@@ -327,7 +340,12 @@ namespace ColicheGassose.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult GetAppuntamentiStatistics()
         {
-            var deviceTypes = new List<object>();
+            var months = new string[] { "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre" };
+
+            var labelsAppointments = new List<string>();
+            var valuesAppointments = new List<int>();
+
+            var totalAppointments = 0;
 
             string error = "None";
 
@@ -335,21 +353,33 @@ namespace ColicheGassose.Controllers
             {
                 using (var context = new DataModelContainer())
                 {
-                    var allUsers = context.UserDataSet.AsEnumerable();
+                    totalAppointments = context.AppointmentSet.Count();
 
-                    var data = allUsers.GroupBy(u => u.DeviceOS).Select(g => g).AsEnumerable();
-                    var i = 1;
-                    foreach (var group in data)
+                    //Appointments for months in last 12 months
+                    var monthsCount = 12;
+                    var year = DateTime.Now.Year;
+                    var month = DateTime.Now.Month;
+                    for (int i = 0; i < monthsCount; i++)
                     {
-                        deviceTypes.Add(new
+                        var dataAppointments = context.AppointmentSet
+                            .Where(apt => apt.When.Year == year && apt.When.Month == month)
+                            .AsEnumerable();
+
+                        labelsAppointments.Add(months[month - 1] + " " + year);
+                        valuesAppointments.Add(dataAppointments.Count());
+
+                        if (month > 1)
                         {
-                            label = group.Key,
-                            value = group.Count(),
-                            color = "rgb(" + ((int)200 * i / data.Count()) + "," + ((int)200 * i / data.Count()) + "," + ((int)200 * i / data.Count()) + ")",
-                            highlight = "rgba(245, 134, 108, 1)",
-                        });
-                        i++;
+                            month--;
+                        }
+                        else
+                        {
+                            month = 12;
+                            year--;
+                        }
                     }
+                    labelsAppointments.Reverse();
+                    valuesAppointments.Reverse();
                 }
 
             }
@@ -360,8 +390,13 @@ namespace ColicheGassose.Controllers
 
             return Json(new
             {
-                error = error,
-                deviceTypes = deviceTypes
+                totalAppointments = totalAppointments,
+                appointments =
+                    new
+                    {
+                        labels = labelsAppointments,
+                        data = valuesAppointments
+                    }
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -553,6 +588,111 @@ namespace ColicheGassose.Controllers
                 error = error,
                 deviceTypes = deviceTypes
             }, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult ExportStatistics()
+        {
+            var sw = new StringWriter();
+
+            string users = String.Empty;
+            string symptoms = String.Empty;
+            string remedies = String.Empty;
+            string appointments = String.Empty;
+
+            try
+            {
+                using (var context = new DataModelContainer())
+                {
+                    #region Users Export
+
+                    //header
+                    sw.WriteLine(String.Format("{0};{1};{2};{3};{4};{5}", "User ID", "Registration Date", "Last Access Date", "OS", "OS Version", "Device Token"));
+
+                    //data
+                    foreach (var user in context.UserDataSet.AsEnumerable())
+                    {
+                        sw.WriteLine(String.Format("{0};{1};{2};{3};{4};{5}", user.ID, user.RegistrationDate, user.LastAccess, user.DeviceOS, user.DeviceOSVersion, user.DeviceToken));
+                    }
+                    //save
+                    users = sw.ToString();
+                    //clear
+                    sw.GetStringBuilder().Clear();
+
+                    #endregion
+
+                    #region Symptoms Export
+
+                    //header
+                    sw.WriteLine(String.Format("{0};{1};{2};{3};{4};{5};{6};{7}", "Symptom ID", "User ID", "Symptom Date", "Regurgitation", "Crying", "Agitation", "Duration", "Intensity"));
+
+                    //data
+                    foreach (var symptom in context.SymptomSet.AsEnumerable())
+                    {
+                        sw.WriteLine(String.Format("{0};{1};{2};{3};{4};{5};{6};{7}", symptom.ID, symptom.UserDataID, symptom.When, symptom.Rigurgito, symptom.Pianto, symptom.Agitazione, symptom.Duration, symptom.Intensity));
+                    }
+                    //save
+                    symptoms = sw.ToString();
+                    //clear
+                    sw.GetStringBuilder().Clear();
+
+                    #endregion
+
+                    #region Remedies Export
+
+                    //header
+                    sw.WriteLine(String.Format("{0};{1};{2};{3};{4};{5};{6}", "Remedy ID", "User ID", "Remedy Date", "Remedy Type", "Info", "Taken", "Asked"));
+
+                    //data
+                    foreach (var remedy in context.PillAlertSet.AsEnumerable())
+                    {
+                        sw.WriteLine(String.Format("{0};{1};{2};{3};{4};{5};{6}", remedy.ID, remedy.UserDataID, remedy.When, remedy.PillId, remedy.Info, remedy.Taken, remedy.Asked));
+                    }
+                    //save
+                    remedies = sw.ToString();
+                    //clear
+                    sw.GetStringBuilder().Clear();
+
+                    #endregion
+
+                    #region Appointments Export
+
+                    //header
+                    sw.WriteLine(String.Format("{0};{1};{2};{3}", "Appointment ID", "User ID", "Appointment Date", "Info"));
+
+                    //data
+                    foreach (var appointment in context.AppointmentSet.AsEnumerable())
+                    {
+                        sw.WriteLine(String.Format("{0};{1};{2};{3}", appointment.ID, appointment.UserDataID, appointment.When, appointment.Info));
+                    }
+                    //save
+                    appointments = sw.ToString();
+                    //clear
+                    sw.GetStringBuilder().Clear();
+
+                    #endregion
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //TODO
+            }
+
+            ZipFile result = new ZipFile();
+
+            result.AddEntry("Users.csv", users);
+            result.AddEntry("Symptoms.csv", symptoms);
+            result.AddEntry("Remedies.csv", remedies);
+            result.AddEntry("Appointments.csv", appointments);
+            
+            MemoryStream workStream = new MemoryStream();
+            result.Save(workStream);
+            workStream.Seek(0, SeekOrigin.Begin);
+
+            return File(workStream, System.Net.Mime.MediaTypeNames.Application.Zip, String.Format("Export {0}.zip", DateTime.Now));
         }
 
         [Authorize]

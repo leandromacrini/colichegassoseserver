@@ -15,3 +15,15 @@ span#logout-icon {
     font-size: 16px;
     margin-right: 3px;
 }
+
+ul.line-legend {
+    list-style: none;
+    padding: 10px;
+}
+
+.line-legend span {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 10px;
+}

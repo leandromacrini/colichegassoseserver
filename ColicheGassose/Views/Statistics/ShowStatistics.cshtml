@@ -4,7 +4,7 @@
 
 @section initPageViewModel {
     <script type="text/javascript">
-        App.viewModel.statistics.setCurrentPage(StatisticsViewModelPages.Utenti);
+        App.viewModel.statistics.setCurrentPage(StatisticsViewModelPages.Sintomi);
     </script>
 }
 
@@ -35,6 +35,10 @@
             <a href="#app" class="list-group-item" data-bind="css:{active:currentPage() === StatisticsViewModelPages.App}, click: setCurrentPage.bind($data, StatisticsViewModelPages.App)">
                 Statistiche App
                 <img class="menu-icon" src="~/Images/icon-app.png" alt="icona app" />
+            </a>
+            <a href="@Url.Action("ExportStatistics", "Statistics")" class="list-group-item" target="_blank">
+                Esporta tutti i dati
+                <span id="logout-icon" class="glyphicon glyphicon-floppy-disk pull-right"></span>
             </a>
             <a href="@Url.Action("Logout", "Home")" class="list-group-item">
                 Logout
@@ -138,7 +142,9 @@
             </div>
             <div class="panel-body">
                 <div class="page-header">
-                    <h4>Grafico rimedi</h4>
+                    <h4>Grafico dei rimedi registrati</h4>
+                    <h5>Legenda</h5>
+                    <div id="rimedi-legend"></div>
                 </div>
                 <div class="canvas-container">
                     <canvas id="chart-rimedi"></canvas>
@@ -160,7 +166,14 @@
             </div>
             <div class="panel-body">
                 <div class="page-header">
-                    <h4>Grafico appuntamenti</h4>
+                    <h4>Dati generali di utilizzo</h4>
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>Appuntamenti registrati</dt>
+                    <dd data-bind="text: totalAppointments"></dd>
+                </dl>
+                <div class="page-header">
+                    <h4>Grafico appuntamenti registrati</h4>
                 </div>
                 <div class="canvas-container">
                     <canvas id="chart-appuntamenti"></canvas>
