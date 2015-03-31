@@ -49,21 +49,21 @@
     self.weeklyAgitazioniIntensitaMedia = ko.observable(0);
     self.weeklyAgitazioniDurataMedia = ko.observable(0);
 
-    self.weeklyPiantiVLS = ko.observable(0);
-    self.weeklyPiantiIntensitaMediaVLS = ko.observable(0);
-    self.weeklyPiantiDurataMediaVLS = ko.observable(0);
+    self.weeklyPiantiVSL = ko.observable(0);
+    self.weeklyPiantiIntensitaMediaVSL = ko.observable(0);
+    self.weeklyPiantiDurataMediaVSL = ko.observable(0);
 
-    self.weeklyRigurgitiVLS = ko.observable(0);
-    self.weeklyRigurgitiIntensitaMediaVLS = ko.observable(0);
-    self.weeklyRigurgitiDurataMediaVLS = ko.observable(0);
+    self.weeklyRigurgitiVSL = ko.observable(0);
+    self.weeklyRigurgitiIntensitaMediaVSL = ko.observable(0);
+    self.weeklyRigurgitiDurataMediaVSL = ko.observable(0);
 
-    self.weeklyAgitazioniVLS = ko.observable(0);
-    self.weeklyAgitazioniIntensitaMediaVLS = ko.observable(0);
-    self.weeklyAgitazioniDurataMediaVLS = ko.observable(0);
+    self.weeklyAgitazioniVSL = ko.observable(0);
+    self.weeklyAgitazioniIntensitaMediaVSL = ko.observable(0);
+    self.weeklyAgitazioniDurataMediaVSL = ko.observable(0);
 
     // RIMEDI
     self.totalRimedi = ko.observable(0);
-    self.totalRimediVLS = ko.observable(0);
+    self.totalRimediVSL = ko.observable(0);
 
     // APPUNTAMENTI
     self.totalAppointments = ko.observable(0);
@@ -78,6 +78,50 @@
 
         //call backend and update statistics
         switch (page) {
+            case StatisticsViewModelPages.MedieVSL:
+                self.updating(true);
+                $.ajax({
+                    url: siteRoot + 'Statistics/GetMedieStatistics',
+                    type: "POST",
+                    success: function (response) {
+                        self.updating(false);
+
+                        self.weeklyPianti(response.weeklyPianti);
+                        self.weeklyPiantiIntensitaMedia(response.weeklyPiantiIntensitaMedia);
+                        self.weeklyPiantiDurataMedia(response.weeklyPiantiDurataMedia);
+
+                        self.weeklyRigurgiti(response.weeklyRigurgiti);
+                        self.weeklyRigurgitiIntensitaMedia(response.weeklyRigurgitiIntensitaMedia);
+                        self.weeklyRigurgitiDurataMedia(response.weeklyRigurgitiDurataMedia);
+
+                        self.weeklyAgitazioni(response.weeklyAgitazioni);
+                        self.weeklyAgitazioniIntensitaMedia(response.weeklyAgitazioniIntensitaMedia);
+                        self.weeklyAgitazioniDurataMedia(response.weeklyAgitazioniDurataMedia);
+
+                        self.weeklyPiantiVSL(response.weeklyPiantiVSL);
+                        self.weeklyPiantiIntensitaMediaVSL(response.weeklyPiantiIntensitaMediaVSL);
+                        self.weeklyPiantiDurataMediaVSL(response.weeklyPiantiDurataMediaVSL);
+
+                        self.weeklyRigurgitiVSL(response.weeklyRigurgitiVSL);
+                        self.weeklyRigurgitiIntensitaMediaVSL(response.weeklyRigurgitiIntensitaMediaVSL);
+                        self.weeklyRigurgitiDurataMediaVSL(response.weeklyRigurgitiDurataMediaVSL);
+
+                        self.weeklyAgitazioniVSL(response.weeklyAgitazioniVSL);
+                        self.weeklyAgitazioniIntensitaMediaVSL(response.weeklyAgitazioniIntensitaMediaVSL);
+                        self.weeklyAgitazioniDurataMediaVSL(response.weeklyAgitazioniDurataMediaVSL);
+
+                        var ctx;
+
+                        if (self.chartSintomi) self.chartSintomi.destroy();
+                        ctx = $("#chart-medie").get(0).getContext("2d");
+                        self.chartSintomi = new Chart(ctx).Doughnut(response.symptomsCounts);
+
+                        if (self.chartSintomiVSL) self.chartSintomiVSL.destroy();
+                        ctx = $("#chart-medie-vsl").get(0).getContext("2d");
+                        self.chartSintomiVSL = new Chart(ctx).Doughnut(response.symptomsCountsVSL);
+                    }
+                });
+                break;
             case StatisticsViewModelPages.Sintomi:
                 self.updating(true);
                 $.ajax({
@@ -98,17 +142,17 @@
                         self.weeklyAgitazioniIntensitaMedia(response.weeklyAgitazioniIntensitaMedia);
                         self.weeklyAgitazioniDurataMedia(response.weeklyAgitazioniDurataMedia);
 
-                        self.weeklyPiantiVLS(response.weeklyPiantiVLS);
-                        self.weeklyPiantiIntensitaMediaVLS(response.weeklyPiantiIntensitaMediaVLS);
-                        self.weeklyPiantiDurataMediaVLS(response.weeklyPiantiDurataMediaVLS);
+                        self.weeklyPiantiVSL(response.weeklyPiantiVSL);
+                        self.weeklyPiantiIntensitaMediaVSL(response.weeklyPiantiIntensitaMediaVSL);
+                        self.weeklyPiantiDurataMediaVSL(response.weeklyPiantiDurataMediaVSL);
 
-                        self.weeklyRigurgitiVLS(response.weeklyRigurgitiVLS);
-                        self.weeklyRigurgitiIntensitaMediaVLS(response.weeklyRigurgitiIntensitaMediaVLS);
-                        self.weeklyRigurgitiDurataMediaVLS(response.weeklyRigurgitiDurataMediaVLS);
+                        self.weeklyRigurgitiVSL(response.weeklyRigurgitiVSL);
+                        self.weeklyRigurgitiIntensitaMediaVSL(response.weeklyRigurgitiIntensitaMediaVSL);
+                        self.weeklyRigurgitiDurataMediaVSL(response.weeklyRigurgitiDurataMediaVSL);
 
-                        self.weeklyAgitazioniVLS(response.weeklyAgitazioniVLS);
-                        self.weeklyAgitazioniIntensitaMediaVLS(response.weeklyAgitazioniIntensitaMediaVLS);
-                        self.weeklyAgitazioniDurataMediaVLS(response.weeklyAgitazioniDurataMediaVLS);
+                        self.weeklyAgitazioniVSL(response.weeklyAgitazioniVSL);
+                        self.weeklyAgitazioniIntensitaMediaVSL(response.weeklyAgitazioniIntensitaMediaVSL);
+                        self.weeklyAgitazioniDurataMediaVSL(response.weeklyAgitazioniDurataMediaVSL);
 
                         var ctx;
 
@@ -116,9 +160,9 @@
                         ctx = $("#chart-sintomi").get(0).getContext("2d");
                         self.chartSintomi = new Chart(ctx).Doughnut(response.symptomsCounts);
 
-                        if (self.chartSintomiVLS) self.chartSintomiVLS.destroy();
-                        ctx = $("#chart-sintomi-vls").get(0).getContext("2d");
-                        self.chartSintomiVLS = new Chart(ctx).Doughnut(response.symptomsCountsVLS);
+                        if (self.chartSintomiVSL) self.chartSintomiVSL.destroy();
+                        ctx = $("#chart-sintomi-vsl").get(0).getContext("2d");
+                        self.chartSintomiVSL = new Chart(ctx).Doughnut(response.symptomsCountsVSL);
                     }
                 });
                 break;
@@ -131,7 +175,7 @@
                         self.updating(false);
 
                         self.totalRimedi(response.totalRimedi);
-                        self.totalRimediVLS(response.totalRimediVLS);
+                        self.totalRimediVSL(response.totalRimediVSL);
 
                         //split Rimedi by type
 
@@ -208,20 +252,20 @@
 
                         $("#rimedi-legend").html(self.chartRimedi.generateLegend());
 
-                        if (self.chartRimediVLS) self.chartRimediVLS.destroy();
-                        ctx = $("#chart-rimedi-vls").get(0).getContext("2d");
-                        self.chartRimediVLS = new Chart(ctx).Line({
-                            labels: response.rimediVLS.labels,
+                        if (self.chartRimediVSL) self.chartRimediVSL.destroy();
+                        ctx = $("#chart-rimedi-vsl").get(0).getContext("2d");
+                        self.chartRimediVSL = new Chart(ctx).Line({
+                            labels: response.rimediVSL.labels,
                             datasets: [
                                 {
-                                    label: "Rimedi VLS",
+                                    label: "Rimedi VSL",
                                     fillColor: "rgba(245, 134, 108, 0.5)",
                                     strokeColor: "rgba(245, 134, 108, 1)",
                                     pointColor: "rgba(245, 134, 108, 1)",
                                     pointStrokeColor: "#fff",
                                     pointHighlightFill: "rgba(245, 134, 108, 0.75)",
                                     pointHighlightStroke: "rgba(245, 134, 108, 1)",
-                                    data: response.rimediVLS.data
+                                    data: response.rimediVSL.data
                                 }
                             ]
                         });
@@ -244,7 +288,7 @@
                             labels: response.appointments.labels,
                             datasets: [
                                 {
-                                    label: "Rimedi VLS",
+                                    label: "Rimedi VSL",
                                     fillColor: "rgba(245, 134, 108, 0.5)",
                                     strokeColor: "rgba(245, 134, 108, 1)",
                                     pointColor: "rgba(245, 134, 108, 1)",
@@ -341,17 +385,25 @@
                 });
                 break;
         }
-    };
+    };  
     
     //init charts
     Chart.defaults.global.responsive = true;
     Chart.defaults.global.scaleBeginAtZero = true;
 }
 
+ko.components.register('intensity-meter', {
+    viewModel: function (params) {
+        this.value = new Array(parseInt(params.value));
+    },
+    template: '<!-- ko foreach: value --><img class="intensity-icon" src="/Images/icon-sintomo.png" alt="icona sintomo" /><!-- /ko -->'
+});
+
 var StatisticsViewModelPages = {
     Sintomi: 0,
     Rimedi: 1,
     Appuntamenti: 2,
     Utenti: 3,
-    App: 4
+    App: 4,
+    MedieVSL : 5
 };

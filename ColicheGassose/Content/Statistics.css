@@ -11,6 +11,11 @@ img.menu-icon {
     float: right;
 }
 
+img.intensity-icon {
+    margin-right: 5px;
+    width: 25px;
+}
+
 span#logout-icon {
     font-size: 16px;
     margin-right: 3px;

@@ -156,6 +156,7 @@
     <Content Include="Images\app-store.png" />
     <Content Include="Images\appicon.png" />
     <Content Include="Images\icon-app.png" />
+    <Content Include="Images\icon-medie.png" />
     <Content Include="Images\icon-rimedi2.png" />
     <Content Include="Images\icon-sintomo.png" />
     <Content Include="Images\icon-utenti.png" />
