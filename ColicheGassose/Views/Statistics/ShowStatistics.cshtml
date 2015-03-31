@@ -72,6 +72,7 @@
                     <dd data-bind="text: SymptomDurations[4]"></dd>
                 </dl>
                 <div class="canvas-container">
+                    <div id="medie-legend"></div>
                     <canvas id="chart-medie"></canvas>
                 </div>
             </div>
@@ -91,6 +92,7 @@
                     <dd data-bind="text: SymptomDurations[2]"></dd>
                 </dl>
                 <div class="canvas-container">
+                    <div id="medie-vsl-legend"></div>
                     <canvas id="chart-medie-vsl"></canvas>
                 </div>
             </div>
@@ -118,7 +120,7 @@
                     <dt>Intensit&agrave; media</dt>
                     <dd data-bind="component: {
                         name : 'intensity-meter',
-                        params :{ value: weeklyPiantiIntensitaMedia}
+                        params :{ value: weeklyPiantiIntensitaMedia()}
                     }"></dd>
                     <dt>Durata Media</dt>
                     <dd data-bind="text: SymptomDurations[weeklyPiantiDurataMedia()]"></dd>
@@ -132,7 +134,7 @@
                     <dt>Intensit&agrave; media</dt>
                     <dd data-bind="component: {
                         name : 'intensity-meter',
-                        params :{ value: weeklyRigurgitiIntensitaMedia}
+                        params :{ value: weeklyRigurgitiIntensitaMedia()}
                     }"></dd>
                     <dt>Durata Media</dt>
                     <dd data-bind="text: SymptomDurations[weeklyRigurgitiDurataMedia()]"></dd>
@@ -146,7 +148,7 @@
                     <dt>Intensit&agrave; media</dt>
                     <dd data-bind="component: {
                         name : 'intensity-meter',
-                        params :{ value: weeklyAgitazioniIntensitaMedia}
+                        params :{ value: weeklyAgitazioniIntensitaMedia()}
                     }"></dd>
                     <dt>Durata Media</dt>
                     <dd data-bind="text: SymptomDurations[weeklyAgitazioniDurataMedia()]"></dd>
@@ -166,7 +168,7 @@
                     <dt>Intensit&agrave; media</dt>
                     <dd data-bind="component: {
                         name : 'intensity-meter',
-                        params :{ value: weeklyPiantiIntensitaMediaVSL}
+                        params :{ value: weeklyPiantiIntensitaMediaVSL()}
                     }"></dd>
                     <dt>Durata Media</dt>
                     <dd data-bind="text: SymptomDurations[weeklyPiantiDurataMediaVSL()]"></dd>
@@ -180,7 +182,7 @@
                     <dt>Intensit&agrave; media</dt>
                     <dd data-bind="component: {
                         name : 'intensity-meter',
-                        params :{ value: weeklyRigurgitiIntensitaMediaVSL}
+                        params :{ value: weeklyRigurgitiIntensitaMediaVSL()}
                     }"></dd>
                     <dt>Durata Media</dt>
                     <dd data-bind="text: SymptomDurations[weeklyRigurgitiDurataMediaVSL()]"></dd>
@@ -194,7 +196,7 @@
                     <dt>Intensit&agrave; media</dt>
                     <dd data-bind="component: {
                         name : 'intensity-meter',
-                        params :{ value: weeklyAgitazioniIntensitaMediaVSL}
+                        params :{ value: weeklyAgitazioniIntensitaMediaVSL()}
                     }"></dd>
                     <dt>Durata Media</dt>
                     <dd data-bind="text: SymptomDurations[weeklyAgitazioniDurataMediaVSL()]"></dd>

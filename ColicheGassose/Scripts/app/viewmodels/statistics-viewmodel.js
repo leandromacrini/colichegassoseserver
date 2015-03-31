@@ -112,13 +112,15 @@
 
                         var ctx;
 
-                        if (self.chartSintomi) self.chartSintomi.destroy();
+                        if (self.chartMedie) self.chartMedie.destroy();
                         ctx = $("#chart-medie").get(0).getContext("2d");
-                        self.chartSintomi = new Chart(ctx).Doughnut(response.symptomsCounts);
+                        self.chartMedie = new Chart(ctx).Doughnut(response.symptomsCounts);
+                        $("#medie-legend").html(self.chartMedie.generateLegend());
 
-                        if (self.chartSintomiVSL) self.chartSintomiVSL.destroy();
+                        if (self.chartMedieVSL) self.chartMedieVSL.destroy();
                         ctx = $("#chart-medie-vsl").get(0).getContext("2d");
-                        self.chartSintomiVSL = new Chart(ctx).Doughnut(response.symptomsCountsVSL);
+                        self.chartMedieVSL = new Chart(ctx).Doughnut(response.symptomsCountsVSL);
+                        $("#medie-vsl-legend").html(self.chartMedieVSL.generateLegend());
                     }
                 });
                 break;

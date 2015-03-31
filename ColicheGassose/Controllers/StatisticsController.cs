@@ -177,24 +177,45 @@ namespace ColicheGassose.Controllers
                 {
                     new
                         {
-                            label = "Pianti",
-                            value = weeklyPianti,
-                            color = "#AA0000",
-                            highlight = "#FF0000"
+                            label = "Terapia posizionale",
+                            color = "rgba(132, 245, 108, 1)",
+                            value = 15,
+                            highlight = "#EEE"
                         },
                     new
                     {
-                        label = "Rigurgiti",
-                        value = weeklyRigurgiti,
-                        color = "#00AA00",
-                        highlight = "#00FF00"
+                        label = "Massaggio",
+                        value = 5,
+                        color = "rgba(108, 134, 245, 1)",
+                        highlight = "#EEE"
                     },
                     new
                     {
-                        label = "Agitazioni",
-                        value = weeklyAgitazioni,
-                        color = "#0000AA",
-                        highlight = "#0000FF"
+                        label = "Musica dolce",
+                        value = 6,
+                        color = "rgba(245, 108, 217, 1)",
+                        highlight = "#EEE"
+                    },
+                    new
+                    {
+                        label = "Movimento",
+                        value = 7,
+                        color = "rgba(108, 245, 245, 1)",
+                        highlight = "#EEE"
+                    },
+                    new
+                    {
+                        label = "Probiotici",
+                        value = 7,
+                        color = "rgba(255, 0, 0, 1)",
+                        highlight = "#EEE"
+                    },
+                    new
+                    {
+                        label = "Rimedio personale",
+                        value = 5,
+                        color = "rgba(50, 134, 108, 1)",
+                        highlight = "#EEE"
                     }
                 },
 
@@ -202,24 +223,52 @@ namespace ColicheGassose.Controllers
                 {
                     new
                         {
-                            label = "Pianti",
-                            value = weeklyPiantiVSL,
-                            color = "#AA0000",
-                            highlight = "#FF0000"
+                            label = "Terapia posizionale",
+                            color = "rgba(132, 245, 108, 1)",
+                            value = 15,
+                            highlight = "#EEE"
                         },
                     new
                     {
-                        label = "Rigurgiti",
-                        value = weeklyRigurgitiVSL,
-                        color = "#00AA00",
-                        highlight = "#00FF00"
+                        label = "Massaggio",
+                        value = 5,
+                        color = "rgba(108, 134, 245, 1)",
+                        highlight = "#EEE"
                     },
                     new
                     {
-                        label = "Agitazioni",
-                        value = weeklyAgitazioniVSL,
-                        color = "#0000AA",
-                        highlight = "#0000FF"
+                        label = "Musica dolce",
+                        value = 6,
+                        color = "rgba(245, 108, 217, 1)",
+                        highlight = "#EEE"
+                    },
+                    new
+                    {
+                        label = "Movimento",
+                        value = 7,
+                        color = "rgba(108, 245, 245, 1)",
+                        highlight = "#EEE"
+                    },
+                    new
+                    {
+                        label = "Probiotici",
+                        value = 7,
+                        color = "rgba(255, 0, 0, 1)",
+                        highlight = "#EEE"
+                    },
+                    new
+                    {
+                        label = "VSL#3",
+                        value = 10,
+                        color = "#f5866c",
+                        highlight = "#EEE"
+                    },
+                    new
+                    {
+                        label = "Rimedio personale",
+                        value = 5,
+                        color = "rgba(50, 134, 108, 1)",
+                        highlight = "#EEE"
                     }
                 }
             }, JsonRequestBehavior.AllowGet);
@@ -392,22 +441,22 @@ namespace ColicheGassose.Controllers
                         {
                             label = "Pianti",
                             value = weeklyPianti,
-                            color = "#AA0000",
+                            color = "#F56C6C",
                             highlight = "#FF0000"
                         },
                     new
                     {
                         label = "Rigurgiti",
                         value = weeklyRigurgiti,
-                        color = "#00AA00",
-                        highlight = "#00FF00"
+                        color = "#F29696",
+                        highlight = "#FF0000"
                     },
                     new
                     {
                         label = "Agitazioni",
                         value = weeklyAgitazioni,
-                        color = "#0000AA",
-                        highlight = "#0000FF"
+                        color = "#F0BABA",
+                        highlight = "#FF0000"
                     }
                 },
 
@@ -417,22 +466,22 @@ namespace ColicheGassose.Controllers
                         {
                             label = "Pianti",
                             value = weeklyPiantiVSL,
-                            color = "#AA0000",
+                            color = "#f5866c",
                             highlight = "#FF0000"
                         },
                     new
                     {
                         label = "Rigurgiti",
                         value = weeklyRigurgitiVSL,
-                        color = "#00AA00",
-                        highlight = "#00FF00"
+                        color = "#F5AB9A",
+                        highlight = "#FF0000"
                     },
                     new
                     {
                         label = "Agitazioni",
                         value = weeklyAgitazioniVSL,
-                        color = "#0000AA",
-                        highlight = "#0000FF"
+                        color = "#F4CFC7",
+                        highlight = "#FF0000"
                     }
                 }
             }, JsonRequestBehavior.AllowGet);
