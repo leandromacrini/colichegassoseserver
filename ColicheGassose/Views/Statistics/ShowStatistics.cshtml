@@ -4,7 +4,7 @@
 
 @section initPageViewModel {
     <script type="text/javascript">
-        App.viewModel.statistics.setCurrentPage(StatisticsViewModelPages.Sintomi);
+        App.viewModel.statistics.setCurrentPage(StatisticsViewModelPages.MedieVSL);
     </script>
 }
 
@@ -22,6 +22,10 @@
     </div>
     <div class="col-xs-3">
         <div class="list-group">
+            <a href="#sintomi" class="list-group-item" data-bind="css:{active:currentPage() === StatisticsViewModelPages.MedieVSL}, click: setCurrentPage.bind($data, StatisticsViewModelPages.MedieVSL)">
+                Statistiche Medie VSL
+                <img class="menu-icon" src="~/Images/icon-medie.png" alt="icona medie" />
+            </a>
             <a href="#sintomi" class="list-group-item" data-bind="css:{active:currentPage() === StatisticsViewModelPages.Sintomi}, click: setCurrentPage.bind($data, StatisticsViewModelPages.Sintomi)">
                 Statistiche Sintomi
                 <img class="menu-icon" src="~/Images/icon-sintomo.png" alt="icona sintomo" />
@@ -53,6 +57,54 @@
         </div>
     </div>
     <div class="col-xs-9">
+        <!-- ko if: currentPage() === StatisticsViewModelPages.MedieVSL -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">STATISTICHE MEDIE VSL</h1>
+            </div>
+            <div class="panel-body">
+                <div class="page-header">
+                    <h4>TOTALE PAZIENTI</h4>
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>Episodi medi</dt>
+                    <dd>3,2</dd>
+                    <dt>Intensit&agrave; media</dt>
+                    <dd data-bind="component: {
+                        name : 'intensity-meter',
+                        params :{ value: 4}
+                    }"></dd>
+                    <dt>Durata Media</dt>
+                    <dd data-bind="text: SymptomDurations[4]"></dd>
+                </dl>
+                <div class="canvas-container">
+                    <div id="medie-legend"></div>
+                    <canvas id="chart-medie"></canvas>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="page-header">
+                    <h4>PAZIENTI CHE HANNO ASSUNTO VSL#3</h4>
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>Episodi medi</dt>
+                    <dd>2,1</dd>
+                    <dt>Intensit&agrave; media</dt>
+                    <dd data-bind="component: {
+                        name : 'intensity-meter',
+                        params :{ value: 3}
+                    }"></dd>
+                    <dt>Durata Media</dt>
+                    <dd data-bind="text: SymptomDurations[2]"></dd>
+                </dl>
+                <div class="canvas-container">
+                    <div id="medie-vsl-legend"></div>
+                    <canvas id="chart-medie-vsl"></canvas>
+                </div>
+            </div>
+            <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
+        </div>
+        <!-- /ko -->
         <!-- ko if: currentPage() === StatisticsViewModelPages.Sintomi -->
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -72,7 +124,10 @@
                     <dt>Sintomi con pianto</dt>
                     <dd data-bind="text: weeklyPianti"></dd>
                     <dt>Intensit&agrave; media</dt>
-                    <dd data-bind="text: SymptomIntensity[weeklyPiantiIntensitaMedia()]"></dd>
+                    <dd data-bind="component: {
+                        name : 'intensity-meter',
+                        params :{ value: weeklyPiantiIntensitaMedia()}
+                    }"></dd>
                     <dt>Durata Media</dt>
                     <dd data-bind="text: SymptomDurations[weeklyPiantiDurataMedia()]"></dd>
                 </dl>
@@ -83,7 +138,10 @@
                     <dt>Sintomi con rigurgito</dt>
                     <dd data-bind="text: weeklyRigurgiti"></dd>
                     <dt>Intensit&agrave; media</dt>
-                    <dd data-bind="text: SymptomIntensity[weeklyRigurgitiIntensitaMedia()]"></dd>
+                    <dd data-bind="component: {
+                        name : 'intensity-meter',
+                        params :{ value: weeklyRigurgitiIntensitaMedia()}
+                    }"></dd>
                     <dt>Durata Media</dt>
                     <dd data-bind="text: SymptomDurations[weeklyRigurgitiDurataMedia()]"></dd>
                 </dl>
@@ -94,48 +152,60 @@
                     <dt>Sintomi con agitazione</dt>
                     <dd data-bind="text: weeklyAgitazioni"></dd>
                     <dt>Intensit&agrave; media</dt>
-                    <dd data-bind="text: SymptomIntensity[weeklyAgitazioniIntensitaMedia()]"></dd>
+                    <dd data-bind="component: {
+                        name : 'intensity-meter',
+                        params :{ value: weeklyAgitazioniIntensitaMedia()}
+                    }"></dd>
                     <dt>Durata Media</dt>
                     <dd data-bind="text: SymptomDurations[weeklyAgitazioniDurataMedia()]"></dd>
                 </dl>
                 <div class="page-header">
-                    <h4>Grafico dei sintomi degli ultimi 7 giorni dopo l'utilizzo di VLS (sintomi registrati a partire dalla prima volta che un utente ha creato un rimedio contenente "VLS")</h4>
+                    <h4>Grafico dei sintomi degli ultimi 7 giorni dopo l'utilizzo di VSL (sintomi registrati a partire dalla prima volta che un utente ha creato un rimedio contenente "VSL")</h4>
                 </div>
                 <div class="canvas-container">
-                    <canvas id="chart-sintomi-vls"></canvas>
+                    <canvas id="chart-sintomi-vsl"></canvas>
                 </div>
                 <div class="page-header">
                     <h4>Dati medi dei sintomi con pianto degli ultimi 7 giorni</h4>
                 </div>
                 <dl class="dl-horizontal">
                     <dt>Sintomi con pianto</dt>
-                    <dd data-bind="text: weeklyPiantiVLS"></dd>
+                    <dd data-bind="text: weeklyPiantiVSL"></dd>
                     <dt>Intensit&agrave; media</dt>
-                    <dd data-bind="text: SymptomIntensity[weeklyPiantiIntensitaMediaVLS()]"></dd>
+                    <dd data-bind="component: {
+                        name : 'intensity-meter',
+                        params :{ value: weeklyPiantiIntensitaMediaVSL()}
+                    }"></dd>
                     <dt>Durata Media</dt>
-                    <dd data-bind="text: SymptomDurations[weeklyPiantiDurataMediaVLS()]"></dd>
+                    <dd data-bind="text: SymptomDurations[weeklyPiantiDurataMediaVSL()]"></dd>
                 </dl>
                 <div class="page-header">
                     <h4>Dati Medi dei sintomi con rigurgito degli ultimi 7 giorni</h4>
                 </div>
                 <dl class="dl-horizontal">
                     <dt>Sintomi con rigurgito</dt>
-                    <dd data-bind="text: weeklyRigurgitiVLS"></dd>
+                    <dd data-bind="text: weeklyRigurgitiVSL"></dd>
                     <dt>Intensit&agrave; media</dt>
-                    <dd data-bind="text: SymptomIntensity[weeklyRigurgitiIntensitaMediaVLS()]"></dd>
+                    <dd data-bind="component: {
+                        name : 'intensity-meter',
+                        params :{ value: weeklyRigurgitiIntensitaMediaVSL()}
+                    }"></dd>
                     <dt>Durata Media</dt>
-                    <dd data-bind="text: SymptomDurations[weeklyRigurgitiDurataMediaVLS()]"></dd>
+                    <dd data-bind="text: SymptomDurations[weeklyRigurgitiDurataMediaVSL()]"></dd>
                 </dl>
                 <div class="page-header">
                     <h4>Dati Medi dei sintomi con agitazione degli ultimi 7 giorni</h4>
                 </div>
                 <dl class="dl-horizontal">
                     <dt>Sintomi con agitazione</dt>
-                    <dd data-bind="text: weeklyAgitazioniVLS"></dd>
+                    <dd data-bind="text: weeklyAgitazioniVSL"></dd>
                     <dt>Intensit&agrave; media</dt>
-                    <dd data-bind="text: SymptomIntensity[weeklyAgitazioniIntensitaMediaVLS()]"></dd>
+                    <dd data-bind="component: {
+                        name : 'intensity-meter',
+                        params :{ value: weeklyAgitazioniIntensitaMediaVSL()}
+                    }"></dd>
                     <dt>Durata Media</dt>
-                    <dd data-bind="text: SymptomDurations[weeklyAgitazioniDurataMediaVLS()]"></dd>
+                    <dd data-bind="text: SymptomDurations[weeklyAgitazioniDurataMediaVSL()]"></dd>
                 </dl>
             </div>
             <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
@@ -156,10 +226,10 @@
                     <canvas id="chart-rimedi"></canvas>
                 </div>
                 <div class="page-header">
-                    <h4>Grafico rimedi VLS</h4>
+                    <h4>Grafico rimedi VSL</h4>
                 </div>
                 <div class="canvas-container">
-                    <canvas id="chart-rimedi-vls"></canvas>
+                    <canvas id="chart-rimedi-vsl"></canvas>
                 </div>
             </div>
             <div class="panel-footer">I dati visualizzati sono anonimi e strettamente confidenziali</div>
