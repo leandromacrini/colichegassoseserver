@@ -9,7 +9,13 @@
 }
 
 <!-- ko with: statistics -->
-
+<!-- ko if: updating() -->
+<div id="updating">
+    <span class="spin glyphicon glyphicon-repeat"></span>
+    <br />
+    <span class="loading-text">Generazione statistiche ...</span>
+</div>
+<!-- /ko -->
 <div id="statitistics-container" class="container">
     <div class="page-header">
         <h1 data-bind="html: pageTitle"></h1>
