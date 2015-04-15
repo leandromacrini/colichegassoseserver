@@ -68,14 +68,14 @@
                 </div>
                 <dl class="dl-horizontal">
                     <dt>Episodi medi</dt>
-                    <dd>3,2</dd>
+                    <dd data-bind="text: averageEpisodiMedi"></dd>
                     <dt>Intensit&agrave; media</dt>
                     <dd data-bind="component: {
                         name : 'intensity-meter',
-                        params :{ value: 4}
+                        params :{ value: averageIntensitaMedia()}
                     }"></dd>
                     <dt>Durata Media</dt>
-                    <dd data-bind="text: SymptomDurations[4]"></dd>
+                    <dd data-bind="text: SymptomDurations[averageDurataMedia()]"></dd>
                 </dl>
                 <div class="canvas-container">
                     <div id="medie-legend"></div>
@@ -84,18 +84,20 @@
             </div>
             <div class="panel-body">
                 <div class="page-header">
-                    <h4>PAZIENTI CHE HANNO ASSUNTO VSL#3</h4>
+                    <h4>PAZIENTI CHE HANNO ASSUNTO PROBIOTICI</h4>
                 </div>
                 <dl class="dl-horizontal">
+                    <dt>Utenti con probiotici</dt>
+                    <dd data-bind="text: probioticUsers"></dd>
                     <dt>Episodi medi</dt>
-                    <dd>2,1</dd>
+                    <dd data-bind="text: averageEpisodiMediProb"></dd>
                     <dt>Intensit&agrave; media</dt>
                     <dd data-bind="component: {
                         name : 'intensity-meter',
-                        params :{ value: 3}
+                        params :{ value: averageIntensitaMediaProb()}
                     }"></dd>
                     <dt>Durata Media</dt>
-                    <dd data-bind="text: SymptomDurations[2]"></dd>
+                    <dd data-bind="text: SymptomDurations[averageDurataMediaProb()]"></dd>
                 </dl>
                 <div class="canvas-container">
                     <div id="medie-vsl-legend"></div>

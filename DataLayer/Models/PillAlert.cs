@@ -2,10 +2,29 @@ namespace ColicheGassose
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
+
+    public enum  PillAlertRemedies
+    {
+        TerapiaPosizionale = 0,
+	    Massaggio,
+	    MusicaDolce,
+	    Movimento,
+	    Probiotici,
+	    AltroRimedio
+    }
 
     public partial class PillAlert
     {
         public PillAlert() { }
+
+        public int WhenWeek
+        {
+            get
+            {
+                return CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(this.When, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday);
+            }
+        }
 
         public PillAlert(PillAlertTransport transport)
         {

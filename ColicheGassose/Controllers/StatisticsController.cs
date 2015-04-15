@@ -1,6 +1,7 @@
 ﻿using Ionic.Zip;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,131 +13,97 @@ namespace ColicheGassose.Controllers
 {
     public class StatisticsController : Controller
     {
+
+
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult GetMedieStatistics()
+        public ActionResult GetAverageStatistics()
         {
-            var symptomsThisWeek = new List<object>();
-            var symptomsThisWeekVSL = new List<object>();
-
             string error = "None";
 
-            int weeklyPianti = 0;
-            int weeklyPiantiIntensitaMedia = 0;
-            int weeklyPiantiDurataMedia = 0;
+            double averageEpisodiMedi = 0;
+            double averageIntensitaMedia = 0;
+            double averageDurataMedia = 0;
 
-            int weeklyRigurgiti = 0;
-            int weeklyRigurgitiIntensitaMedia = 0;
-            int weeklyRigurgitiDurataMedia = 0;
+            double averageEpisodiMediProb = 0;
+            double averageDurataMediaProb = 0;
+            double averageIntensitaMediaProb = 0;
 
-            int weeklyAgitazioni = 0;
-            int weeklyAgitazioniIntensitaMedia = 0;
-            int weeklyAgitazioniDurataMedia = 0;
+            double weekTerapiaPosizionaleAverage = 0;
+            double weekMassaggioAverage = 0;
+            double weekMovimentoAverage = 0;
+            double weekMusicaDolceAverage = 0;
+            double weekProbioticiAverage = 0;
+            double weekAltroRimedioAverage = 0;
 
-            int weeklyPiantiVSL = 0;
-            int weeklyPiantiIntensitaMediaVSL = 0;
-            int weeklyPiantiDurataMediaVSL = 0;
-
-            int weeklyRigurgitiVSL = 0;
-            int weeklyRigurgitiIntensitaMediaVSL = 0;
-            int weeklyRigurgitiDurataMediaVSL = 0;
-
-            int weeklyAgitazioniVSL = 0;
-            int weeklyAgitazioniIntensitaMediaVSL = 0;
-            int weeklyAgitazioniDurataMediaVSL = 0;
+            int probioticUsers = 0;
+            double weekTerapiaPosizionaleAverageProb = 0;
+            double weekMassaggioAverageProb = 0;
+            double weekMovimentoAverageProb = 0;
+            double weekMusicaDolceAverageProb = 0;
+            double weekProbioticiAverageProb = 0;
+            double weekAltroRimedioAverageProb = 0;
+            double weekVSLAverageProb = 0;
 
             try
             {
                 using (var context = new DataModelContainer())
                 {
-                    var allSymptoms = context.SymptomSet.AsEnumerable();
+                    var userWeeklySympthoms = context.SymptomSet.AsEnumerable()
+                        .GroupBy(
+                        s => new { Year = s.When.Year, Week = s.WhenWeek, UserDataID = s.UserDataID },
+                        s => s,
+                        (key, g) => new
+                        {
+                            key.UserDataID,
+                            key.Year,
+                            key.Week,
+                            Symptoms = g.ToList(),
+                            AvgIntensity = (int)g.Average(s => s.Intensity),
+                            AvgDuration = (int)g.Average(s => s.Duration)
+                        }).ToList();
 
-                    weeklyPianti = allSymptoms.Where(s => s.Pianto && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Count();
-                    weeklyPiantiIntensitaMedia = (int)allSymptoms.Where(s => s.Pianto && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Intensity).Average();
-                    weeklyPiantiDurataMedia = (int)allSymptoms.Where(s => s.Pianto && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Duration).Average();
+                    var count = userWeeklySympthoms.Count();
 
-                    weeklyRigurgiti = allSymptoms.Where(s => s.Rigurgito && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Count();
-                    weeklyRigurgitiIntensitaMedia = (int)allSymptoms.Where(s => s.Rigurgito && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Intensity).Average();
-                    weeklyRigurgitiDurataMedia = (int)allSymptoms.Where(s => s.Rigurgito && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Duration).Average();
+                    var probioticUserIDs = context.PillAlertSet.Where(s => s.PillId == (int)PillAlertRemedies.Probiotici).GroupBy(s => s.UserDataID).Select(p => p.Key).AsEnumerable().ToList();
 
-                    weeklyAgitazioni = allSymptoms.Where(s => s.Agitazione && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Count();
-                    weeklyAgitazioniIntensitaMedia = (int)allSymptoms.Where(s => s.Agitazione && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Intensity).Average();
-                    weeklyAgitazioniDurataMedia = (int)allSymptoms.Where(s => s.Agitazione && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Duration).Average();
+                    probioticUsers = probioticUserIDs.Count();
 
-                    var vslUsers =
-                        (from pillAlert in context.PillAlertSet
-                         where !String.IsNullOrEmpty(pillAlert.Info) && pillAlert.Info.ToLower().Contains("vsl")
-                         group pillAlert by pillAlert.UserDataID into g
-                         select new { UserDataID = g.Key, FirstVSLUse = g.Min(pa => pa.When) }).ToList();
+                    averageEpisodiMedi = userWeeklySympthoms.Where(wr => !probioticUserIDs.Contains(wr.UserDataID)).Select(g=> g.Symptoms.Count()).DefaultIfEmpty(0).Average();
+                    averageIntensitaMedia = userWeeklySympthoms.Where(wr => !probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.AvgIntensity).DefaultIfEmpty(0).Average();
+                    averageDurataMedia = userWeeklySympthoms.Where(wr => !probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.AvgDuration).DefaultIfEmpty(0).Average();
 
-                    weeklyPiantiVSL = allSymptoms.Where(
-                            s => s.Pianto &&
-                            s.When.Year == DateTime.Now.Year &&
-                            s.When.DayOfYear > DateTime.Now.DayOfYear - 7 &&
-                            s.When.DayOfYear <= DateTime.Now.DayOfYear &&
-                            vslUsers.Any(u => u.UserDataID == s.UserDataID && s.When >= u.FirstVSLUse)).Count();
-                    weeklyPiantiIntensitaMediaVSL = (int)allSymptoms.Where(
-                            s => s.Pianto &&
-                            s.When.Year == DateTime.Now.Year &&
-                            s.When.DayOfYear > DateTime.Now.DayOfYear - 7 &&
-                            s.When.DayOfYear <= DateTime.Now.DayOfYear &&
-                            vslUsers.Any(u => u.UserDataID == s.UserDataID && s.When >= u.FirstVSLUse))
-                            .Select(s => s.Intensity)
-                            .Average();
-                    weeklyPiantiDurataMediaVSL = (int)allSymptoms.Where(
-                            s => s.Pianto &&
-                            s.When.Year == DateTime.Now.Year &&
-                            s.When.DayOfYear > DateTime.Now.DayOfYear - 7 &&
-                            s.When.DayOfYear <= DateTime.Now.DayOfYear &&
-                            vslUsers.Any(u => u.UserDataID == s.UserDataID && s.When >= u.FirstVSLUse))
-                            .Select(s => s.Duration)
-                            .Average();
+                    averageEpisodiMediProb = userWeeklySympthoms.Where(wr => probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.Symptoms.Count()).DefaultIfEmpty(0).Average();
+                    averageDurataMediaProb = userWeeklySympthoms.Where(wr => probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.AvgIntensity).DefaultIfEmpty(0).Average();
+                    averageIntensitaMediaProb = userWeeklySympthoms.Where(wr => probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.AvgDuration).DefaultIfEmpty(0).Average();
 
-                    weeklyRigurgitiVSL = allSymptoms.Where(
-                            s => s.Rigurgito &&
-                            s.When.Year == DateTime.Now.Year &&
-                            s.When.DayOfYear > DateTime.Now.DayOfYear - 7 &&
-                            s.When.DayOfYear <= DateTime.Now.DayOfYear &&
-                            vslUsers.Any(u => u.UserDataID == s.UserDataID && s.When >= u.FirstVSLUse)).Count();
-                    weeklyRigurgitiIntensitaMediaVSL = (int)allSymptoms.Where(
-                            s => s.Rigurgito &&
-                            s.When.Year == DateTime.Now.Year &&
-                            s.When.DayOfYear > DateTime.Now.DayOfYear - 7 &&
-                            s.When.DayOfYear <= DateTime.Now.DayOfYear &&
-                            vslUsers.Any(u => u.UserDataID == s.UserDataID && s.When >= u.FirstVSLUse))
-                            .Select(s => s.Intensity)
-                            .Average();
-                    weeklyRigurgitiDurataMediaVSL = (int)allSymptoms.Where(
-                            s => s.Rigurgito &&
-                            s.When.Year == DateTime.Now.Year &&
-                            s.When.DayOfYear > DateTime.Now.DayOfYear - 7 &&
-                            s.When.DayOfYear <= DateTime.Now.DayOfYear &&
-                            vslUsers.Any(u => u.UserDataID == s.UserDataID && s.When >= u.FirstVSLUse))
-                            .Select(s => s.Duration)
-                            .Average();
+                    var userWeeklyRemedies = context.PillAlertSet.AsEnumerable()
+                        .GroupBy(
+                        r => new { Year = r.When.Year, Week = r.WhenWeek, UserDataID = r.UserDataID },
+                        r => r,
+                        (key, g) => new
+                        {
+                            key.UserDataID,
+                            key.Year,
+                            key.Week,
+                            Remedies = g.ToList()
+                        }).ToList();
 
-                    weeklyAgitazioniVSL = allSymptoms.Where(
-                            s => s.Agitazione &&
-                            s.When.Year == DateTime.Now.Year &&
-                            s.When.DayOfYear > DateTime.Now.DayOfYear - 7 &&
-                            s.When.DayOfYear <= DateTime.Now.DayOfYear &&
-                            vslUsers.Any(u => u.UserDataID == s.UserDataID && s.When >= u.FirstVSLUse)).Count();
-                    weeklyAgitazioniIntensitaMediaVSL = (int)allSymptoms.Where(
-                            s => s.Agitazione &&
-                            s.When.Year == DateTime.Now.Year &&
-                            s.When.DayOfYear > DateTime.Now.DayOfYear - 7 &&
-                            s.When.DayOfYear <= DateTime.Now.DayOfYear &&
-                            vslUsers.Any(u => u.UserDataID == s.UserDataID && s.When >= u.FirstVSLUse))
-                            .Select(s => s.Intensity)
-                            .Average();
-                    weeklyAgitazioniDurataMediaVSL = (int)allSymptoms.Where(
-                            s => s.Agitazione &&
-                            s.When.Year == DateTime.Now.Year &&
-                            s.When.DayOfYear > DateTime.Now.DayOfYear - 7 &&
-                            s.When.DayOfYear <= DateTime.Now.DayOfYear &&
-                            vslUsers.Any(u => u.UserDataID == s.UserDataID && s.When >= u.FirstVSLUse))
-                            .Select(s => s.Duration)
-                            .Average();
+                    weekTerapiaPosizionaleAverage = userWeeklyRemedies.Where(wr => !probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.Remedies.Where(r => r.PillId == (int)PillAlertRemedies.TerapiaPosizionale).Count()).DefaultIfEmpty(0).Average();
+                    weekMassaggioAverage = userWeeklyRemedies.Where(wr => !probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.Remedies.Where(r => r.PillId == (int)PillAlertRemedies.Massaggio).Count()).DefaultIfEmpty(0).Average();
+                    weekMovimentoAverage = userWeeklyRemedies.Where(wr => !probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.Remedies.Where(r => r.PillId == (int)PillAlertRemedies.Movimento).Count()).DefaultIfEmpty(0).Average();
+                    weekMusicaDolceAverage = userWeeklyRemedies.Where(wr => !probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.Remedies.Where(r => r.PillId == (int)PillAlertRemedies.MusicaDolce).Count()).DefaultIfEmpty(0).Average();
+                    weekProbioticiAverage = userWeeklyRemedies.Where(wr => !probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.Remedies.Where(r => r.PillId == (int)PillAlertRemedies.Probiotici).Count()).DefaultIfEmpty(0).Average();
+                    weekAltroRimedioAverage = userWeeklyRemedies.Where(wr => !probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.Remedies.Where(r => r.PillId == (int)PillAlertRemedies.AltroRimedio).Count()).DefaultIfEmpty(0).Average();
+
+                    weekTerapiaPosizionaleAverageProb = userWeeklyRemedies.Where(wr => probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.Remedies.Where(r => r.PillId == (int)PillAlertRemedies.TerapiaPosizionale).Count()).DefaultIfEmpty(0).Average();
+                    weekMassaggioAverageProb = userWeeklyRemedies.Where(wr => probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.Remedies.Where(r => r.PillId == (int)PillAlertRemedies.Massaggio).Count()).DefaultIfEmpty(0).Average();
+                    weekMovimentoAverageProb = userWeeklyRemedies.Where(wr => probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.Remedies.Where(r => r.PillId == (int)PillAlertRemedies.Movimento).Count()).DefaultIfEmpty(0).Average();
+                    weekMusicaDolceAverageProb = userWeeklyRemedies.Where(wr => probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.Remedies.Where(r => r.PillId == (int)PillAlertRemedies.MusicaDolce).Count()).DefaultIfEmpty(0).Average();
+                    weekProbioticiAverageProb = userWeeklyRemedies.Where(wr => probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.Remedies.Where(r => r.PillId == (int)PillAlertRemedies.Probiotici).Count()).DefaultIfEmpty(0).Average();
+                    weekAltroRimedioAverageProb = userWeeklyRemedies.Where(wr => probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.Remedies.Where(r => r.PillId == (int)PillAlertRemedies.AltroRimedio).Count()).DefaultIfEmpty(0).Average();
+                    weekVSLAverageProb = userWeeklyRemedies.Where(wr => probioticUserIDs.Contains(wr.UserDataID)).Select(g => g.Remedies.Where(r => r.Info.ToLower().Contains("vsl")).Count()).DefaultIfEmpty(0).Average();
+
 
                 }
 
@@ -149,124 +116,110 @@ namespace ColicheGassose.Controllers
             return Json(new
             {
                 error = error,
-                weeklyPianti = weeklyPianti,
-                weeklyPiantiIntensitaMedia = weeklyPiantiIntensitaMedia,
-                weeklyPiantiDurataMedia = weeklyPiantiDurataMedia,
 
-                weeklyRigurgiti = weeklyRigurgiti,
-                weeklyRigurgitiIntensitaMedia = weeklyRigurgitiIntensitaMedia,
-                weeklyRigurgitiDurataMedia = weeklyRigurgitiDurataMedia,
+                averageEpisodiMedi = averageEpisodiMedi,
+                averageIntensitaMedia = averageIntensitaMedia,
+                averageDurataMedia = averageDurataMedia,
 
-                weeklyAgitazioni = weeklyAgitazioni,
-                weeklyAgitazioniIntensitaMedia = weeklyAgitazioniIntensitaMedia,
-                weeklyAgitazioniDurataMedia = weeklyAgitazioniDurataMedia,
+                averageEpisodiMediProb = averageEpisodiMediProb,
+                averageDurataMediaProb = averageDurataMediaProb,
+                averageIntensitaMediaProb = averageIntensitaMediaProb,
+                probioticUsers = probioticUsers,
 
-                weeklyPiantiVSL = weeklyPiantiVSL,
-                weeklyPiantiIntensitaMediaVSL = weeklyPiantiIntensitaMediaVSL,
-                weeklyPiantiDurataMediaVSL = weeklyPiantiDurataMediaVSL,
-
-                weeklyRigurgitiVSL = weeklyRigurgitiVSL,
-                weeklyRigurgitiIntensitaMediaVSL = weeklyRigurgitiIntensitaMediaVSL,
-                weeklyRigurgitiDurataMediaVSL = weeklyRigurgitiDurataMediaVSL,
-
-                weeklyAgitazioniVSL = weeklyAgitazioniVSL,
-                weeklyAgitazioniIntensitaMediaVSL = weeklyAgitazioniIntensitaMediaVSL,
-                weeklyAgitazioniDurataMediaVSL = weeklyAgitazioniDurataMediaVSL,
-
-                symptomsCounts = new List<object>()
+                averages = new List<object>()
                 {
                     new
-                        {
-                            label = "Terapia posizionale",
-                            color = "rgba(132, 245, 108, 1)",
-                            value = 15,
-                            highlight = "#EEE"
-                        },
+                    {
+                        label = "Terapia posizionale",
+                        color = "rgba(132, 245, 108, 1)",
+                        value = weekTerapiaPosizionaleAverage,
+                        highlight = "#EEE"
+                    },
                     new
                     {
                         label = "Massaggio",
-                        value = 5,
+                        value = weekMassaggioAverage,
                         color = "rgba(108, 134, 245, 1)",
                         highlight = "#EEE"
                     },
                     new
                     {
                         label = "Musica dolce",
-                        value = 6,
+                        value = weekMovimentoAverage,
                         color = "rgba(245, 108, 217, 1)",
                         highlight = "#EEE"
                     },
                     new
                     {
                         label = "Movimento",
-                        value = 7,
+                        value = weekMusicaDolceAverage,
                         color = "rgba(108, 245, 245, 1)",
                         highlight = "#EEE"
                     },
                     new
                     {
                         label = "Probiotici",
-                        value = 7,
+                        value = weekProbioticiAverage,
                         color = "rgba(255, 0, 0, 1)",
                         highlight = "#EEE"
                     },
                     new
                     {
                         label = "Rimedio personale",
-                        value = 5,
+                        value = weekAltroRimedioAverage,
                         color = "rgba(50, 134, 108, 1)",
                         highlight = "#EEE"
                     }
                 },
 
-                symptomsCountsVSL = new List<object>()
+                averagesProbs = new List<object>()
                 {
                     new
-                        {
-                            label = "Terapia posizionale",
-                            color = "rgba(132, 245, 108, 1)",
-                            value = 15,
-                            highlight = "#EEE"
-                        },
+                    {
+                        label = "Terapia posizionale",
+                        color = "rgba(132, 245, 108, 1)",
+                        value = weekTerapiaPosizionaleAverageProb,
+                        highlight = "#EEE"
+                    },
                     new
                     {
                         label = "Massaggio",
-                        value = 5,
+                        value = weekMassaggioAverageProb,
                         color = "rgba(108, 134, 245, 1)",
                         highlight = "#EEE"
                     },
                     new
                     {
                         label = "Musica dolce",
-                        value = 6,
+                        value = weekMovimentoAverageProb,
                         color = "rgba(245, 108, 217, 1)",
                         highlight = "#EEE"
                     },
                     new
                     {
                         label = "Movimento",
-                        value = 7,
+                        value = weekMusicaDolceAverageProb,
                         color = "rgba(108, 245, 245, 1)",
                         highlight = "#EEE"
                     },
                     new
                     {
                         label = "Probiotici",
-                        value = 7,
+                        value = weekProbioticiAverageProb,
                         color = "rgba(255, 0, 0, 1)",
                         highlight = "#EEE"
                     },
                     new
                     {
                         label = "VSL#3",
-                        value = 10,
+                        value = weekVSLAverageProb,
                         color = "#f5866c",
                         highlight = "#EEE"
                     },
                     new
                     {
                         label = "Rimedio personale",
-                        value = 5,
+                        value = weekAltroRimedioAverageProb,
                         color = "rgba(50, 134, 108, 1)",
                         highlight = "#EEE"
                     }
@@ -311,19 +264,19 @@ namespace ColicheGassose.Controllers
             {
                 using (var context = new DataModelContainer())
                 {
-                    var allSymptoms = context.SymptomSet.AsEnumerable();
+                    var allSymptoms = context.SymptomSet.ToList();
 
                     weeklyPianti = allSymptoms.Where(s => s.Pianto && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Count();
-                    weeklyPiantiIntensitaMedia = (int) allSymptoms.Where(s => s.Pianto && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Intensity).Average();
-                    weeklyPiantiDurataMedia = (int) allSymptoms.Where(s => s.Pianto && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Duration).Average();
+                    weeklyPiantiIntensitaMedia = (int)allSymptoms.Where(s => s.Pianto && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Intensity).DefaultIfEmpty(0).Average();
+                    weeklyPiantiDurataMedia = (int)allSymptoms.Where(s => s.Pianto && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Duration).DefaultIfEmpty(0).Average();
                     
                     weeklyRigurgiti = allSymptoms.Where(s => s.Rigurgito && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Count();
-                    weeklyRigurgitiIntensitaMedia = (int) allSymptoms.Where(s => s.Rigurgito && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Intensity).Average();
-                    weeklyRigurgitiDurataMedia = (int) allSymptoms.Where(s => s.Rigurgito && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Duration).Average();
+                    weeklyRigurgitiIntensitaMedia = (int)allSymptoms.Where(s => s.Rigurgito && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Intensity).DefaultIfEmpty(0).Average();
+                    weeklyRigurgitiDurataMedia = (int)allSymptoms.Where(s => s.Rigurgito && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Duration).DefaultIfEmpty(0).Average();
 
                     weeklyAgitazioni = allSymptoms.Where(s => s.Agitazione && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Count();
-                    weeklyAgitazioniIntensitaMedia = (int) allSymptoms.Where(s => s.Agitazione && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Intensity).Average();
-                    weeklyAgitazioniDurataMedia = (int) allSymptoms.Where(s => s.Agitazione && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Duration).Average();
+                    weeklyAgitazioniIntensitaMedia = (int)allSymptoms.Where(s => s.Agitazione && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Intensity).DefaultIfEmpty(0).Average();
+                    weeklyAgitazioniDurataMedia = (int)allSymptoms.Where(s => s.Agitazione && s.When.Year == DateTime.Now.Year && s.When.DayOfYear > DateTime.Now.DayOfYear - 7 && s.When.DayOfYear <= DateTime.Now.DayOfYear).Select(s => s.Duration).DefaultIfEmpty(0).Average();
 
                     var vslUsers =
                         (from pillAlert in context.PillAlertSet
@@ -344,7 +297,7 @@ namespace ColicheGassose.Controllers
                             s.When.DayOfYear <= DateTime.Now.DayOfYear &&
                             vslUsers.Any(u => u.UserDataID == s.UserDataID && s.When >= u.FirstVSLUse))
                             .Select(s => s.Intensity)
-                            .Average();
+                            .DefaultIfEmpty(0).Average();
                     weeklyPiantiDurataMediaVSL = (int)allSymptoms.Where(
                             s => s.Pianto &&
                             s.When.Year == DateTime.Now.Year &&
@@ -352,7 +305,7 @@ namespace ColicheGassose.Controllers
                             s.When.DayOfYear <= DateTime.Now.DayOfYear &&
                             vslUsers.Any(u => u.UserDataID == s.UserDataID && s.When >= u.FirstVSLUse))
                             .Select(s => s.Duration)
-                            .Average();
+                            .DefaultIfEmpty(0).Average();
 
                     weeklyRigurgitiVSL = allSymptoms.Where(
                             s => s.Rigurgito &&
@@ -367,7 +320,7 @@ namespace ColicheGassose.Controllers
                             s.When.DayOfYear <= DateTime.Now.DayOfYear &&
                             vslUsers.Any(u => u.UserDataID == s.UserDataID && s.When >= u.FirstVSLUse))
                             .Select(s => s.Intensity)
-                            .Average();
+                            .DefaultIfEmpty(0).Average();
                     weeklyRigurgitiDurataMediaVSL = (int)allSymptoms.Where(
                             s => s.Rigurgito &&
                             s.When.Year == DateTime.Now.Year &&
@@ -375,7 +328,7 @@ namespace ColicheGassose.Controllers
                             s.When.DayOfYear <= DateTime.Now.DayOfYear &&
                             vslUsers.Any(u => u.UserDataID == s.UserDataID && s.When >= u.FirstVSLUse))
                             .Select(s => s.Duration)
-                            .Average();
+                            .DefaultIfEmpty(0).Average();
 
                     weeklyAgitazioniVSL = allSymptoms.Where(
                             s => s.Agitazione &&
@@ -390,7 +343,7 @@ namespace ColicheGassose.Controllers
                             s.When.DayOfYear <= DateTime.Now.DayOfYear &&
                             vslUsers.Any(u => u.UserDataID == s.UserDataID && s.When >= u.FirstVSLUse))
                             .Select(s => s.Intensity)
-                            .Average();
+                            .DefaultIfEmpty(0).Average();
                     weeklyAgitazioniDurataMediaVSL = (int)allSymptoms.Where(
                             s => s.Agitazione &&
                             s.When.Year == DateTime.Now.Year &&
@@ -398,7 +351,7 @@ namespace ColicheGassose.Controllers
                             s.When.DayOfYear <= DateTime.Now.DayOfYear &&
                             vslUsers.Any(u => u.UserDataID == s.UserDataID && s.When >= u.FirstVSLUse))
                             .Select(s => s.Duration)
-                            .Average();
+                            .DefaultIfEmpty(0).Average();
 
                 }
 
@@ -938,7 +891,7 @@ namespace ColicheGassose.Controllers
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //TODO
             }

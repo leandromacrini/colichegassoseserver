@@ -31,6 +31,16 @@
 
     self.updating = ko.observable(false);
 
+    //MEDIE
+    self.averageEpisodiMedi = ko.observable(0);
+    self.averageDurataMedia = ko.observable(0);
+    self.averageIntensitaMedia = ko.observable(0);
+
+    self.averageEpisodiMediProb = ko.observable(0);
+    self.averageDurataMediaProb = ko.observable(0);
+    self.averageIntensitaMediaProb = ko.observable(0);
+    self.probioticUsers = ko.observable(0);
+
     //USERS
     self.todayAccesses = ko.observable(0);
     self.monthAccesses = ko.observable(0);
@@ -81,45 +91,29 @@
             case StatisticsViewModelPages.MedieVSL:
                 self.updating(true);
                 $.ajax({
-                    url: siteRoot + 'Statistics/GetMedieStatistics',
+                    url: siteRoot + 'Statistics/GetAverageStatistics',
                     type: "POST",
                     success: function (response) {
                         self.updating(false);
 
-                        self.weeklyPianti(response.weeklyPianti);
-                        self.weeklyPiantiIntensitaMedia(response.weeklyPiantiIntensitaMedia);
-                        self.weeklyPiantiDurataMedia(response.weeklyPiantiDurataMedia);
+                        self.averageEpisodiMedi(response.averageEpisodiMedi);
+                        self.averageDurataMedia(parseInt(response.averageDurataMedia));
+                        self.averageIntensitaMedia(response.averageIntensitaMedia);
 
-                        self.weeklyRigurgiti(response.weeklyRigurgiti);
-                        self.weeklyRigurgitiIntensitaMedia(response.weeklyRigurgitiIntensitaMedia);
-                        self.weeklyRigurgitiDurataMedia(response.weeklyRigurgitiDurataMedia);
-
-                        self.weeklyAgitazioni(response.weeklyAgitazioni);
-                        self.weeklyAgitazioniIntensitaMedia(response.weeklyAgitazioniIntensitaMedia);
-                        self.weeklyAgitazioniDurataMedia(response.weeklyAgitazioniDurataMedia);
-
-                        self.weeklyPiantiVSL(response.weeklyPiantiVSL);
-                        self.weeklyPiantiIntensitaMediaVSL(response.weeklyPiantiIntensitaMediaVSL);
-                        self.weeklyPiantiDurataMediaVSL(response.weeklyPiantiDurataMediaVSL);
-
-                        self.weeklyRigurgitiVSL(response.weeklyRigurgitiVSL);
-                        self.weeklyRigurgitiIntensitaMediaVSL(response.weeklyRigurgitiIntensitaMediaVSL);
-                        self.weeklyRigurgitiDurataMediaVSL(response.weeklyRigurgitiDurataMediaVSL);
-
-                        self.weeklyAgitazioniVSL(response.weeklyAgitazioniVSL);
-                        self.weeklyAgitazioniIntensitaMediaVSL(response.weeklyAgitazioniIntensitaMediaVSL);
-                        self.weeklyAgitazioniDurataMediaVSL(response.weeklyAgitazioniDurataMediaVSL);
+                        self.averageEpisodiMediProb(response.averageEpisodiMediProb);
+                        self.averageDurataMediaProb(parseInt(response.averageDurataMediaProb));
+                        self.averageIntensitaMediaProb(response.averageIntensitaMediaProb);
 
                         var ctx;
 
                         if (self.chartMedie) self.chartMedie.destroy();
                         ctx = $("#chart-medie").get(0).getContext("2d");
-                        self.chartMedie = new Chart(ctx).Doughnut(response.symptomsCounts);
+                        self.chartMedie = new Chart(ctx).Doughnut(response.averages);
                         $("#medie-legend").html(self.chartMedie.generateLegend());
 
                         if (self.chartMedieVSL) self.chartMedieVSL.destroy();
                         ctx = $("#chart-medie-vsl").get(0).getContext("2d");
-                        self.chartMedieVSL = new Chart(ctx).Doughnut(response.symptomsCountsVSL);
+                        self.chartMedieVSL = new Chart(ctx).Doughnut(response.averagesProbs);
                         $("#medie-vsl-legend").html(self.chartMedieVSL.generateLegend());
                     }
                 });
@@ -179,17 +173,7 @@
                         self.totalRimedi(response.totalRimedi);
                         self.totalRimediVSL(response.totalRimediVSL);
 
-                        //split Rimedi by type
-
                         var ctx;
-                        /*[
-	                        "Terapia posizionale",
-	                        "Massaggio",
-	                        "Musica dolce",
-	                        "Movimento",
-	                        "Probiotici",
-	                        "Avviso personale"
-                        ]*/
 
                         if (self.chartRimedi) self.chartRimedi.destroy();
                         ctx = $("#chart-rimedi").get(0).getContext("2d");

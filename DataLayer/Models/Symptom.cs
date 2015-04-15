@@ -2,10 +2,19 @@ namespace ColicheGassose
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
 
     public partial class Symptom
     {
         public Symptom() { }
+
+        public int WhenWeek
+        {
+            get
+            {
+                return CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(this.When, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+            }
+        }
 
         public Symptom(SymptomTransport transport)
         {

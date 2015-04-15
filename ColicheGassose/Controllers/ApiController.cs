@@ -27,7 +27,7 @@ namespace ColicheGassose.Controllers
                     TimeSpan eventsSpan = eventsEndDate - eventsStartDate;
 
                     //creating some fake user
-                    result.FakeUsersCount = generator.Next(50, 101);
+                    result.FakeUsersCount = 2;// generator.Next(50, 101);
                     result.FakeAppointmentsCount = 0;
                     result.FakeSymptomsCount = 0;
                     result.FakeRemindersCount = 0;
